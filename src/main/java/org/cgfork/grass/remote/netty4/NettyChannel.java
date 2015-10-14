@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-9
  */
-package org.cg.sirpc.remote.netty4;
+package org.cgfork.grass.remote.netty4;
 
 import io.netty.channel.ChannelFuture;
 
@@ -10,12 +10,13 @@ import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.cg.sirpc.remote.ChannelHandler;
-import org.cg.sirpc.remote.RemoteException;
-import org.cg.sirpc.remote.RemoteLocator;
-import org.cg.sirpc.remote.transport.AbstractChannel;
-import static org.cg.sirpc.remote.ChannelOption.*;
-import static org.cg.sirpc.remote.Constants.*;
+import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.RemoteException;
+import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.transport.AbstractChannel;
+
+import static org.cgfork.grass.remote.ChannelOption.*;
+import static org.cgfork.grass.remote.Constants.*;
 /**
  * 
  */

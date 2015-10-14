@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-13
  */
-package org.cg.sirpc.remote.netty4;
+package org.cgfork.grass.remote.netty4;
 
 import io.netty.buffer.ByteBuf;
 
@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
-import org.cg.sirpc.remote.ChannelBuffer;
+import org.cgfork.grass.remote.ChannelBuffer;
 
 /**
  * 

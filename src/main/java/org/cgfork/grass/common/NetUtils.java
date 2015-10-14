@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-12
  */
-package org.cg.sirpc.common;
+package org.cgfork.grass.common;
 
 import java.io.IOException;
 import java.net.InetAddress;

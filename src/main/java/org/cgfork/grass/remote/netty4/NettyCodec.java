@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-13
  */
-package org.cg.sirpc.remote.netty4;
+package org.cgfork.grass.remote.netty4;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,9 +10,9 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
-import org.cg.sirpc.remote.Channel;
-import org.cg.sirpc.remote.ChannelBuffer;
-import org.cg.sirpc.remote.Codec;
+import org.cgfork.grass.remote.Channel;
+import org.cgfork.grass.remote.ChannelBuffer;
+import org.cgfork.grass.remote.Codec;
 
 /**
  * 

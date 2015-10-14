@@ -2,14 +2,14 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-13
  */
-package org.cg.sirpc.remote.netty4;
+package org.cgfork.grass.remote.netty4;
 
-import org.cg.sirpc.remote.ChannelHandler;
-import org.cg.sirpc.remote.RemoteClient;
-import org.cg.sirpc.remote.RemoteException;
-import org.cg.sirpc.remote.RemoteLocator;
-import org.cg.sirpc.remote.RemoteServer;
-import org.cg.sirpc.remote.Transporter;
+import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.RemoteClient;
+import org.cgfork.grass.remote.RemoteException;
+import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.RemoteServer;
+import org.cgfork.grass.remote.Transporter;
 
 /**
  * 

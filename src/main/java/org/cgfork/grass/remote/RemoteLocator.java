@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-9
  */
-package org.cg.sirpc.remote;
+package org.cgfork.grass.remote;
 
 import java.net.InetSocketAddress;
 import java.net.URL;

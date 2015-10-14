@@ -2,21 +2,21 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-10
  */
-package org.cg.sirpc.remote.transport;
+package org.cgfork.grass.remote.transport;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.cg.sirpc.common.NetUtils;
-import org.cg.sirpc.remote.Channel;
-import org.cg.sirpc.remote.ChannelHandler;
-import org.cg.sirpc.remote.ChannelOption;
-import org.cg.sirpc.remote.Codec;
-import org.cg.sirpc.remote.RemoteClient;
-import org.cg.sirpc.remote.RemoteException;
-import org.cg.sirpc.remote.RemoteLocator;
+import org.cgfork.grass.common.NetUtils;
+import org.cgfork.grass.remote.Channel;
+import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.ChannelOption;
+import org.cgfork.grass.remote.Codec;
+import org.cgfork.grass.remote.RemoteClient;
+import org.cgfork.grass.remote.RemoteException;
+import org.cgfork.grass.remote.RemoteLocator;
 /**
  * 
  */

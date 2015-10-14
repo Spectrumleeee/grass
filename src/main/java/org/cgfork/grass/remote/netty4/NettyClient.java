@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-10
  */
-package org.cg.sirpc.remote.netty4;
+package org.cgfork.grass.remote.netty4;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -14,10 +14,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import org.cg.sirpc.remote.ChannelHandler;
-import org.cg.sirpc.remote.RemoteException;
-import org.cg.sirpc.remote.RemoteLocator;
-import org.cg.sirpc.remote.transport.AbstractClient;
+import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.RemoteException;
+import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.transport.AbstractClient;
 
 /**
  * 
@@ -123,7 +123,7 @@ public class NettyClient extends AbstractClient {
     }
 
     @Override
-    protected org.cg.sirpc.remote.Channel getChannel() {
+    protected org.cgfork.grass.remote.Channel getChannel() {
         Channel ch = channel;
         if (ch == null || !ch.isActive()) {
             return null;
