@@ -9,14 +9,14 @@ import java.net.SocketAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.cgfork.grass.common.NetUtils;
+import org.cgfork.grass.Main;
 import org.cgfork.grass.remote.Channel;
-import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.ChannelOption;
 import org.cgfork.grass.remote.Codec;
 import org.cgfork.grass.remote.RemoteClient;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.utils.NetUtils;
 /**
  * 
  */
@@ -30,11 +30,14 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     
     private final Lock connectLock = new ReentrantLock();
     
-    public AbstractClient(ChannelHandler handler, RemoteLocator locator) throws RemoteException {
-        super(handler, locator);
+    public AbstractClient(RemoteLocator locator) throws RemoteException {
+        super(locator);
         codec = getCodec(locator);
         timeoutMillis = ChannelOption.getTimeoutMillis(locator);
         connectTimeoutMillis = ChannelOption.getConnectTimeoutMillis(locator);
+    }
+    
+    protected void open() throws RemoteException {
         try {
             doOpen();
             connect();
@@ -64,12 +67,12 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     }
     
     public void write(Object message, boolean ensureWritten) throws RemoteException {
-        if (! isConnected()) {
+        if (!isConnected()) {
             connect();
         }
         
         Channel channel = getChannel();
-        if (channel == null || channel.isConnected()) {
+        if (channel == null || !channel.isConnected()) {
             throw new RemoteException(channel, "channel is closed.");
         }
         channel.write(message, ensureWritten);
@@ -121,7 +124,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     }
     
     @Override
-    public void close(int timeoutMillis){
+    public void close(long timeoutMillis){
         close();
         // TODO: await for channel in netty
     }
@@ -131,20 +134,14 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
         close();
         // TODO: close immediately in mina
     }
-    
-    @Override
-    public boolean isClosed() {
-        Channel channel = getChannel();
-        return channel == null || channel.isClosed();
-    }
-    
+
     @Override
     public boolean isConnected() {
         Channel channel = getChannel();
         if (channel == null) {
             return false;
         }
-        return false;
+        return channel.isConnected();
     }
     
     @Override
@@ -166,7 +163,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     }
 
     protected InetSocketAddress getSocketAddress() {
-        RemoteLocator locator = getLocator();
+        RemoteLocator locator = getRemoteLocator();
         if (locator == null) {
             return null;
         }
@@ -185,6 +182,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     protected abstract Channel getChannel();
 
     protected static Codec getCodec(RemoteLocator locator) {
-        return null;
+        // TODO:
+        return new Main.TestCodec();
     }
 }

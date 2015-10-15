@@ -93,6 +93,21 @@ public class NettyChannelBuffer implements ChannelBuffer {
             throws IOException {
         byteBuf.getBytes(index, dst, length);
     }
+    
+    @Override
+    public short getShort(int index) {
+        return byteBuf.getShort(index);
+    }
+    
+    @Override
+    public long getLong(int index) {
+        return byteBuf.getLong(index);
+    }
+    
+    @Override
+    public boolean getBoolean(int index) {
+        return byteBuf.getBoolean(index);
+    }
 
     @Override
     public boolean isDirect() {
@@ -173,6 +188,21 @@ public class NettyChannelBuffer implements ChannelBuffer {
     public ChannelBuffer readBytes(int length) {
         return new NettyChannelBuffer(byteBuf.readBytes(length));
     }
+    
+    @Override
+    public short readShort() {
+        return byteBuf.readShort();
+    }
+    
+    @Override
+    public long readLong() {
+        return byteBuf.readLong();
+    }
+    
+    @Override
+    public boolean readBoolean() {
+        return byteBuf.readBoolean();
+    }
 
     @Override
     public int readerIndex() {
@@ -223,6 +253,21 @@ public class NettyChannelBuffer implements ChannelBuffer {
     public int setBytes(int index, InputStream src, int length)
             throws IOException {
         return byteBuf.setBytes(index, src, length);
+    }
+    
+    @Override
+    public void setShort(int index, short value) {
+        byteBuf.setShort(index, value);
+    }
+    
+    @Override
+    public void setLong(int index, long value) {
+        byteBuf.setLong(index, value);
+    }
+    
+    @Override
+    public void setBoolean(int index, boolean value) {
+        byteBuf.setBoolean(index, value);
     }
 
     @Override
@@ -293,6 +338,21 @@ public class NettyChannelBuffer implements ChannelBuffer {
     @Override
     public int writeBytes(InputStream src, int length) throws IOException {
         return byteBuf.writeBytes(src, length);
+    }
+    
+    @Override
+    public void writeShort(short value) {
+        byteBuf.writeShort(value);
+    }
+    
+    @Override
+    public void writeLong(long value) {
+        byteBuf.writeLong(value);
+    }
+    
+    @Override
+    public void writeBoolean(boolean value) {
+        byteBuf.writeBoolean(value);
     }
 
     @Override

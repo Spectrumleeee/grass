@@ -14,7 +14,7 @@ import org.cgfork.grass.remote.Transporter;
 /**
  * 
  */
-public class NettyTranspoter implements Transporter {
+public class NettyTransporter implements Transporter {
 
     @Override
     public RemoteClient connect(RemoteLocator locator, ChannelHandler handler) 

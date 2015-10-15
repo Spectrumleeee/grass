@@ -6,7 +6,6 @@ package org.cgfork.grass.remote.transport;
 
 
 import org.cgfork.grass.remote.Channel;
-import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
 
@@ -17,22 +16,18 @@ import static org.cgfork.grass.remote.ChannelOption.*;
  * 
  */
 public abstract class AbstractChannel implements Channel {
-
-    private final ChannelHandler handler;
-    
     private volatile RemoteLocator locator;
     
     private volatile boolean ensureWritten;
     
-    public AbstractChannel(ChannelHandler handler, RemoteLocator locator) {
-        if (handler == null) {
-            throw new IllegalArgumentException("handler is null");
-        }
-        this.handler = handler;
+    private volatile boolean closed;
+    
+    public AbstractChannel(RemoteLocator locator) {
         if (locator == null) {
             throw new IllegalArgumentException("locator is null");
         }
         this.locator = locator;
+        this.closed = false;
         this.ensureWritten = ensureWritten(locator);
     }
     
@@ -44,13 +39,17 @@ public abstract class AbstractChannel implements Channel {
         this.ensureWritten = ensureWritten(locator);
     }
     
-    public RemoteLocator getLocator() {
+    public RemoteLocator getRemoteLocator() {
         return locator;
     }
     
+    protected void close0() {
+        closed = true;
+    }
+    
     @Override
-    public ChannelHandler getChannelHandler() {
-        return handler;
+    public boolean isClosed() {
+        return closed;
     }
     
     @Override 

@@ -7,10 +7,6 @@ package org.cgfork.grass.remote.netty4;
 import io.netty.channel.ChannelFuture;
 
 import java.net.SocketAddress;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
-import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractChannel;
@@ -21,60 +17,19 @@ import static org.cgfork.grass.remote.Constants.*;
  * 
  */
 public class NettyChannel extends AbstractChannel {
- 
-    private static final ConcurrentMap<io.netty.channel.Channel, NettyChannel>
-                channelMap = new ConcurrentHashMap<>();
-                
+
     private final io.netty.channel.Channel channel;
 
-    private Object attachment;
-    
     private volatile long timeoutMillis;
     
-    private volatile boolean closed;
     
-    private NettyChannel(io.netty.channel.Channel channel, ChannelHandler handler, RemoteLocator locator) {
-        super(handler, locator);
+    
+    public NettyChannel(io.netty.channel.Channel channel, RemoteLocator locator) {
+        super(locator);
         if (channel == null) {
             throw new IllegalArgumentException("channel is null");
         }
-        this.closed = false;
         this.channel = channel;
-    }
-    
-    public static NettyChannel getOrCreateChannel(io.netty.channel.Channel channel, 
-            ChannelHandler handler, RemoteLocator locator) {
-        if (channel == null) {
-            throw new IllegalArgumentException("channel is null");
-        }
-        
-        NettyChannel nettyChannel = channelMap.get(channel);
-        if (nettyChannel == null) {
-            NettyChannel nc = new NettyChannel(channel, handler, locator);
-            if (nc.isConnected()) {
-                nettyChannel = channelMap.putIfAbsent(channel, nc);
-            }
-            if (nettyChannel == null) {
-                nettyChannel = nc;
-            }
-        }
-        return nettyChannel;
-    }
-    
-    public static void removeChannelIfDisconnected(io.netty.channel.Channel channel) {
-        if (channel != null && !channel.isActive()) {
-            channelMap.remove(channel);
-        }
-    }
-
-    @Override
-    public Object attach() {
-        return attachment;
-    }
-
-    @Override
-    public void attach(Object o) {
-        attachment = o;
     }
 
     @Override
@@ -127,14 +82,17 @@ public class NettyChannel extends AbstractChannel {
 
     @Override
     public void close() {
-        if (!close0()) {
+        NettyContext.removeContextIfDisconnected(channel);
+        
+        if (isClosed()) {
             return;
         }
+        close0();
         channel.close();
     }
 
     @Override
-    public void close(int timeoutMillis){
+    public void close(long timeoutMillis){
         close();
         // TODO: await for channel
     }
@@ -143,20 +101,4 @@ public class NettyChannel extends AbstractChannel {
     public void close(boolean immediately) {
         close();
     }
-    
-    private boolean close0() {
-        removeChannelIfDisconnected(channel);
-        
-        if (isClosed()) {
-            return false;
-        }
-        closed = true;
-        return true;
-    }
-
-    @Override
-    public boolean isClosed() {
-        return closed;
-    }
-
 }

@@ -5,10 +5,13 @@
 package org.cgfork.grass.remote;
 
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.cgfork.grass.common.UrlHandler;
 
 /**
  * 
@@ -18,8 +21,20 @@ public class RemoteLocator {
     private final java.net.URL url;
     
     private final Map<String, String> parameters;
-  
-    public RemoteLocator(URL url, Map<String, String> parameters) {
+    
+    public RemoteLocator(String spec) throws MalformedURLException {
+        this(new URL(null, spec, new UrlHandler()));
+    }
+    
+    public RemoteLocator(String protocol, String host, int port, String file) throws MalformedURLException {
+        this(new URL(protocol, host, port, file, new UrlHandler()));
+    }
+    
+    private RemoteLocator(URL url) {
+        this(url, null);
+    }
+    
+    private RemoteLocator(URL url, Map<String, String> parameters) {
         if (url == null) {
             throw new NullPointerException("uri is null");
         }

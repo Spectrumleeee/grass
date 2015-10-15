@@ -10,14 +10,8 @@ import java.net.SocketAddress;
  * 
  */
 public interface Channel {
-    Object attach();
-    
-    void attach(Object o);
-    
     boolean isConnected();
-    
-    ChannelHandler getChannelHandler();
-    
+
     SocketAddress getLocalAddress();
     
     SocketAddress getRemoteAddress();
@@ -28,9 +22,9 @@ public interface Channel {
     
     void close();
     
-    void close(int timeout);
-    
     void close(boolean immediately);
+    
+    void close(long timeoutMillis);
     
     boolean isClosed();
 }

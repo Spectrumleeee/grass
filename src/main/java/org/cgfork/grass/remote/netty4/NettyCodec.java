@@ -45,9 +45,9 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
             List<Object> out) throws Exception {
         ChannelBuffer inBuf = new NettyChannelBuffer(in);
         
-        in.markReaderIndex();
+        int readerIndex = in.readerIndex();
         if (!codec.decode(channel, inBuf, out)) {
-            in.resetReaderIndex();
+            in.readerIndex(readerIndex);
         }
     }
 

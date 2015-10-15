@@ -13,6 +13,7 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
 
 import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteException;
@@ -30,24 +31,16 @@ public class NettyClient extends AbstractClient {
         group = new NioEventLoopGroup();
     }
 
-    private Object attachment;
-    
     private Bootstrap bootstrap;
     
     private volatile Channel channel;
+    
+    private final ChannelHandler handler;
 
     public NettyClient(ChannelHandler handler, RemoteLocator locator) throws RemoteException {
-        super(handler, locator);
-    }
-
-    @Override
-    public Object attach() {
-        return attachment;
-    }
-
-    @Override
-    public void attach(Object o) {
-        attachment = o;
+        super(locator);
+        this.handler = handler;
+        super.open();
     }
 
     @Override
@@ -62,10 +55,8 @@ public class NettyClient extends AbstractClient {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new NettyCodec(getCodec(),
                                 NettyClient.this));
-                        pipeline.addLast(new NettyInboundHandler(getLocator(), 
-                                getChannelHandler()));
-                        pipeline.addLast(new NettyOutboundHandler(getLocator(), 
-                                getChannelHandler()));
+                        pipeline.addLast(new NettyInboundHandler(handler, getRemoteLocator()));
+                        pipeline.addLast(new NettyOutboundHandler());
                     }
                 });
     }
@@ -88,7 +79,7 @@ public class NettyClient extends AbstractClient {
                         try {
                             oldChannel.close();
                         } finally {
-                            NettyChannel.removeChannelIfDisconnected(oldChannel);
+                            NettyContext.removeContextIfDisconnected(oldChannel);
                         }
                     }
                 } finally {
@@ -97,7 +88,7 @@ public class NettyClient extends AbstractClient {
                             newChannel.close();
                         } finally {
                             this.channel = null;
-                            NettyChannel.removeChannelIfDisconnected(newChannel);
+                            NettyContext.removeContextIfDisconnected(newChannel);
                         }
                     } else {
                         this.channel = newChannel;
@@ -119,17 +110,28 @@ public class NettyClient extends AbstractClient {
 
     @Override
     protected void doDisconnect() throws RemoteException {
-        NettyChannel.removeChannelIfDisconnected(channel);
+        NettyContext.removeContextIfDisconnected(channel);
     }
 
     @Override
     protected org.cgfork.grass.remote.Channel getChannel() {
+        NettyContext context = getContext();
+        if (context == null) {
+            return null;
+        }
+        return context.getChannel();
+    }
+    
+    public NettyContext getContext() {
         Channel ch = channel;
-        if (ch == null || !ch.isActive()) {
+        if (ch == null) {
             return null;
         }
             
-        return NettyChannel.getOrCreateChannel(ch, getChannelHandler(), getLocator());
+        return NettyContext.getContext(ch, handler, getRemoteLocator());
     }
 
+    public static Future<?> shutdownGracefully() {
+            return group.shutdownGracefully();
+    }
 }

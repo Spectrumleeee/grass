@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-12
  */
-package org.cgfork.grass.common;
+package org.cgfork.grass.utils;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import org.cgfork.grass.common.cache.LRUCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

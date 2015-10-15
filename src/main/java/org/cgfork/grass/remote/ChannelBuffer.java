@@ -44,6 +44,10 @@ public interface ChannelBuffer {
     void getBytes(int index, ChannelBuffer dst, int dstIndex, int length);
     void getBytes(int index, OutputStream dst, int length) throws IOException;
     
+    short getShort(int index);
+    long getLong(int index);
+    boolean getBoolean(int index);
+    
     /**
      * Returns {@code true} if and only if this buffer is backed by an NIO
      * direct buffer.
@@ -70,6 +74,10 @@ public interface ChannelBuffer {
     void readBytes(OutputStream dst, int length) throws IOException;
     ChannelBuffer readBytes(int length);
     
+    short readShort();
+    long readLong();
+    boolean readBoolean();
+    
     int readerIndex();
     
     void readerIndex(int readerIndex);
@@ -82,6 +90,10 @@ public interface ChannelBuffer {
     void setBytes(int index, ChannelBuffer src, int length);
     void setBytes(int index, ChannelBuffer src, int srcIndex, int length);
     int setBytes(int index, InputStream src, int length) throws IOException;
+    
+    void setShort(int index, short value);
+    void setLong(int index, long value);
+    void setBoolean(int index, boolean value);
     
     void setIndex(int readerIndex, int writerIndex);
     
@@ -103,6 +115,10 @@ public interface ChannelBuffer {
     void writeBytes(ChannelBuffer src, int length);
     void writeBytes(ChannelBuffer src, int srcIndex, int length);
     int writeBytes(InputStream src, int length) throws IOException;
+    
+    void writeShort(short value);
+    void writeLong(long value);
+    void writeBoolean(boolean value);
     
     int writerIndex();
     
