@@ -1,10 +1,9 @@
 *.classpath
 *.project
 *.settings
-*.gradle
+.gradle
 target
 bin
 build
-gradle
 gradlew
 gradlew.bat
