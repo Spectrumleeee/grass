@@ -4,15 +4,10 @@
  */
 package org.cgfork.grass;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
-
-import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelBuffer;
 import org.cgfork.grass.remote.ChannelContext;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Codec;
 import org.cgfork.grass.remote.RemoteClient;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
@@ -23,41 +18,7 @@ import org.cgfork.grass.remote.netty4.NettyTransporter;
  * 
  */
 public class Main {
-    
-    public static class TestCodec implements Codec {
 
-        @Override
-        public void encode(Channel channel, ChannelBuffer out, Object msg)
-                throws IOException {
-            int bodyLen = ((byte[])msg).length;
-            out.ensuredWritableBytes(bodyLen);
-            out.writeByte((byte)(bodyLen >> 8));
-            out.writeByte((byte)(bodyLen));
-            out.writeBytes((byte[])msg);
-        }
-
-        @Override
-        public boolean decode(Channel channel, ChannelBuffer in, List<Object> out)
-                throws IOException {
-            if (!in.isReadable()) {
-                return false;
-            }
-            
-            if (in.readableBytes() < 2) {
-                return false;
-            }
-            
-            int length = (int) in.readShort();
-            if (in.readableBytes() < length) {
-                return false;
-            }
-            out.add(in.readBytes(length));
-            return true;
-        }
-
-    }
-
-    
     static class Handler implements ChannelHandler {
 
         @Override
@@ -110,7 +71,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Transporter transpoter = new NettyTransporter();
         
-        RemoteClient client = transpoter.connect(new RemoteLocator("grass://127.0.0.1:9999/test"), new Handler());
+        RemoteClient client = transpoter.connect(new RemoteLocator("grass://127.0.0.1:9999/test?codecClass=org.cgfork.grass.TCodec"), new Handler());
         
         client.write("hello grass!".getBytes());
         //client.close();

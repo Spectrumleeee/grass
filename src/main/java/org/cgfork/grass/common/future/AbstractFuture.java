@@ -3,7 +3,7 @@
  * Author:  chenbiren <chenbiren@tp-link.net>
  * Created: 2015-10-14
  */
-package org.cgfork.grass.future;
+package org.cgfork.grass.common.future;
 
 import io.netty.util.Signal;
 import io.netty.util.internal.PlatformDependent;

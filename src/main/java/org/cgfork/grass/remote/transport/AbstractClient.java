@@ -9,7 +9,8 @@ import java.net.SocketAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.cgfork.grass.Main;
+import org.cgfork.grass.common.addon.AbstractLoader;
+import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelOption;
 import org.cgfork.grass.remote.Codec;
@@ -182,7 +183,35 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     protected abstract Channel getChannel();
 
     protected static Codec getCodec(RemoteLocator locator) {
-        // TODO:
-        return new Main.TestCodec();
+        if (locator == null) {
+            throw new IllegalArgumentException("locator is null");
+        }
+
+        AddonLoader<Codec> loader = null;
+        try {
+            loader = AbstractLoader.getAddonLoader(Codec.class);
+        } catch (Exception e) {
+            // TODO:
+        }
+        if (loader == null) {
+            // TODO: throw not found Exception
+        }
+        
+        String codecClass = locator.getParameter("codecClass");
+        if (codecClass != null) {
+            try {
+                Class<?> clazz = Class.forName(codecClass);
+                return loader.getAddon(clazz);
+            } catch (ClassNotFoundException e) {
+                // TODO: ignore
+            }
+        }
+        
+        String codec = locator.getParameter("codec");
+        if (codec == null) {
+            return null;
+        }
+        
+        return loader.getAddon(codec);
     }
 }
