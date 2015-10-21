@@ -2,7 +2,7 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-12
  */
-package org.cgfork.grass.utils;
+package org.cgfork.grass.common.utils;
 
 import java.io.IOException;
 import java.net.InetAddress;

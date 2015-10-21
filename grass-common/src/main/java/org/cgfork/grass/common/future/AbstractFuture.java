@@ -10,7 +10,7 @@ import io.netty.util.internal.PlatformDependent;
 
 import java.util.concurrent.TimeUnit;
 
-import org.cgfork.grass.utils.Latch;
+import org.cgfork.grass.common.utils.Latch;
 
 /**
  * 

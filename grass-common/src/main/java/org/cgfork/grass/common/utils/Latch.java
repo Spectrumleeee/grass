@@ -3,7 +3,7 @@
  * Author:  chenbiren <chenbiren@tp-link.net>
  * Created: 2015-10-14
  */
-package org.cgfork.grass.utils;
+package org.cgfork.grass.common.utils;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;

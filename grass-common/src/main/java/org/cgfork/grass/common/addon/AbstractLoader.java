@@ -96,13 +96,13 @@ public abstract class AbstractLoader<T> implements AddonLoader<T> {
     private boolean checkAnnotations(Class<?> clazz) {
         Addon addon = clazz.getAnnotation(Addon.class);
         
-        if (addon == null || Type.Interface.equals(addon.type())) {
+        if (addon != null && Type.Interface.equals(addon.type())) {
             return false;
         }
         
-        String name = addon.value();
-        if ("".equals(name)) {
-            name = clazz.getCanonicalName();
+        String name = clazz.getCanonicalName();
+        if (addon != null && !("".equals(addon.value()))) {
+            name = addon.value();
         }
         classMap.putIfAbsent(name, clazz);
         return true;
