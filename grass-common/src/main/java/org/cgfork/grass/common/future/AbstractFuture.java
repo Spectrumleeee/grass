@@ -245,7 +245,7 @@ public abstract class AbstractFuture<T> implements Future<T> {
                 this.value = value;
             }
             if (hasWaiters()) {
-                notifyAll();
+                lock.notifyAll();
             }
         }
         return true;
@@ -269,7 +269,7 @@ public abstract class AbstractFuture<T> implements Future<T> {
             }
             this.value = new ThrowableHolder(cause);
             if (hasWaiters()) {
-                notifyAll();
+                lock.notifyAll();
             }
         }
         return true;
