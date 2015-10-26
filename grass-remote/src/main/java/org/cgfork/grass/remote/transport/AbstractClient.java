@@ -140,10 +140,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     @Override
     public boolean isConnected() {
         Channel channel = getChannel();
-        if (channel == null) {
-            return false;
-        }
-        return channel.isConnected();
+        return channel != null && channel.isConnected();
     }
 
     @Override

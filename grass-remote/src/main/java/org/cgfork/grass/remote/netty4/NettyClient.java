@@ -25,11 +25,7 @@ import org.cgfork.grass.remote.transport.AbstractClient;
  */
 public class NettyClient extends AbstractClient {
     
-    private static final EventLoopGroup group;
-    
-    static {
-        group = new NioEventLoopGroup();
-    }
+    private static final EventLoopGroup group = new NioEventLoopGroup();
 
     private Bootstrap bootstrap;
     
@@ -54,8 +50,9 @@ public class NettyClient extends AbstractClient {
                     protected void initChannel(Channel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new NettyCodec(getCodec(),
-                                NettyClient.this));
-                        pipeline.addLast(new NettyInboundHandler(handler, getRemoteLocator()));
+                                getChannelHandler(), getRemoteLocator()));
+                        pipeline.addLast(new NettyInboundHandler(getChannelHandler(),
+                                getRemoteLocator()));
                         pipeline.addLast(new NettyOutboundHandler());
                     }
                 });
@@ -131,7 +128,14 @@ public class NettyClient extends AbstractClient {
         return NettyContext.getContext(ch, handler, getRemoteLocator());
     }
 
+
+
     public static Future<?> shutdownGracefully() {
             return group.shutdownGracefully();
+    }
+
+    @Override
+    public ChannelHandler getChannelHandler() {
+        return handler;
     }
 }

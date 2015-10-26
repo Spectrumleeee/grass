@@ -10,9 +10,7 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
-import org.cgfork.grass.remote.Channel;
-import org.cgfork.grass.remote.ChannelBuffer;
-import org.cgfork.grass.remote.Codec;
+import org.cgfork.grass.remote.*;
 
 /**
  * 
@@ -20,34 +18,42 @@ import org.cgfork.grass.remote.Codec;
 public class NettyCodec extends ByteToMessageCodec<Object> {
     
     private final Codec codec;
-    
-    private final Channel channel;
-    
-    public NettyCodec(Codec codec, Channel channel) {
+
+    private final ChannelHandler handler;
+    private final RemoteLocator locator;
+
+    public NettyCodec(Codec codec, ChannelHandler handler, RemoteLocator locator) {
         this.codec = codec;
-        this.channel = channel;
+        this.handler = handler;
+        this.locator = locator;
     }
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out)
             throws Exception {
-        ChannelBuffer outBuf = new NettyChannelBuffer(out);
-        // TODO: more useful channel buffer
+        io.netty.channel.Channel nettyChannel = ctx.channel();
         try {
+            Channel channel = NettyContext.getContext(nettyChannel, handler, locator);
+            ChannelBuffer outBuf = new NettyChannelBuffer(out);
             codec.encode(channel, outBuf, msg);
         } finally {
-            
+            NettyContext.removeContextIfDisconnected(nettyChannel);
         }
     }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in,
             List<Object> out) throws Exception {
-        ChannelBuffer inBuf = new NettyChannelBuffer(in);
-        
-        int readerIndex = in.readerIndex();
-        if (!codec.decode(channel, inBuf, out)) {
-            in.readerIndex(readerIndex);
+        io.netty.channel.Channel nettyChannel = ctx.channel();
+        try {
+            Channel channel = NettyContext.getContext(nettyChannel, handler, locator);
+            ChannelBuffer inBuf = new NettyChannelBuffer(in);
+            int readerIndex = in.readerIndex();
+            if (!codec.decode(channel, inBuf, out)) {
+                in.readerIndex(readerIndex);
+            }
+        } finally {
+            NettyContext.removeContextIfDisconnected(nettyChannel);
         }
     }
 

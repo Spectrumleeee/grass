@@ -21,9 +21,7 @@ public class NettyChannel extends AbstractChannel {
     private final io.netty.channel.Channel channel;
 
     private volatile long timeoutMillis;
-    
-    
-    
+
     public NettyChannel(io.netty.channel.Channel channel, RemoteLocator locator) {
         super(locator);
         if (channel == null) {

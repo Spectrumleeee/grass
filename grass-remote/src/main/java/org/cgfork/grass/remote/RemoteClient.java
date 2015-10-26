@@ -9,4 +9,7 @@ package org.cgfork.grass.remote;
  */
 public interface RemoteClient extends Channel {
     void reconnect() throws RemoteException;
+
+
+    ChannelHandler getChannelHandler();
 }

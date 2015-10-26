@@ -11,11 +11,8 @@ import org.cgfork.grass.remote.RemoteLocator;
 
 import static org.cgfork.grass.remote.ChannelOption.*;
 
-
-/**
- * 
- */
 public abstract class AbstractChannel implements Channel {
+
     private volatile RemoteLocator locator;
     
     private volatile boolean ensureWritten;

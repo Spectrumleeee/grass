@@ -6,9 +6,6 @@ package org.cgfork.grass.remote;
 
 import java.net.SocketAddress;
 
-/**
- * 
- */
 public interface Channel {
     boolean isConnected();
 
