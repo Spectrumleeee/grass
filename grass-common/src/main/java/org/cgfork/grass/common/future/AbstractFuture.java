@@ -9,7 +9,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * AbstractFuture is a implement for {@link #await()}, {@link #setValue0(Object)}
+ * AbstractFuture is a implementation for {@link #await()}, {@link #setValue0(Object)}
  * and {@link #setFailure0(Throwable)}
  */
 public abstract class AbstractFuture<T> implements Future<T> {

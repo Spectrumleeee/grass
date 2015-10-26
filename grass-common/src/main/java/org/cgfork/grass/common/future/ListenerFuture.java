@@ -10,13 +10,14 @@ import java.util.List;
 
 
 /**
- * 
+ * Implementing {@link #addListener(Listener)} and {@link #removeListener(Listener)}
+ * for {@link Future} interface.
  */
-public abstract class SimpeGrassFuture<T> extends AbstractFuture<T> {
+public abstract class ListenerFuture<T> extends AbstractFuture<T> {
     
     private List<Listener<? extends Future<? super T>>> listeners;
     
-    public SimpeGrassFuture() {
+    public ListenerFuture() {
         listeners = new LinkedList<>();
     }
 
