@@ -53,6 +53,7 @@ public class NetUtils {
                 try {
                     ss.close();
                 } catch (IOException e) {
+                    // TODO: logger
                 }
             }
         }
@@ -74,6 +75,7 @@ public class NetUtils {
                     try {
                         ss.close();
                     } catch (IOException e) {
+                        // TODO: logger
                     }
                 }
             }

@@ -4,13 +4,12 @@
  */
 package org.cgfork.grass.common.addon.support;
 
-import java.net.URL;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.Loader;
 import org.cgfork.grass.common.addon.support.AbstractLoader.AnnotationNotFoundException;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 

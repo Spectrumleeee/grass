@@ -190,12 +190,13 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
 
         AddonLoader<Codec> loader = null;
         try {
-            loader = AddonLoaders.getAddonLoader(Codec.class);
+            loader = AddonLoaders.getOrNewAddonLoader(Codec.class);
         } catch (Exception e) {
             // TODO:
         }
         if (loader == null) {
             // TODO: throw not found Exception
+            throw new NullPointerException();
         }
 
         String codecClass = locator.getParameter("codecClass");

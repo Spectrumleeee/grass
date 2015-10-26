@@ -1,57 +1,57 @@
 
 ext {
-    mavenNexusUrl = 'http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public'
+//    mavenNexusUrl = 'http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public'
     mavenLocalUrl = "file://E:\\maven\\repo"
 }
 
 allprojects {
+    apply plugin: 'maven'
     group = 'org.cgfork'
     
     repositories {
         jcenter()
-        mavenLocal()
-        mavenCentral()
-        maven { url mavenNexusUrl}
+//        mavenLocal()
+//        mavenCentral()
+//        maven { url mavenNexusUrl}
     }
 }
 
 subprojects {
-	apply plugin: 'java'
-	apply plugin: 'maven'
+    apply plugin: 'java'
 
-	dependencies {
-		compile "log4j:log4j:1.2.17"
+    dependencies {
+        compile "log4j:log4j:1.2.17"
         compile "org.slf4j:slf4j-api:1.7.2"
         compile "org.slf4j:slf4j-log4j12:1.7.2"
-        testCompile "junit:junit:4.+"
-	}
+        testCompile "junit:junit:4.11"
+    }
 
-	sourceCompatibility = 1.7
-	
-	version = '1.0.0'
-	
-	jar {
-		manifest.attributes provider: 'gradle'
-	}
-	
-	sourceSets {
-		main {
-			java {
-				srcDir 'src/main/java'
-			}
-			resources {
-				srcDir 'src/main/resources'
-			}
-		}
-		
-		test {
-			java {
-				srcDir 'src/test/java'
-			}
-			resources {
-				srcDir 'src/test/resources'
-			}
-		}
-	}
+    sourceCompatibility = 1.7
+
+    version = '1.0.0'
+
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+            }
+            resources {
+                srcDir 'src/main/resources'
+            }
+        }
+
+        test {
+            java {
+                srcDir 'src/test/java'
+            }
+            resources {
+                srcDir 'src/test/resources'
+            }
+        }
+    }
 }
 

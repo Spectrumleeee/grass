@@ -4,14 +4,11 @@
  */
 package org.cgfork.grass.remote;
 
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cgfork.grass.common.UrlHandler;
 
 /**
  * 
@@ -79,5 +76,14 @@ public class RemoteLocator {
     
     public InetSocketAddress toInetSocketAddress() {
         return new InetSocketAddress(url.getHost(), url.getPort());
+    }
+
+    private static class UrlHandler extends URLStreamHandler {
+
+        @Override
+        protected URLConnection openConnection(URL u){
+            throw new UnsupportedOperationException();
+        }
+
     }
 }
