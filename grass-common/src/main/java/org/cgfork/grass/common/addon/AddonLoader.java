@@ -16,5 +16,5 @@ public interface AddonLoader<T> {
 
     T addon(T value);
     
-    AddonLoader<T> load(Class<T> clazz);
+    AddonLoader<T> load(Class<T> clazz, ClassLoader classLoader);
 }

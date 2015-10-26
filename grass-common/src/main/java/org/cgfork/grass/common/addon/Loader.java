@@ -18,4 +18,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 public @interface Loader {
     Class<?> value();
+
+    enum Config {
+        NO_CONFIG, XML, JSON
+    }
+
+    Config config() default Config.NO_CONFIG;
 }

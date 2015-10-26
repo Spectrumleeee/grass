@@ -61,6 +61,10 @@ public abstract class AbstractFuture<T> implements Future<T> {
     @Override 
     public T getNow() {
         Object value = this.value;
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof ThrowableHolder || value == SUCCESS) {
             return null;
         }

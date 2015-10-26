@@ -16,7 +16,7 @@ public abstract class AbstractLoader<T> implements AddonLoader<T> {
     private final ConcurrentMap<Class<?>, Holder> addonMap = new ConcurrentHashMap<>();
     
     private final ConcurrentMap<String, Class<?>> classMap = new ConcurrentHashMap<>();
-    
+
     public AbstractLoader() {}
 
     @Override

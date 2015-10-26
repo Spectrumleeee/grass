@@ -14,8 +14,8 @@ import org.cgfork.grass.common.addon.AddonLoader;
 public abstract class SPIAddonLoader<T> extends AbstractLoader<T> {
     
     @Override
-    public AddonLoader<T> load(Class<T> clazz) {
-        ServiceLoader<T> loader = ServiceLoader.load(clazz);
+    public AddonLoader<T> load(Class<T> clazz, ClassLoader classLoader) {
+        ServiceLoader<T> loader = ServiceLoader.load(clazz, classLoader);
         
         for (T value : loader) {
             if (checkAnnotations(value.getClass())) {
