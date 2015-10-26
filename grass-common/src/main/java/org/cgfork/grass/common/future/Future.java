@@ -19,6 +19,8 @@ public interface Future<T> {
     Throwable cause();
     
     boolean isDone();
+
+    boolean isCancelled();
     
     T get() throws InterruptedException, FutureException;
     
@@ -43,4 +45,6 @@ public interface Future<T> {
     boolean await(long timeout, TimeUnit unit) throws InterruptedException;
     
     boolean await(long timeoutMillis) throws InterruptedException;
+
+    boolean cancel(boolean mayInterruptIfRunning);
 }

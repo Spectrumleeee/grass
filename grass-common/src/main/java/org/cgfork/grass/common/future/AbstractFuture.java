@@ -5,17 +5,22 @@
  */
 package org.cgfork.grass.common.future;
 
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 
+ * AbstractFuture is a implement for {@link #await()}, {@link #setValue0(Object)}
+ * and {@link #setFailure0(Throwable)}
  */
 public abstract class AbstractFuture<T> implements Future<T> {
     
-    private static final Void SUCCESS = Void.newInstance();
+    private static final Void SUCCESS = Void.newInstance("success");
+
+    private static final ThrowableHolder CANCELLED_HOLDER = new ThrowableHolder(new CancellationException());
 
     private short waiters;
 
+    // object lock
     private final Object lock;
     
     private volatile Object value;
@@ -221,14 +226,49 @@ public abstract class AbstractFuture<T> implements Future<T> {
         }
     }
 
-    protected void checkDeadLock() {
-
+    @Override
+    public boolean isCancelled() {
+        Object value = this.value;
+        return value != null
+                && value instanceof ThrowableHolder
+                && ((ThrowableHolder) value).cause instanceof CancellationException;
     }
 
+    protected boolean cancel0(boolean mayInterruptIfRunning) {
+        if (isDone()) {
+            return false;
+        }
+
+        synchronized (lock) {
+            if (isDone() ) {
+                return false;
+            }
+
+            this.value = CANCELLED_HOLDER;
+            if (hasWaiters()) {
+                lock.notifyAll();
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     *  avoid calling {@link #await()} recursively.
+     *
+     *  e.g.
+     *      A future will be done at the thread called one,
+     *      but it may cause dead lock when you call {@link #await()} in this thread.
+     */
+    protected abstract void checkDeadLock();
+
+    /**
+     * Return {@link Class} of T, be used for casting value to T.
+     */
     protected abstract Class<T> getTypeClass();
     
     /**
-     *  set a value and unlock the latch.
+     *  set a value and call {@link #notifyAll()}.
      */
     protected boolean setValue0(T value) {
         if (isDone()) {
@@ -308,8 +348,15 @@ public abstract class AbstractFuture<T> implements Future<T> {
     }
 
     private static final class Void {
-        static Void newInstance() {
-            return new Void();
+
+        final String status;
+
+        Void(String status) {
+            this.status = status;
+        }
+
+        static Void newInstance(String status) {
+            return new Void(status);
         }
     }
 }
