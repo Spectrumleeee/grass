@@ -2,65 +2,22 @@
  * Author:  chenbiren <cg.fork@gmail.com>
  * Created: 2015-10-13
  */
-package org.cgfork.grass.common.addon;
+package org.cgfork.grass.common.addon.support;
 
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.cgfork.grass.common.addon.Addon;
+import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.Addon.Type;
 
-/**
- * 
- */
 public abstract class AbstractLoader<T> implements AddonLoader<T> {
-    
-    private static final ConcurrentMap<Class<?>, AddonLoader<?>> loaderMap = new ConcurrentHashMap<>();
-    
+
     private final ConcurrentMap<Class<?>, Holder> addonMap = new ConcurrentHashMap<>();
     
     private final ConcurrentMap<String, Class<?>> classMap = new ConcurrentHashMap<>();
     
     public AbstractLoader() {}
-    
-    @SuppressWarnings("unchecked")
-    public static <T> AddonLoader<T> getAddonLoader(Class<T> clazz) throws AnnotationNotFoundException {
-        AddonLoader<?> addonLoader = loaderMap.get(clazz);
-        if (addonLoader != null) {
-            return (AddonLoader<T>) addonLoader;
-        }
-        
-        return createAddonLoader(clazz);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public static <T> AddonLoader<T> createAddonLoader(Class<T> clazz) throws AnnotationNotFoundException {
-        Loader loader = clazz.getAnnotation(Loader.class);
-        if (loader == null) {
-            throw new AnnotationNotFoundException("loader");
-        }
-        Class<?> loaderClass = loader.value();
-        try {
-            AddonLoader<T> addonLoader = (AddonLoader<T>) loaderClass.newInstance();
-            addonLoader.load(clazz);
-            loaderMap.putIfAbsent(loaderClass, addonLoader);
-            return addonLoader;
-        } catch (Exception e) {
-            throw new RuntimeException("can not create instance: " + loaderClass.getCanonicalName());
-        }
-    }
-
-    @Override
-    public AddonLoader<T> load(Class<T> clazz) {
-        ServiceLoader<T> loader = ServiceLoader.load(clazz);
-        
-        for (T value : loader) {
-            if (checkAnnotations(value.getClass())) {
-                this.addon(value);
-            }
-        }
-        return this;
-    }
 
     @Override
     public T getAddon(Class<?> clazz) {
@@ -93,7 +50,7 @@ public abstract class AbstractLoader<T> implements AddonLoader<T> {
         return holder.value;
     }
     
-    private boolean checkAnnotations(Class<?> clazz) {
+    protected boolean checkAnnotations(Class<?> clazz) {
         Addon addon = clazz.getAnnotation(Addon.class);
         
         if (addon != null && Type.Interface.equals(addon.type())) {

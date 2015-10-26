@@ -1,23 +1,28 @@
+
+ext {
+    mavenNexusUrl = 'http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public'
+    mavenLocalUrl = "file://E:\\maven\\repo"
+}
+
 allprojects {
     group = 'org.cgfork'
+    
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven {url mavenNexusUrl}
+    }
 }
 
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'maven'
 
-	repositories {
-		jcenter()
-		mavenLocal()
-		mavenCentral()
-		maven {url "http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public"}
-	}
-	
 	dependencies {
 		compile "log4j:log4j:1.2.17"
         compile "org.slf4j:slf4j-api:1.7.2"
         compile "org.slf4j:slf4j-log4j12:1.7.2"
-        testCompile "junit:junit:4.12"
 	}
 
 	sourceCompatibility = 1.7

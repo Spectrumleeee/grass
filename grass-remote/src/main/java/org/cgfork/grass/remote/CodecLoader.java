@@ -5,12 +5,9 @@
  */
 package org.cgfork.grass.remote;
 
-import org.cgfork.grass.common.addon.AbstractLoader;
+import org.cgfork.grass.common.addon.support.SPIAddonLoader;
 
-/**
- * 
- */
-public class CodecLoader extends AbstractLoader<Codec> {
+public class CodecLoader extends SPIAddonLoader<Codec> {
     
     @Override
     public Class<Codec> getInterface() {

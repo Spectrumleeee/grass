@@ -1,7 +1,9 @@
 *.classpath
 *.project
 *.settings
+*.iml
 .gradle
+.idea
 target
 bin
 build
