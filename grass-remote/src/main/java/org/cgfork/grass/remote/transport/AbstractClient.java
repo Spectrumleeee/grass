@@ -9,8 +9,8 @@ import java.net.SocketAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.cgfork.grass.common.addon.AbstractLoader;
 import org.cgfork.grass.common.addon.AddonLoader;
+import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelOption;
 import org.cgfork.grass.remote.Codec;
@@ -190,7 +190,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
 
         AddonLoader<Codec> loader = null;
         try {
-            loader = AbstractLoader.getAddonLoader(Codec.class);
+            loader = AddonLoaders.getAddonLoader(Codec.class);
         } catch (Exception e) {
             // TODO:
         }

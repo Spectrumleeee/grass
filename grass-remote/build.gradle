@@ -1,6 +1,14 @@
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 dependencies {
     compile project(":grass-common")
-    compile "io.netty:netty-all:4.0.30.Final"
+    
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenLocalUrl)
+        }
+    }
 }

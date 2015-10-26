@@ -1,5 +1,4 @@
-
-rootProject.name = 'grass'
-
 include "grass-common"
 include "grass-remote"
+
+rootProject.name = 'grass'

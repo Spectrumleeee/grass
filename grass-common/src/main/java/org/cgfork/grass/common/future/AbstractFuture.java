@@ -5,41 +5,34 @@
  */
 package org.cgfork.grass.common.future;
 
-import io.netty.util.Signal;
-import io.netty.util.internal.PlatformDependent;
-
 import java.util.concurrent.TimeUnit;
-
-import org.cgfork.grass.common.utils.Latch;
 
 /**
  * 
  */
 public abstract class AbstractFuture<T> implements Future<T> {
     
-    private static final Signal SUCCESS = Signal.valueOf(AbstractFuture.class
-            .getName() + ".SUCCESS");
+    private static final Void SUCCESS = Void.newInstance();
 
-    private final Latch latch;
+    private short waiters;
+
+    private final Object lock;
     
     private volatile Object value;
-    
-    // create a future and lock the latch.
+
     public AbstractFuture() {
-        latch = new Latch();
+        lock = this;
     }
     
     @Override
-    public T get() throws InterruptedException, FutureException, TimeoutException {
+    public T get() throws InterruptedException, FutureException {
         await();
 
         Throwable cause = cause();
         if (cause == null) {
             return getNow();
         }
-        if (cause instanceof TimeoutException) {
-            throw (TimeoutException) cause;
-        }
+
         throw new FutureException(cause);
     }
 
@@ -50,10 +43,7 @@ public abstract class AbstractFuture<T> implements Future<T> {
             if (cause == null) {
                 return getNow();
             }
-            
-            if (cause instanceof TimeoutException) {
-                throw (TimeoutException) cause;
-            }
+
             throw new FutureException(cause);
         }
         throw new TimeoutException();
@@ -61,28 +51,29 @@ public abstract class AbstractFuture<T> implements Future<T> {
     
     @Override
     public boolean isDone() {
-        return latch.isDone();
+        Object o = value;
+        return o == null;
     }
     
     /**
      * getNow will return null if the value is a exception or SUCCESS.
      */
     @Override 
-    @SuppressWarnings("unchecked")
     public T getNow() {
         Object value = this.value;
         if (value instanceof ThrowableHolder || value == SUCCESS) {
             return null;
         }
 
-        return (T) value;
+        return getTypeClass().cast(value);
     }
     
     @Override
     public Throwable cause() {
         Object value = this.value;
         if (value instanceof ThrowableHolder) {
-            return ((ThrowableHolder) value).cause;
+            ThrowableHolder holder = (ThrowableHolder)value;
+            return holder.cause;
         }
         return null;
     }
@@ -111,33 +102,29 @@ public abstract class AbstractFuture<T> implements Future<T> {
             throw new InterruptedException(toString());
         }
 
-        latch.await();
+        synchronized (lock) {
+            while (!isDone()) {
+                checkDeadLock();
+                incWaiters();
+                try {
+                    lock.wait();
+                } finally {
+                    decWaiters();
+                }
+            }
+        }
         return this;
     }
     
     @Override
     public boolean await(long timeout, TimeUnit unit)
             throws InterruptedException {
-        if (isDone()) {
-            return true;
-        }
-
-        if (Thread.interrupted()) {
-            throw new InterruptedException(toString());
-        }
-        return await(timeout, unit);
+        return await0(unit.toNanos(timeout), true);
     }
     
     @Override
     public boolean await(long timeoutMillis) throws InterruptedException {
-        if (isDone()) {
-            return true;
-        }
-
-        if (Thread.interrupted()) {
-            throw new InterruptedException(toString());
-        }
-        return await(timeoutMillis);
+        return await0(TimeUnit.MILLISECONDS.toNanos(timeoutMillis), true);
     }
     
     @Override
@@ -146,13 +133,95 @@ public abstract class AbstractFuture<T> implements Future<T> {
             return this;
         }
 
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
+        boolean interrupted = false;
+        synchronized (this) {
+            while (!isDone()) {
+                checkDeadLock();
+                incWaiters();
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    // Interrupted while waiting.
+                    interrupted = true;
+                } finally {
+                    decWaiters();
+                }
+            }
+        }
+
+        if (interrupted) {
             Thread.currentThread().interrupt();
         }
+
         return this;
     }
+
+    private boolean await0(long timeoutNanos, boolean interruptable) throws InterruptedException {
+        if (isDone()) {
+            return true;
+        }
+
+        if (timeoutNanos <= 0) {
+            return isDone();
+        }
+
+        if (interruptable && Thread.interrupted()) {
+            throw new InterruptedException(toString());
+        }
+
+        long startTime = System.nanoTime();
+        long waitTime = timeoutNanos;
+        boolean interrupted = false;
+
+        try {
+            synchronized (this) {
+                if (isDone()) {
+                    return true;
+                }
+
+                if (waitTime <= 0) {
+                    return isDone();
+                }
+
+                checkDeadLock();
+                incWaiters();
+                try {
+                    for (;;) {
+                        try {
+                            wait(waitTime / 1000000, (int) (waitTime % 1000000));
+                        } catch (InterruptedException e) {
+                            if (interruptable) {
+                                throw e;
+                            } else {
+                                interrupted = true;
+                            }
+                        }
+
+                        if (isDone()) {
+                            return true;
+                        } else {
+                            waitTime = timeoutNanos - (System.nanoTime() - startTime);
+                            if (waitTime <= 0) {
+                                return isDone();
+                            }
+                        }
+                    }
+                } finally {
+                    decWaiters();
+                }
+            }
+        } finally {
+            if (interrupted) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    protected void checkDeadLock() {
+
+    }
+
+    protected abstract Class<T> getTypeClass();
     
     /**
      *  set a value and unlock the latch.
@@ -162,7 +231,7 @@ public abstract class AbstractFuture<T> implements Future<T> {
             return false;
         }
         
-        synchronized (this) {
+        synchronized (lock) {
             if (isDone()) {
                 return false;
             }
@@ -171,7 +240,9 @@ public abstract class AbstractFuture<T> implements Future<T> {
             } else {
                 this.value = value;
             }
-            latch.countDown();
+            if (hasWaiters()) {
+                notifyAll();
+            }
         }
         return true;
     }
@@ -188,12 +259,14 @@ public abstract class AbstractFuture<T> implements Future<T> {
             return false;
         }
         
-        synchronized (this) {
+        synchronized (lock) {
             if (isDone()) {
                 return false;
             }
             this.value = new ThrowableHolder(cause);
-            latch.countDown();
+            if (hasWaiters()) {
+                notifyAll();
+            }
         }
         return true;
     }
@@ -204,13 +277,35 @@ public abstract class AbstractFuture<T> implements Future<T> {
             return;
         }
 
-        PlatformDependent.throwException(cause);
+        throw new RuntimeException(cause);
     }
 
-    private static final class ThrowableHolder {
+    private boolean hasWaiters() {
+        return waiters > 0;
+    }
+
+    private void incWaiters() {
+        if (waiters == Short.MAX_VALUE) {
+            throw new IllegalStateException("too many waiters: " + this);
+        }
+        waiters++;
+    }
+
+    private void decWaiters() {
+        waiters--;
+    }
+
+    private static class ThrowableHolder {
         final Throwable cause;
+        
         ThrowableHolder(Throwable cause) {
             this.cause = cause;
+        }
+    }
+
+    private static final class Void {
+        static Void newInstance() {
+            return new Void();
         }
     }
 }

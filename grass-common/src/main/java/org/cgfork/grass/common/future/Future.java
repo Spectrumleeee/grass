@@ -20,7 +20,7 @@ public interface Future<T> {
     
     boolean isDone();
     
-    T get() throws InterruptedException, FutureException,TimeoutException;
+    T get() throws InterruptedException, FutureException;
     
     T getNow();
     

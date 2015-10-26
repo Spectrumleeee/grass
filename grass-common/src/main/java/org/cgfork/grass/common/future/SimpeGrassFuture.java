@@ -44,7 +44,24 @@ public abstract class SimpeGrassFuture<T> extends AbstractFuture<T> {
     @Override
     public Future<T> removeListener(
             Listener<? extends Future<? super T>> listener) {
-        return null;
+        listeners.remove(listener);
+        return this;
+    }
+
+    public boolean trySuccess(T value) {
+        if (setValue0(value)) {
+            notifyListeners();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean tryFailure(Throwable cause) {
+        if (setFailure0(cause)) {
+            notifyListeners();
+            return true;
+        }
+        return false;
     }
     
     protected void notifyListeners() {
@@ -61,13 +78,5 @@ public abstract class SimpeGrassFuture<T> extends AbstractFuture<T> {
     protected abstract void notifyListener(
             final Listener<? extends Future<? super T>> listener,
             final Future<T> future);
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected static void notifyListener0(Listener listener, Future future) {
-        try {
-            listener.operationComplete(future);
-        } catch (Exception e){
-            // TODO: logger
-        }
-    }
+
 }
