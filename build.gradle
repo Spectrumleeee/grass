@@ -39,7 +39,7 @@ subprojects {
 				srcDir 'src/main/java'
 			}
 			resources {
-				srcDir 'src/main/resource'
+				srcDir 'src/main/resources'
 			}
 		}
 		
@@ -48,7 +48,7 @@ subprojects {
 				srcDir 'src/test/java'
 			}
 			resources {
-				srcDir 'src/test/resource'
+				srcDir 'src/test/resources'
 			}
 		}
 	}
