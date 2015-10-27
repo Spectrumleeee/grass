@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2014, TP-Link Co,Ltd.
- * Author: C_G <cg.fork@gmail.com>
- * Updated: 2015/10/26
- */
 package org.cgfork.grass.remote;
 
 import org.cgfork.grass.common.addon.Addon;
@@ -10,6 +5,11 @@ import org.cgfork.grass.common.addon.Addon;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ */
 @Addon("testCodec")
 public class TestCodec implements Codec {
 

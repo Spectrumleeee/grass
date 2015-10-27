@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-12
- */
 package org.cgfork.grass.common.utils;
 
 import java.io.IOException;
@@ -20,7 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NetUtils {
     

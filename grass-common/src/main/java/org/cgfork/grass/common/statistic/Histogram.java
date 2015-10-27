@@ -1,11 +1,9 @@
-/**
- * Author:  C_G <cg.fork@gmail.com>
- * Created: 2015-10-21
- */
 package org.cgfork.grass.common.statistic;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class Histogram {
     private static long[] BucketLimit;

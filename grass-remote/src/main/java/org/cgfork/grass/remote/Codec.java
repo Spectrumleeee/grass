@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-8
- */
 package org.cgfork.grass.remote;
 
 import java.util.List;
@@ -12,7 +8,9 @@ import org.cgfork.grass.common.addon.Loader;
 import org.cgfork.grass.common.addon.Addon.Type;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 @Addon(type = Type.Interface)
 @Loader(org.cgfork.grass.remote.CodecLoader.class)

@@ -1,12 +1,9 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-8
- */
 package org.cgfork.grass.remote;
 
-
 /**
- * This interface provides an view for creating client and server.
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public interface Transporter {
     RemoteClient connect(RemoteLocator locator, ChannelHandler handler)

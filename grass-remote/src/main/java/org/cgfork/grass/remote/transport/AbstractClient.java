@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-10
- */
 package org.cgfork.grass.remote.transport;
 
 import java.net.InetSocketAddress;
@@ -20,7 +16,9 @@ import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.common.utils.NetUtils;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public abstract class AbstractClient extends AbstractChannel implements RemoteClient {
 

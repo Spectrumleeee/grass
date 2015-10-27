@@ -1,12 +1,12 @@
-/**
- * Copyright (c) 2015, TP-Link Co.,Ltd.
- * Author:  chenbiren <chenbiren@tp-link.net>
- * Created: 2015-10-18
- */
 package org.cgfork.grass.remote;
 
 import org.cgfork.grass.common.addon.support.SPIAddonLoader;
 
+/**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ */
 public class CodecLoader extends SPIAddonLoader<Codec> {
     
     @Override

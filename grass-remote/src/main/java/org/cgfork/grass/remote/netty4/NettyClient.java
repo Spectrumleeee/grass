@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-10
- */
 package org.cgfork.grass.remote.netty4;
 
 import io.netty.bootstrap.Bootstrap;
@@ -21,7 +17,9 @@ import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractClient;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NettyClient extends AbstractClient {
     

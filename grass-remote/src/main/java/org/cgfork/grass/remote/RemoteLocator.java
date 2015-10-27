@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-9
- */
 package org.cgfork.grass.remote;
 
 import java.net.*;
@@ -9,9 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class RemoteLocator {
     

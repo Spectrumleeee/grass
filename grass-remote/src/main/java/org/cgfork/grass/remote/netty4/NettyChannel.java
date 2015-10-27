@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-9
- */
 package org.cgfork.grass.remote.netty4;
 
 import io.netty.channel.ChannelFuture;
@@ -13,8 +9,11 @@ import org.cgfork.grass.remote.transport.AbstractChannel;
 
 import static org.cgfork.grass.remote.ChannelOption.*;
 import static org.cgfork.grass.remote.Constants.*;
+
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NettyChannel extends AbstractChannel {
 

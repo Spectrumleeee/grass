@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-13
- */
 package org.cgfork.grass.remote.netty4;
 
 import io.netty.buffer.ByteBuf;
@@ -13,7 +9,9 @@ import java.util.List;
 import org.cgfork.grass.remote.*;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NettyCodec extends ByteToMessageCodec<Object> {
     

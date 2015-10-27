@@ -1,14 +1,12 @@
-/**
- * Copyright (c) 2015, TP-Link Co.,Ltd.
- * Author:  chenbiren <chenbiren@tp-link.net>
- * Created: 2015-10-14
- */
 package org.cgfork.grass.common.future;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.TimeUnit;
-
 /**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ *
  * AbstractFuture is a implementation for {@link #await()}, {@link #setValue0(Object)}
  * and {@link #setFailure0(Throwable)}
  */

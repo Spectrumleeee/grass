@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-13
- */
 package org.cgfork.grass.remote.netty4;
 
 import org.cgfork.grass.remote.ChannelHandler;
@@ -11,7 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     

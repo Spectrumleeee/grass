@@ -1,15 +1,12 @@
-/**
- * Copyright (c) 2015, TP-Link Co.,Ltd.
- * Author:  chenbiren <chenbiren@tp-link.net>
- * Created: 2015-10-14
- */
 package org.cgfork.grass.common.utils;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class Latch extends CountDownLatch {
     private final AtomicBoolean hasDone;

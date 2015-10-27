@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-13
- */
 package org.cgfork.grass.common.addon.support;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,6 +7,11 @@ import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.Addon.Type;
 
+/**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ */
 public abstract class AbstractLoader<T> implements AddonLoader<T> {
 
     private final ConcurrentMap<Class<?>, Holder> addonMap = new ConcurrentHashMap<>();

@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-13
- */
 package org.cgfork.grass.remote.netty4;
 
 import org.cgfork.grass.remote.ChannelHandler;
@@ -12,7 +8,9 @@ import org.cgfork.grass.remote.RemoteServer;
 import org.cgfork.grass.remote.Transporter;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class NettyTransporter implements Transporter {
 

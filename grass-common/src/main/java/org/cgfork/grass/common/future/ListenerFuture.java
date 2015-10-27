@@ -1,15 +1,13 @@
-/**
- * Copyright (c) 2015, TP-Link Co.,Ltd.
- * Author:  chenbiren <chenbiren@tp-link.net>
- * Created: 2015-10-14
- */
 package org.cgfork.grass.common.future;
 
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ *
  * Implementing {@link #addListener(Listener)} and {@link #removeListener(Listener)}
  * for {@link Future} interface.
  */

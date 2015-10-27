@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-9
- */
 package org.cgfork.grass.remote.transport;
 
 
@@ -11,6 +7,11 @@ import org.cgfork.grass.remote.RemoteLocator;
 
 import static org.cgfork.grass.remote.ChannelOption.*;
 
+/**
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
+ */
 public abstract class AbstractChannel implements Channel {
 
     private volatile RemoteLocator locator;

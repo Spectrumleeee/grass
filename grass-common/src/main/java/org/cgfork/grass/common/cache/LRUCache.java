@@ -1,7 +1,3 @@
-/**
- * Author:  chenbiren <cg.fork@gmail.com>
- * Created: 2015-10-13
- */
 package org.cgfork.grass.common.cache;
 
 import java.util.LinkedHashMap;
@@ -9,17 +5,19 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 
+ * @author C_G <cg.fork@gmail.com>
+ * @version 1.0
+ * Updated: 2015/10/27
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
-    private static final long serialVersionUID = -5167631809472116969L;
+    private static final long serialVersionUID = 1l;
 
-    private static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    private static final float LOAD_FACTOR = 0.75f;
 
     private static final int DEFAULT_MAX_CAPACITY = 1000;
 
-    private volatile int maxCapacity;
+    private volatile int capacity;
 
     private final Lock lock = new ReentrantLock();
 
@@ -27,14 +25,14 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         this(DEFAULT_MAX_CAPACITY);
     }
 
-    public LRUCache(int maxCapacity) {
-        super(16, DEFAULT_LOAD_FACTOR, true);
-        this.maxCapacity = maxCapacity;
+    public LRUCache(int capacity) {
+        super(16, LOAD_FACTOR, true);
+        this.capacity = capacity;
     }
 
     @Override
     protected boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest) {
-        return size() > maxCapacity;
+        return size() > capacity;
     }
 
     @Override
@@ -97,12 +95,12 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         }
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
 }
