@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public interface Future<T> {
     Future<T> addListener(Listener<? extends Future<? super T>> listener);

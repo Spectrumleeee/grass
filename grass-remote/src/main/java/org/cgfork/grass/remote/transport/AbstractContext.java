@@ -8,7 +8,6 @@ import org.cgfork.grass.remote.RemoteException;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public abstract class AbstractContext implements ChannelContext {
     

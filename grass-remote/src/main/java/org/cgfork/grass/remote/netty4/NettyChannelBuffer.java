@@ -12,7 +12,6 @@ import org.cgfork.grass.remote.ChannelBuffer;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public class NettyChannelBuffer implements ChannelBuffer {
     private final ByteBuf byteBuf;

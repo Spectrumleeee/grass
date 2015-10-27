@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public class ChannelOption<T extends Object> implements Comparable<ChannelOption<T>>{
     

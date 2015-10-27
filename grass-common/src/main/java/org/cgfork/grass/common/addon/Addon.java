@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/13
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

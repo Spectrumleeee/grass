@@ -3,7 +3,6 @@ package org.cgfork.grass.common.future;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public class FutureException extends Exception {
     private static final long serialVersionUID = 1L;

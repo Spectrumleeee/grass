@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  *
  * AbstractFuture is a implementation for {@link #await()}, {@link #setValue0(Object)}
  * and {@link #setFailure0(Throwable)}

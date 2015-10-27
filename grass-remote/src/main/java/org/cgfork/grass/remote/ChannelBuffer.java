@@ -8,7 +8,6 @@ import java.nio.ByteBuffer;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  *
  * This interface provides on abstract view for one or more primitive byte
  * arrays (@code byte[]) and (@linkplain ByteBuffer NIO buffers).

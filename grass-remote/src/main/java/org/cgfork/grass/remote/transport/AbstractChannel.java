@@ -10,7 +10,6 @@ import static org.cgfork.grass.remote.ChannelOption.*;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public abstract class AbstractChannel implements Channel {
 

@@ -19,7 +19,6 @@ import org.cgfork.grass.remote.transport.AbstractClient;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  */
 public class NettyClient extends AbstractClient {
     

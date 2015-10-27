@@ -6,7 +6,6 @@ import java.util.List;
 /**
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
- * Updated: 2015/10/27
  *
  * Implementing {@link #addListener(Listener)} and {@link #removeListener(Listener)}
  * for {@link Future} interface.
