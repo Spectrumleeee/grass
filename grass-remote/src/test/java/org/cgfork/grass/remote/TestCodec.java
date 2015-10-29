@@ -14,10 +14,8 @@ public class TestCodec implements Codec {
 
     @Override
     public void encode(Channel channel, ChannelBuffer out, Object message) throws IOException {
-        Message newMessage = (Message) message;
-        byte[] body = newMessage.getBody().getBytes();
-        out.writeShort((short)(body.length + 8));
-        out.writeLong(newMessage.getIndex());
+        byte[] body = message.toString().getBytes();
+        out.writeShort((short)body.length);
         out.writeBytes(body);
     }
 
@@ -53,40 +51,7 @@ public class TestCodec implements Codec {
             cb.getBytes(cb.readerIndex(), array, 0, len);
             offset = 0;
         }
-        Message newMessage = new Message();
-        newMessage.setIndex(getLong(array, offset));
-        newMessage.setBody(new String(array, offset + 8, length - offset - 8));
-        newMessage.setBody(new String(array, offset + 8, length - offset - 8));
-        out.add(newMessage);
+        out.add(new String(array, offset, length - offset));
         return true;
-    }
-
-    public static class Message {
-        private long index;
-
-        private String body;
-
-        public long getIndex() {
-            return index;
-        }
-
-        public void setIndex(long index) {
-            this.index = index;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public void setBody(String body) {
-            this.body = body;
-        }
-    }
-
-    public static long getLong(byte[] b, int off) {
-        return ((b[off + 7] & 0xFFL)) + ((b[off + 6] & 0xFFL) << 8)
-                + ((b[off + 5] & 0xFFL) << 16) + ((b[off + 4] & 0xFFL) << 24)
-                + ((b[off + 3] & 0xFFL) << 32) + ((b[off + 2] & 0xFFL) << 40)
-                + ((b[off + 1] & 0xFFL) << 48) + (((long) b[off]) << 56);
     }
 }

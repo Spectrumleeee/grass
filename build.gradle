@@ -1,4 +1,6 @@
 
+version = '1.0.0'
+
 ext {
 //    mavenNexusUrl = 'http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public'
     mavenLocalUrl = "file://E:\\maven\\repo"
@@ -27,8 +29,6 @@ subprojects {
     }
 
     sourceCompatibility = 1.7
-
-    version = '1.0.0'
 
     jar {
         manifest.attributes provider: 'gradle'

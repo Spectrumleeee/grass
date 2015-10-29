@@ -1,4 +1,7 @@
 include "grass-common"
 include "grass-remote"
+include 'grass-rpc'
 
 rootProject.name = 'grass'
+
+
