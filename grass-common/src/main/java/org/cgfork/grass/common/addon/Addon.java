@@ -14,9 +14,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface Addon {
-     public String value() default "";
+     String value() default "";
      
-     public enum Type{Interface, Instance}
+     enum Type{Interface, Instance}
      
-     public Type type() default Type.Instance;
+     Type type() default Type.Instance;
 }
