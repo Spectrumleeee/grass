@@ -5,4 +5,5 @@ package org.cgfork.grass.common.performance;
  * @version 1.0
  */
 public class Performance {
+
 }
