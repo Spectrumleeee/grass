@@ -7,12 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.support.AddonLoaders;
-import org.cgfork.grass.remote.Channel;
-import org.cgfork.grass.remote.ChannelOption;
-import org.cgfork.grass.remote.Codec;
-import org.cgfork.grass.remote.RemoteClient;
-import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.common.check.Checker;
+import org.cgfork.grass.remote.*;
 import org.cgfork.grass.common.utils.NetUtils;
 
 /**
@@ -21,51 +17,42 @@ import org.cgfork.grass.common.utils.NetUtils;
  */
 public abstract class AbstractClient extends AbstractChannel implements RemoteClient {
 
-    private Codec codec;
-
     private long timeoutMillis;
 
     private long connectTimeoutMillis;
 
     private final Lock connectLock = new ReentrantLock();
 
-    public AbstractClient(RemoteLocator locator) throws RemoteException {
-        super(locator);
-        codec = getCodec(locator);
-        timeoutMillis = ChannelOption.getTimeoutMillis(locator);
-        connectTimeoutMillis = ChannelOption.getConnectTimeoutMillis(locator);
-    }
-
-    protected void open() throws RemoteException {
+    public AbstractClient(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+        super(locator, handler);
+        Checker.Arg.notNull(handler, "handler is null");
+        timeoutMillis = ChannelOption.timeoutMillis(locator);
+        connectTimeoutMillis = ChannelOption.connectTimeoutMillis(locator);
         try {
             doOpen();
             connect();
-        } catch (RemoteException e) {
+        } catch (Throwable e) {
             close();
-            throw e;
+            throw new RemoteException("Failed to connect " + locator.toInetSocketAddress(), e);
         }
     }
 
-    public Codec getCodec() {
-        return codec;
-    }
-
-    public long getTimeoutMillis() {
+    public long timeoutMillis() {
         return timeoutMillis;
     }
 
-    public long getConnectTimeoutMillis() {
+    public long connectTimeoutMillis() {
         return connectTimeoutMillis;
     }
 
     @Override
     public void setLocator(final RemoteLocator locator) {
         super.setLocator(locator);
-        timeoutMillis = ChannelOption.getTimeoutMillis(locator);
-        connectTimeoutMillis = ChannelOption.getConnectTimeoutMillis(locator);
+        timeoutMillis = ChannelOption.timeoutMillis(locator);
+        connectTimeoutMillis = ChannelOption.connectTimeoutMillis(locator);
     }
 
-    public void write(Object message, boolean ensureWritten) throws RemoteException {
+    public void write(Object message, boolean forceWritten) throws RemoteException {
         if (!isConnected()) {
             connect();
         }
@@ -74,7 +61,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
         if (channel == null || !channel.isConnected()) {
             throw new RemoteException(channel, "channel is closed.");
         }
-        channel.write(message, ensureWritten);
+        channel.write(message, forceWritten);
     }
 
     protected void connect() throws RemoteException {
@@ -87,7 +74,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
             doConnect();
 
             if (!isConnected()) {
-                throw new RemoteException(String.format("Failed to connect %s", getRemoteAddress()));
+                throw new RemoteException(String.format("Failed to connect %s", remoteAddress()));
             }
         } finally {
             connectLock.unlock();
@@ -141,25 +128,25 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     }
 
     @Override
-    public SocketAddress getLocalAddress() {
+    public SocketAddress localAddress() {
         Channel channel = getChannel();
         if (channel == null) {
             return InetSocketAddress.createUnresolved(NetUtils.getLocalHost(), 0);
         }
-        return channel.getLocalAddress();
+        return channel.localAddress();
     }
 
     @Override
-    public SocketAddress getRemoteAddress() {
+    public SocketAddress remoteAddress() {
         Channel channel = getChannel();
         if (channel == null) {
             return getSocketAddress();
         }
-        return channel.getRemoteAddress();
+        return channel.remoteAddress();
     }
 
     protected InetSocketAddress getSocketAddress() {
-        RemoteLocator locator = getRemoteLocator();
+        RemoteLocator locator = remoteLocator();
         if (locator == null) {
             return null;
         }
@@ -176,38 +163,4 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     protected abstract void doDisconnect() throws RemoteException;
 
     protected abstract Channel getChannel();
-
-    protected static Codec getCodec(RemoteLocator locator) {
-        if (locator == null) {
-            throw new IllegalArgumentException("locator is null");
-        }
-
-        AddonLoader<Codec> loader = null;
-        try {
-            loader = AddonLoaders.getOrNewAddonLoader(Codec.class);
-        } catch (Exception e) {
-            // TODO:
-        }
-        if (loader == null) {
-            // TODO: throw not found Exception
-            throw new NullPointerException();
-        }
-
-        String codecClass = locator.getParameter("codecClass");
-        if (codecClass != null) {
-            try {
-                Class<?> clazz = Class.forName(codecClass);
-                return loader.getAddon(clazz);
-            } catch (ClassNotFoundException e) {
-                // TODO: ignore
-            }
-        }
-
-        String codec = locator.getParameter("codec");
-        if (codec == null) {
-            return null;
-        }
-
-        return loader.getAddon(codec);
-    }
 }

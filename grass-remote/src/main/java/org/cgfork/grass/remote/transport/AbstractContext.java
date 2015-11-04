@@ -13,71 +13,71 @@ public abstract class AbstractContext implements ChannelContext {
     
     @Override
     public boolean isConnected() {
-        return getChannel().isConnected();
+        return channel().isConnected();
     }
 
     @Override
-    public SocketAddress getLocalAddress() {
-        return getChannel().getLocalAddress();
+    public SocketAddress localAddress() {
+        return channel().localAddress();
     }
     
     @Override
-    public SocketAddress getRemoteAddress() {
-        return getChannel().getRemoteAddress();
+    public SocketAddress remoteAddress() {
+        return channel().remoteAddress();
     }
     
     @Override
     public void write(Object message) throws RemoteException {
-        getChannel().write(message);
+        channel().write(message);
     }
     
     @Override
     public void write(Object message, boolean ensureWritten) throws RemoteException {
-        getChannel().write(message, ensureWritten);
+        channel().write(message, ensureWritten);
     }
     
     @Override
     public void close() {
-        getChannel().close();
+        channel().close();
     }
     
     @Override
     public void close(long timeoutMillis) {
-        getChannel().close(timeoutMillis);
+        channel().close(timeoutMillis);
     }
     
     @Override
     public void close(boolean immediately) {
-        getChannel().close(immediately);
+        channel().close(immediately);
     }
     
     @Override
     public boolean isClosed() {
-        return getChannel().isClosed();
+        return channel().isClosed();
     }
     
     @Override
     public void onConnected() throws RemoteException {
-        getChannelHandler().onConnected(this);
+        channelHandler().onConnected(this);
     }
     
     @Override
     public void onDisconnected() throws RemoteException {
-        getChannelHandler().onDisconnected(this);
+        channelHandler().onDisconnected(this);
     }
-    
+
     @Override
     public void onWritten(Object message) throws RemoteException {
-        getChannelHandler().onWritten(this, message);
+        channelHandler().onWritten(this, message);
     }
     
     @Override
     public void onRead(Object message) throws RemoteException {
-        getChannelHandler().onRead(this, message);
+        channelHandler().onRead(this, message);
     }
     
     @Override
     public void onCaught(Throwable cause) throws RemoteException {
-        getChannelHandler().onCaught(this, cause);
+        channelHandler().onCaught(this, cause);
     }
 }

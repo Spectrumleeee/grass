@@ -3,8 +3,10 @@ package org.cgfork.grass.remote.netty4;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractContext;
 
@@ -27,24 +29,17 @@ public class NettyContext extends AbstractContext {
     }
 
     @Override
-    public Channel getChannel() {
+    public Channel channel() {
         return channel;
     }
 
-    @Override
-    public ChannelHandler getChannelHandler() {
-        return handler;
-    }
-    
     public static NettyContext getContext(io.netty.channel.Channel channel, 
             ChannelHandler handler, RemoteLocator locator) {
-        if (channel == null) {
-            throw new IllegalArgumentException("channel is null");
-        }
+        Checker.Arg.notNull(locator, "channel is null");
         
         NettyContext nettyContext = ctxMap.get(channel);
         if (nettyContext == null) {
-            NettyChannel nc = new NettyChannel(channel, locator);
+            NettyChannel nc = new NettyChannel(channel, locator, handler);
             if (nc.isConnected()) {
                 nettyContext = ctxMap.putIfAbsent(channel,new NettyContext(nc, handler));
             }
@@ -60,4 +55,10 @@ public class NettyContext extends AbstractContext {
             ctxMap.remove(channel);
         }
     }
+
+    @Override
+    public ChannelHandler channelHandler() {
+        return handler;
+    }
+
 }

@@ -3,6 +3,9 @@ package org.cgfork.grass.remote.netty4;
 import io.netty.channel.ChannelFuture;
 
 import java.net.SocketAddress;
+
+import org.cgfork.grass.common.check.Checker;
+import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractChannel;
@@ -20,11 +23,9 @@ public class NettyChannel extends AbstractChannel {
 
     private volatile long timeoutMillis;
 
-    public NettyChannel(io.netty.channel.Channel channel, RemoteLocator locator) {
-        super(locator);
-        if (channel == null) {
-            throw new IllegalArgumentException("channel is null");
-        }
+    public NettyChannel(io.netty.channel.Channel channel, RemoteLocator locator, ChannelHandler handler) {
+        super(locator, handler);
+        Checker.Arg.notNull(locator, "channel is null");
         this.channel = channel;
     }
 
@@ -34,12 +35,12 @@ public class NettyChannel extends AbstractChannel {
     }
 
     @Override
-    public SocketAddress getLocalAddress() {
+    public SocketAddress localAddress() {
         return channel.localAddress();
     }
 
     @Override
-    public SocketAddress getRemoteAddress() {
+    public SocketAddress remoteAddress() {
         return channel.remoteAddress();
     }
     
@@ -54,6 +55,7 @@ public class NettyChannel extends AbstractChannel {
         if (isClosed()) {
             throw new RemoteException(this, "channel is closed");
         }
+
         boolean success = true;
         try {
             ChannelFuture future = channel.writeAndFlush(message);
@@ -67,12 +69,12 @@ public class NettyChannel extends AbstractChannel {
             }
         } catch (Throwable cause) {
             throw new RemoteException("failed to send message " + message
-                    + " to "+ getRemoteAddress(), cause);
+                    + " to "+ remoteAddress(), cause);
         }
         
         if (!success) {
             throw new RemoteException("failed to send message " + message
-                    + " to "+ getRemoteAddress() + ", cause by timeout");
+                    + " to "+ remoteAddress() + ", cause by timeout");
         }
     }
 

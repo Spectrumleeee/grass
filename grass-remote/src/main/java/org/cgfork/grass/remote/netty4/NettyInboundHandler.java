@@ -1,5 +1,6 @@
 package org.cgfork.grass.remote.netty4;
 
+import io.netty.channel.ChannelDuplexHandler;
 import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteLocator;
 
@@ -46,7 +47,7 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
-        
+
         try {
             context.onRead(msg);
         } finally {

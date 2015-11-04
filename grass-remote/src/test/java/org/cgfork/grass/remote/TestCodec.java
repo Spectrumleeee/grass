@@ -51,6 +51,7 @@ public class TestCodec implements Codec {
             cb.getBytes(cb.readerIndex(), array, 0, len);
             offset = 0;
         }
+
         out.add(new String(array, offset, length - offset));
         return true;
     }

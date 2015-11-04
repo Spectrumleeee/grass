@@ -6,6 +6,8 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
+import org.cgfork.grass.common.addon.AddonLoader;
+import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.remote.*;
 
 /**
@@ -53,5 +55,6 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
             NettyContext.removeContextIfDisconnected(nettyChannel);
         }
     }
+
 
 }

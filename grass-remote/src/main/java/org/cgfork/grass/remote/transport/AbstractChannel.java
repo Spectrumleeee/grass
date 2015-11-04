@@ -1,7 +1,9 @@
 package org.cgfork.grass.remote.transport;
 
 
+import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.Channel;
+import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.RemoteLocator;
 
@@ -11,35 +13,25 @@ import static org.cgfork.grass.remote.ChannelOption.*;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public abstract class AbstractChannel implements Channel {
+public abstract class AbstractChannel extends AbstractPeer implements Channel {
 
-    private volatile RemoteLocator locator;
-    
-    private volatile boolean ensureWritten;
+    private volatile boolean forceWritten;
     
     private volatile boolean closed;
     
-    public AbstractChannel(RemoteLocator locator) {
-        if (locator == null) {
-            throw new IllegalArgumentException("locator is null");
-        }
-        this.locator = locator;
+    public AbstractChannel(RemoteLocator locator, ChannelHandler handler) {
+        super(locator, handler);
+        Checker.Arg.notNull(locator, "locator is not null");
         this.closed = false;
-        this.ensureWritten = ensureWritten(locator);
+        this.forceWritten = forceWritten(locator);
     }
-    
+
     public void setLocator(RemoteLocator locator) {
-        if (locator == null) {
-            throw new IllegalArgumentException("locator is null");
-        }
-        this.locator = locator;
-        this.ensureWritten = ensureWritten(locator);
+        Checker.Arg.notNull(locator, "locator is not null");
+        super.setLocator(locator);
+        this.forceWritten = forceWritten(locator);
     }
-    
-    public RemoteLocator getRemoteLocator() {
-        return locator;
-    }
-    
+
     protected void close0() {
         closed = true;
     }
@@ -55,12 +47,12 @@ public abstract class AbstractChannel implements Channel {
             throw new RemoteException(this, "channel is closed");
         }
 
-        write(message, ensureWritten);
+        write(message, forceWritten);
     }
-    
+
     @Override
     public String toString() {
         return String.format("Channel [local:%s, remote:%s]",
-                getLocalAddress(), getRemoteAddress());
+                localAddress(), remoteAddress());
     }
 }

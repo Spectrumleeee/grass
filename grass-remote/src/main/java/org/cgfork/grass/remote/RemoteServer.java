@@ -8,26 +8,14 @@ import java.util.Collection;
  * @version 1.0
  */
 public interface RemoteServer {
-    
-    boolean isBound();
-    
+
     Collection<Channel> getChannels();
     
     Channel getChannel(InetSocketAddress remoteAddress);
     
-    ChannelHandler getChannelHandler();
+    ChannelHandler channelHandler();
     
-    InetSocketAddress getLocalAddress();
+    InetSocketAddress localAddress();
     
-    void send(Object message) throws RemoteException;
-    
-    void send(Object message, boolean sent) throws RemoteException;
-    
-    void close();
-    
-    void close(int timeout);
-    
-    void close(boolean immediately);
-    
-    boolean isClosed();
+    void shutdown() throws InterruptedException;
 }

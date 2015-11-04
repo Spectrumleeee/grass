@@ -16,13 +16,13 @@ public class NettyTransporter implements Transporter {
     @Override
     public RemoteClient connect(RemoteLocator locator, ChannelHandler handler) 
             throws RemoteException {
-        return new NettyClient(handler, locator);
+        return new NettyClient(locator, handler);
     }
 
     @Override
     public RemoteServer bind(RemoteLocator locator, ChannelHandler handler)
             throws RemoteException {
-        return null;
+        return new NettyServer(locator, handler);
     }
 
 }

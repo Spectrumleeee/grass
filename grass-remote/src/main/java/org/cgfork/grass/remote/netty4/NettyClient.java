@@ -27,13 +27,9 @@ public class NettyClient extends AbstractClient {
     private Bootstrap bootstrap;
     
     private volatile Channel channel;
-    
-    private final ChannelHandler handler;
 
-    public NettyClient(ChannelHandler handler, RemoteLocator locator) throws RemoteException {
-        super(locator);
-        this.handler = handler;
-        super.open();
+    public NettyClient(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+        super(locator, handler);
     }
 
     @Override
@@ -47,10 +43,11 @@ public class NettyClient extends AbstractClient {
                     protected void initChannel(Channel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new NettyCodec(getCodec(),
-                                getChannelHandler(), getRemoteLocator()));
-                        pipeline.addLast(new NettyInboundHandler(getChannelHandler(),
-                                getRemoteLocator()));
-                        pipeline.addLast(new NettyOutboundHandler());
+                                channelHandler(), remoteLocator()));
+                        pipeline.addLast(new NettyInboundHandler(channelHandler(),
+                                remoteLocator()));
+                        pipeline.addLast(new NettyOutboundHandler(channelHandler(),
+                                remoteLocator()));
                     }
                 });
     }
@@ -64,7 +61,7 @@ public class NettyClient extends AbstractClient {
     protected void doConnect() throws RemoteException {
         ChannelFuture future = bootstrap.connect(getSocketAddress());
         try {
-            boolean ok = future.awaitUninterruptibly(getConnectTimeoutMillis());
+            boolean ok = future.awaitUninterruptibly(connectTimeoutMillis());
             if (ok && future.isSuccess()) {
                 Channel newChannel = future.channel();
                 try {
@@ -90,10 +87,10 @@ public class NettyClient extends AbstractClient {
                 }
             } else if (future.cause() != null) {
                 throw new RemoteException(String.format("Failed to open channel [%s->%s]",
-                        getLocalAddress(), getRemoteAddress()), future.cause());
+                        localAddress(), remoteAddress()), future.cause());
             } else {
                 throw new RemoteException(String.format("Failed to open channel [%s->%s], cause by %s",
-                        getLocalAddress(), getRemoteAddress(), "timeout")); 
+                        localAddress(), remoteAddress(), "timeout"));
             }
         } finally {
             if (!isConnected()) {
@@ -113,7 +110,7 @@ public class NettyClient extends AbstractClient {
         if (context == null) {
             return null;
         }
-        return context.getChannel();
+        return context.channel();
     }
     
     public NettyContext getContext() {
@@ -122,17 +119,11 @@ public class NettyClient extends AbstractClient {
             return null;
         }
             
-        return NettyContext.getContext(ch, handler, getRemoteLocator());
+        return NettyContext.getContext(ch, channelHandler(), remoteLocator());
     }
-
-
 
     public static Future<?> shutdownGracefully() {
             return group.shutdownGracefully();
     }
 
-    @Override
-    public ChannelHandler getChannelHandler() {
-        return handler;
-    }
 }

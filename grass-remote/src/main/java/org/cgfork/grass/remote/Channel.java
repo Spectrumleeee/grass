@@ -9,9 +9,9 @@ import java.net.SocketAddress;
 public interface Channel {
     boolean isConnected();
 
-    SocketAddress getLocalAddress();
+    SocketAddress localAddress();
     
-    SocketAddress getRemoteAddress();
+    SocketAddress remoteAddress();
     
     void write(Object message) throws RemoteException;
     

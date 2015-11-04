@@ -25,17 +25,17 @@ public class RemoteException extends Exception{
     }
     
     public RemoteException(Channel channel) {
-        this("Failed to send message from " + channel.getLocalAddress()
-                + " to " + channel.getRemoteAddress());
+        this("Failed to send message from " + channel.localAddress()
+                + " to " + channel.remoteAddress());
     }
     
     public RemoteException(Channel channel, String cause) {
-        this("Failed to send message from " + channel.getLocalAddress()
-                + " to " + channel.getRemoteAddress() + ", cause by " + cause);
+        this("Failed to send message from " + channel.localAddress()
+                + " to " + channel.remoteAddress() + ", cause by " + cause);
     }
     
     public RemoteException(Channel channel, Throwable cause) {
-        this("Failed to send message from " + channel.getLocalAddress()
-                + " to " + channel.getRemoteAddress(), cause);
+        this("Failed to send message from " + channel.localAddress()
+                + " to " + channel.remoteAddress(), cause);
     }
 }

@@ -1,5 +1,7 @@
 package org.cgfork.grass.remote;
 
+import org.cgfork.grass.common.check.Checker;
+
 import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,16 +39,19 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
     
     private static final ConcurrentMap<String, ChannelOption<?>> names = new ConcurrentHashMap<>();
             
-    public static final ChannelOption<Boolean> ENSURE_WRITTEN = valueOf("ensureWritten");
+    public static final ChannelOption<Boolean> FORCE_WRITTEN = valueOf("ensureWritten");
     
     public static final ChannelOption<Long> TIMEOUT_MS = valueOf("timeout");
     
     public static final ChannelOption<Long> CONNECT_TIMEOUT_MS = valueOf("connectTimeout");
+
+    public static final ChannelOption<Integer> MAX_ACCEPTED_CONNECTIONS = valueOf("maxAcceptedConnections");
+
+    public static final ChannelOption<Integer> IDLE_TIMEOUT = valueOf("idleTimeout");
     
     @SuppressWarnings("unchecked")
     public static <T> ChannelOption<T> valueOf(String name) {
-        checkNotNull(name, "name");
-        
+        Checker.Arg.notNull(name, "name is null");
         ChannelOption<T> option = (ChannelOption<T>) names.get(name);
         if (option == null) {
             option = new ChannelOption<>(name);
@@ -82,22 +87,23 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
         }
     }
     
-    public static long getTimeoutMillis(RemoteLocator locator) {
+    public static long timeoutMillis(RemoteLocator locator) {
         return getOption(TIMEOUT_MS, Constants.DEFAULT_TIMEOUT, locator);
     }
     
-    public static long getConnectTimeoutMillis(RemoteLocator locator){
+    public static long connectTimeoutMillis(RemoteLocator locator){
         return getOption(CONNECT_TIMEOUT_MS, Constants.DEFAULT_CONNECT_TIMEOUT, locator);
     }
     
-    public static boolean ensureWritten(RemoteLocator locator) {
-        return getOption(ENSURE_WRITTEN, false, locator);
+    public static boolean forceWritten(RemoteLocator locator) {
+        return getOption(FORCE_WRITTEN, false, locator);
     }
-    
-    public static <T> T checkNotNull(T arg, String text) {
-        if (arg == null) {
-            throw new NullPointerException(text);
-        }
-        return arg;
+
+    public static int maxAcceptedConnections(RemoteLocator locator) {
+        return getOption(MAX_ACCEPTED_CONNECTIONS, Constants.DEFAULT_MAX_ACCEPTED_CONNECTIONS, locator);
+    }
+
+    public static int idleTimeout(RemoteLocator locator) {
+        return getOption(IDLE_TIMEOUT, Constants.DEFAULT_IDLE_TIMEOUT, locator);
     }
 }
