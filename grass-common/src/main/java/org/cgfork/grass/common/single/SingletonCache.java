@@ -89,6 +89,11 @@ public class SingletonCache {
         remove(o.getClass());
     }
 
+    public void clear() {
+        instanceCache.clear();
+        classCache.clear();
+    }
+
     public static class RegisteredException extends RuntimeException {
 
         public RegisteredException() { super();}
