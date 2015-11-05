@@ -28,10 +28,11 @@ public class SingletonCache {
         return clazz.cast(instance);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T get(String name) {
         Checker.Arg.notNull(name, "name is null");
 
-        Class<T> clazz = classCache.get(name);
+        Class<?> clazz = classCache.get(name);
         if (clazz == null) {
             return null;
         }
@@ -40,7 +41,7 @@ public class SingletonCache {
         if (instance == null) {
             return null;
         }
-        return clazz.cast(instance);
+        return (T) clazz.cast(instance);
     }
 
     public void register(Object o) {
