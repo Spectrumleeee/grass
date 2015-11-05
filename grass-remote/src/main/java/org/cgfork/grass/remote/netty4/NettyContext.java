@@ -6,8 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.Locator;
 import org.cgfork.grass.remote.transport.AbstractContext;
 
 /**
@@ -34,7 +33,7 @@ public class NettyContext extends AbstractContext {
     }
 
     public static NettyContext getContext(io.netty.channel.Channel channel, 
-            ChannelHandler handler, RemoteLocator locator) {
+            ChannelHandler handler, Locator locator) {
         Checker.Arg.notNull(locator, "channel is null");
         
         NettyContext nettyContext = ctxMap.get(channel);

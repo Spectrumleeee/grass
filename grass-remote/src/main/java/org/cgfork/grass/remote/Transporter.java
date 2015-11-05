@@ -5,9 +5,9 @@ package org.cgfork.grass.remote;
  * @version 1.0
  */
 public interface Transporter {
-    RemoteClient connect(RemoteLocator locator, ChannelHandler handler)
+    Client connect(Locator locator, ChannelHandler handler)
         throws RemoteException;
     
-    RemoteServer bind(RemoteLocator locator, ChannelHandler handler)
+    Server bind(Locator locator, ChannelHandler handler)
         throws RemoteException;
 }

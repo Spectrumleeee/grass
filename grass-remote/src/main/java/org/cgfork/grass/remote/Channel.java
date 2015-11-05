@@ -15,7 +15,7 @@ public interface Channel {
     
     void write(Object message) throws RemoteException;
     
-    void write(Object message, boolean ensureWritten) throws RemoteException;
+    void write(Object message, boolean forceWritten) throws RemoteException;
     
     void close();
     

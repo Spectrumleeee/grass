@@ -23,11 +23,11 @@ public class NettyClientTest {
 
     private Object testMessage = "hello grass";
 
-    private RemoteLocator locator = null;
+    private Locator locator = null;
 
     @Before
     public void setup() throws Exception {
-        locator = new RemoteLocator("grass://127.0.0.1:9999/test?codec=testCodec");
+        locator = new Locator("grass://127.0.0.1:9999/test?codec=testCodec");
         serverHandler = new Handler("server");
         server = new NettyServer(locator, serverHandler);
     }
@@ -51,14 +51,14 @@ public class NettyClientTest {
 
     @Test
     public void testNettyClientClose() throws Exception {
-        List<RemoteClient> clients = new ArrayList<>(100);
+        List<Client> clients = new ArrayList<>(100);
         Handler handler = new Handler("client");
         for (int i = 0; i < 100; i++) {
             clients.add(new NettyClient(locator, handler));
             Thread.sleep(10);
         }
 
-        for (RemoteClient client : clients) {
+        for (Client client : clients) {
             client.close();
         }
 
@@ -78,7 +78,7 @@ public class NettyClientTest {
 
     @Test
     public void testNettyServerClose() throws Exception {
-        List<RemoteClient> clients = new ArrayList<>(100);
+        List<Client> clients = new ArrayList<>(100);
         Handler handler = new Handler("client");
         for (int i = 0; i < 100; i++) {
             clients.add(new NettyClient(locator, handler));
@@ -87,6 +87,9 @@ public class NettyClientTest {
 
         server.shutdown();
         Thread.sleep(1000);
+        for (Client client : clients) {
+            assertTrue(!client.isConnected());
+        }
         assertEquals(100, handler.onConnectedCount.get());
         assertEquals(100, serverHandler.onConnectedCount.get());
         assertEquals(100, handler.onDisconnectedCount.get());

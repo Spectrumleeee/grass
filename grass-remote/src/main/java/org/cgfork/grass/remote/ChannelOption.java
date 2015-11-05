@@ -64,7 +64,7 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
     }
     
     @SuppressWarnings("unchecked")
-    public static <T> T getOption(ChannelOption<T> option, T defaultValue, RemoteLocator locator) {
+    public static <T> T getOption(ChannelOption<T> option, T defaultValue, Locator locator) {
         if (option == null) {
             throw new IllegalArgumentException("option is null");
         }
@@ -87,23 +87,23 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
         }
     }
     
-    public static long timeoutMillis(RemoteLocator locator) {
+    public static long timeoutMillis(Locator locator) {
         return getOption(TIMEOUT_MS, Constants.DEFAULT_TIMEOUT, locator);
     }
     
-    public static long connectTimeoutMillis(RemoteLocator locator){
+    public static long connectTimeoutMillis(Locator locator){
         return getOption(CONNECT_TIMEOUT_MS, Constants.DEFAULT_CONNECT_TIMEOUT, locator);
     }
     
-    public static boolean forceWritten(RemoteLocator locator) {
+    public static boolean forceWritten(Locator locator) {
         return getOption(FORCE_WRITTEN, false, locator);
     }
 
-    public static int maxAcceptedConnections(RemoteLocator locator) {
+    public static int maxAcceptedConnections(Locator locator) {
         return getOption(MAX_ACCEPTED_CONNECTIONS, Constants.DEFAULT_MAX_ACCEPTED_CONNECTIONS, locator);
     }
 
-    public static int idleTimeout(RemoteLocator locator) {
+    public static int idleTimeout(Locator locator) {
         return getOption(IDLE_TIMEOUT, Constants.DEFAULT_IDLE_TIMEOUT, locator);
     }
 }

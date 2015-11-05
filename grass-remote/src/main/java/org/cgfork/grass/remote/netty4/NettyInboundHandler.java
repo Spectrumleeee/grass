@@ -1,8 +1,7 @@
 package org.cgfork.grass.remote.netty4;
 
-import io.netty.channel.ChannelDuplexHandler;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.Locator;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -15,9 +14,9 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     
     private final ChannelHandler handler;
     
-    private final RemoteLocator locator;
+    private final Locator locator;
     
-    public NettyInboundHandler(ChannelHandler handler, RemoteLocator locator) {
+    public NettyInboundHandler(ChannelHandler handler, Locator locator) {
         this.handler = handler;
         this.locator = locator;
     }

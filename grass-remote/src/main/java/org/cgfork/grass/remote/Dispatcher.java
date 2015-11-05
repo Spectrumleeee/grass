@@ -5,5 +5,5 @@ package org.cgfork.grass.remote;
  * @version 1.0
  */
 public interface Dispatcher {
-    ChannelHandler dispatch(ChannelHandler handler, RemoteLocator locator);
+    ChannelHandler dispatch(ChannelHandler handler, Locator locator);
 }

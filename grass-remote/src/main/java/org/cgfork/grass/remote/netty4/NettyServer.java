@@ -7,8 +7,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.Locator;
 import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractServer;
 
 import java.net.InetSocketAddress;
@@ -28,7 +28,7 @@ public class NettyServer extends AbstractServer {
 
     private io.netty.channel.Channel channel;
 
-    public NettyServer(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+    public NettyServer(Locator locator, ChannelHandler handler) throws RemoteException {
         super(locator, handler);
     }
 
@@ -46,12 +46,12 @@ public class NettyServer extends AbstractServer {
                     public void initChannel(SocketChannel ch)
                             throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new NettyCodec(getCodec(),
-                                channelHandler(), remoteLocator()));
+                        pipeline.addLast(new NettyCodec(codec(),
+                                channelHandler(), locator()));
                         pipeline.addLast(new NettyInboundHandler(channelHandler(),
-                                remoteLocator()));
+                                locator()));
                         pipeline.addLast(new NettyOutboundHandler(channelHandler(),
-                                remoteLocator()));
+                                locator()));
                     }
                 })
                 .childOption(ChannelOption.SO_KEEPALIVE, true);

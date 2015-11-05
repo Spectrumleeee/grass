@@ -1,7 +1,5 @@
 package org.cgfork.grass.remote.transport;
 
-import org.cgfork.grass.common.addon.support.AbstractLoader;
-import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.common.utils.NetUtils;
 import org.cgfork.grass.remote.*;
 
@@ -12,7 +10,7 @@ import java.net.URL;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public abstract class AbstractServer extends AbstractPeer implements RemoteServer {
+public abstract class AbstractServer extends AbstractPeer implements Server {
 
     private InetSocketAddress localAddress;
 
@@ -22,7 +20,7 @@ public abstract class AbstractServer extends AbstractPeer implements RemoteServe
 
     private int idleTimeout;
 
-    public AbstractServer(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+    public AbstractServer(Locator locator, ChannelHandler handler) throws RemoteException {
         super(locator, handler);
         localAddress = locator.toInetSocketAddress();
         bindAddress = getBindAddress(locator);
@@ -54,7 +52,7 @@ public abstract class AbstractServer extends AbstractPeer implements RemoteServe
         return idleTimeout;
     }
 
-    private static InetSocketAddress getBindAddress(RemoteLocator locator) {
+    private static InetSocketAddress getBindAddress(Locator locator) {
         URL url = locator.getUrl();
 
         if (NetUtils.isValidLocalHost(url.getHost())) {

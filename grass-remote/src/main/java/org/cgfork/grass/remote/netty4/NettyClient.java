@@ -12,8 +12,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.Locator;
 import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractClient;
 
 /**
@@ -28,7 +28,7 @@ public class NettyClient extends AbstractClient {
     
     private volatile Channel channel;
 
-    public NettyClient(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+    public NettyClient(Locator locator, ChannelHandler handler) throws RemoteException {
         super(locator, handler);
     }
 
@@ -42,12 +42,12 @@ public class NettyClient extends AbstractClient {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new NettyCodec(getCodec(),
-                                channelHandler(), remoteLocator()));
+                        pipeline.addLast(new NettyCodec(codec(),
+                                channelHandler(), locator()));
                         pipeline.addLast(new NettyInboundHandler(channelHandler(),
-                                remoteLocator()));
+                                locator()));
                         pipeline.addLast(new NettyOutboundHandler(channelHandler(),
-                                remoteLocator()));
+                                locator()));
                     }
                 });
     }
@@ -119,7 +119,7 @@ public class NettyClient extends AbstractClient {
             return null;
         }
             
-        return NettyContext.getContext(ch, channelHandler(), remoteLocator());
+        return NettyContext.getContext(ch, channelHandler(), locator());
     }
 
     public static Future<?> shutdownGracefully() {

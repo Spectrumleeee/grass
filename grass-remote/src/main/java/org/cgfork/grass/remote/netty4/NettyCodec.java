@@ -6,8 +6,6 @@ import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.util.List;
 
-import org.cgfork.grass.common.addon.AddonLoader;
-import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.remote.*;
 
 /**
@@ -19,9 +17,9 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
     private final Codec codec;
 
     private final ChannelHandler handler;
-    private final RemoteLocator locator;
+    private final Locator locator;
 
-    public NettyCodec(Codec codec, ChannelHandler handler, RemoteLocator locator) {
+    public NettyCodec(Codec codec, ChannelHandler handler, Locator locator) {
         this.codec = codec;
         this.handler = handler;
         this.locator = locator;

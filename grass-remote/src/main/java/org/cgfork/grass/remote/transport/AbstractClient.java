@@ -5,8 +5,6 @@ import java.net.SocketAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.cgfork.grass.common.addon.AddonLoader;
-import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.*;
 import org.cgfork.grass.common.utils.NetUtils;
@@ -15,7 +13,7 @@ import org.cgfork.grass.common.utils.NetUtils;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public abstract class AbstractClient extends AbstractChannel implements RemoteClient {
+public abstract class AbstractClient extends AbstractChannel implements Client {
 
     private long timeoutMillis;
 
@@ -23,7 +21,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
 
     private final Lock connectLock = new ReentrantLock();
 
-    public AbstractClient(RemoteLocator locator, ChannelHandler handler) throws RemoteException {
+    public AbstractClient(Locator locator, ChannelHandler handler) throws RemoteException {
         super(locator, handler);
         Checker.Arg.notNull(handler, "handler is null");
         timeoutMillis = ChannelOption.timeoutMillis(locator);
@@ -43,13 +41,6 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
 
     public long connectTimeoutMillis() {
         return connectTimeoutMillis;
-    }
-
-    @Override
-    public void setLocator(final RemoteLocator locator) {
-        super.setLocator(locator);
-        timeoutMillis = ChannelOption.timeoutMillis(locator);
-        connectTimeoutMillis = ChannelOption.connectTimeoutMillis(locator);
     }
 
     public void write(Object message, boolean forceWritten) throws RemoteException {
@@ -146,7 +137,7 @@ public abstract class AbstractClient extends AbstractChannel implements RemoteCl
     }
 
     protected InetSocketAddress getSocketAddress() {
-        RemoteLocator locator = remoteLocator();
+        Locator locator = locator();
         if (locator == null) {
             return null;
         }

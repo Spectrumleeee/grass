@@ -5,7 +5,7 @@ import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.Codec;
-import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.Locator;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -13,13 +13,13 @@ import org.cgfork.grass.remote.RemoteLocator;
  */
 public class AbstractPeer {
 
-    private volatile RemoteLocator locator;
+    private final Locator locator;
 
     private final ChannelHandler handler;
 
     private final Codec codec;
 
-    public AbstractPeer(RemoteLocator locator, ChannelHandler handler) {
+    public AbstractPeer(Locator locator, ChannelHandler handler) {
         Checker.Arg.notNull(locator, "locator is null");
         Checker.Arg.notNull(handler, "handler is null");
         this.handler = handler;
@@ -27,17 +27,11 @@ public class AbstractPeer {
         this.codec = getCodec(locator);
     }
 
-    public void setLocator(RemoteLocator locator) {
-        Checker.Arg.notNull(locator, "locator is null");
-        Checker.Arg.notNull(locator, "locator is null");
-        this.locator = locator;
-    }
-
-    public Codec getCodec() {
+    public Codec codec() {
         return codec;
     }
 
-    public RemoteLocator remoteLocator() {
+    public Locator locator() {
         return locator;
     }
 
@@ -45,7 +39,7 @@ public class AbstractPeer {
         return handler;
     }
 
-    protected static Codec getCodec(RemoteLocator locator) {
+    protected static Codec getCodec(Locator locator) {
         if (locator == null) {
             throw new IllegalArgumentException("locator is null");
         }

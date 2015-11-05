@@ -9,25 +9,25 @@ import java.util.Map;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public class RemoteLocator {
+public class Locator {
     
     private final java.net.URL url;
     
     private final Map<String, String> parameters;
     
-    public RemoteLocator(String spec) throws MalformedURLException {
+    public Locator(String spec) throws MalformedURLException {
         this(new URL(null, spec, new UrlHandler()));
     }
     
-    public RemoteLocator(String protocol, String host, int port, String file) throws MalformedURLException {
+    public Locator(String protocol, String host, int port, String file) throws MalformedURLException {
         this(new URL(protocol, host, port, file, new UrlHandler()));
     }
     
-    private RemoteLocator(URL url) {
+    private Locator(URL url) {
         this(url, null);
     }
     
-    private RemoteLocator(URL url, Map<String, String> parameters) {
+    private Locator(URL url, Map<String, String> parameters) {
         if (url == null) {
             throw new NullPointerException("uri is null");
         }

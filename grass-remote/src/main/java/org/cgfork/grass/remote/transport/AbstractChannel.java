@@ -4,8 +4,8 @@ package org.cgfork.grass.remote.transport;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.Locator;
 import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
 
 import static org.cgfork.grass.remote.ChannelOption.*;
 
@@ -19,16 +19,10 @@ public abstract class AbstractChannel extends AbstractPeer implements Channel {
     
     private volatile boolean closed;
     
-    public AbstractChannel(RemoteLocator locator, ChannelHandler handler) {
+    public AbstractChannel(Locator locator, ChannelHandler handler) {
         super(locator, handler);
         Checker.Arg.notNull(locator, "locator is not null");
         this.closed = false;
-        this.forceWritten = forceWritten(locator);
-    }
-
-    public void setLocator(RemoteLocator locator) {
-        Checker.Arg.notNull(locator, "locator is not null");
-        super.setLocator(locator);
         this.forceWritten = forceWritten(locator);
     }
 

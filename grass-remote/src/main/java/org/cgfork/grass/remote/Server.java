@@ -7,7 +7,7 @@ import java.util.Collection;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public interface RemoteServer {
+public interface Server {
 
     Collection<Channel> getChannels();
     

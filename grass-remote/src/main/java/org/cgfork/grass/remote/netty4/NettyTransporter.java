@@ -1,11 +1,7 @@
 package org.cgfork.grass.remote.netty4;
 
-import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.RemoteClient;
-import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
-import org.cgfork.grass.remote.RemoteServer;
-import org.cgfork.grass.remote.Transporter;
+import org.cgfork.grass.remote.*;
+import org.cgfork.grass.remote.Client;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -14,13 +10,13 @@ import org.cgfork.grass.remote.Transporter;
 public class NettyTransporter implements Transporter {
 
     @Override
-    public RemoteClient connect(RemoteLocator locator, ChannelHandler handler) 
+    public Client connect(Locator locator, ChannelHandler handler)
             throws RemoteException {
         return new NettyClient(locator, handler);
     }
 
     @Override
-    public RemoteServer bind(RemoteLocator locator, ChannelHandler handler)
+    public Server bind(Locator locator, ChannelHandler handler)
             throws RemoteException {
         return new NettyServer(locator, handler);
     }

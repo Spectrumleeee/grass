@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.RemoteLocator;
+import org.cgfork.grass.remote.Locator;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -14,9 +14,9 @@ public class NettyOutboundHandler extends ChannelOutboundHandlerAdapter {
 
     private final ChannelHandler handler;
 
-    private final RemoteLocator locator;
+    private final Locator locator;
 
-    public NettyOutboundHandler(ChannelHandler handler, RemoteLocator locator) {
+    public NettyOutboundHandler(ChannelHandler handler, Locator locator) {
         this.handler = handler;
         this.locator = locator;
     }

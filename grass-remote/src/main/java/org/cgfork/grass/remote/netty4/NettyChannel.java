@@ -6,8 +6,8 @@ import java.net.SocketAddress;
 
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.Locator;
 import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.remote.RemoteLocator;
 import org.cgfork.grass.remote.transport.AbstractChannel;
 
 import static org.cgfork.grass.remote.ChannelOption.*;
@@ -23,7 +23,7 @@ public class NettyChannel extends AbstractChannel {
 
     private volatile long timeoutMillis;
 
-    public NettyChannel(io.netty.channel.Channel channel, RemoteLocator locator, ChannelHandler handler) {
+    public NettyChannel(io.netty.channel.Channel channel, Locator locator, ChannelHandler handler) {
         super(locator, handler);
         Checker.Arg.notNull(locator, "channel is null");
         this.channel = channel;
@@ -42,12 +42,6 @@ public class NettyChannel extends AbstractChannel {
     @Override
     public SocketAddress remoteAddress() {
         return channel.remoteAddress();
-    }
-    
-    @Override 
-    public void setLocator(final RemoteLocator locator) {
-        super.setLocator(locator);
-        this.timeoutMillis = getOption(TIMEOUT_MS, DEFAULT_TIMEOUT, locator);
     }
 
     @Override
