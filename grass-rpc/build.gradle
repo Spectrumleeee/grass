@@ -2,10 +2,14 @@ apply plugin: 'idea'
 
 version = '1.0.0'
 
-repositories {
-    mavenCentral()
+dependencies {
+    compile project(":grass-remote")
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenLocalUrl)
+        }
+    }
 }
