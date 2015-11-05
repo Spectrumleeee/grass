@@ -10,7 +10,10 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: mavenLocalUrl)
+            repository(url: mavenNexusUrl) {
+                authentication(userName: "admin", password: "admin123")
+            }
         }
     }
+
 }

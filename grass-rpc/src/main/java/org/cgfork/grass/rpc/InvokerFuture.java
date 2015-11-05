@@ -7,30 +7,30 @@ import org.cgfork.grass.common.future.Listener;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public interface InvokerFuture<T> extends Future<T> {
+public interface InvokerFuture extends Future<Object> {
 
     @Override
-    InvokerFuture<T> addListener(Listener<? extends Future<? super T>> listener);
+    InvokerFuture addListener(Listener<? extends Future<? super Object>> listener);
 
     @Override
-    InvokerFuture<T> removeListener(
-            Listener<? extends Future<? super T>> listener);
+    InvokerFuture removeListener(
+            Listener<? extends Future<? super Object>> listener);
 
     @Override
-    InvokerFuture<T> setFailure(Throwable cause);
+    InvokerFuture setFailure(Throwable cause);
 
     @Override
-    InvokerFuture<T> setValue(T value);
+    InvokerFuture setValue(Object value);
 
     @Override
-    InvokerFuture<T> sync() throws InterruptedException;
+    InvokerFuture sync() throws InterruptedException;
 
     @Override
-    InvokerFuture<T> syncUninterruptibly();
+    InvokerFuture syncUninterruptibly();
 
     @Override
-    InvokerFuture<T> await() throws InterruptedException;
+    InvokerFuture await() throws InterruptedException;
 
     @Override
-    InvokerFuture<T> awaitUninterruptibly();
+    InvokerFuture awaitUninterruptibly();
 }

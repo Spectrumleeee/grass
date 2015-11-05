@@ -2,7 +2,7 @@
 version = '1.0.0'
 
 ext {
-//    mavenNexusUrl = 'http://cloudrepo.rd.tp-link.net:8081/nexus/content/groups/public'
+    mavenNexusUrl = 'http://172.29.88.121:8081/nexus/content/repositories/thirdparty/'
     mavenLocalUrl = "file://E:\\maven\\repo"
 }
 

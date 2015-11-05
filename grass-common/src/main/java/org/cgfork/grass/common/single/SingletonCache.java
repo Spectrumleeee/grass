@@ -1,5 +1,7 @@
 package org.cgfork.grass.common.single;
 
+import org.cgfork.grass.common.check.Checker;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,15 +18,28 @@ public class SingletonCache {
     public SingletonCache() {}
 
     public <T> T get(Class<T> clazz) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("null argument");
-        }
+        Checker.Arg.notNull(clazz, "class is null");
         Object instance = instanceCache.get(clazz);
 
         if (instance == null) {
             return null;
         }
 
+        return clazz.cast(instance);
+    }
+
+    public <T> T get(String name) {
+        Checker.Arg.notNull(name, "name is null");
+
+        Class<T> clazz = classCache.get(name);
+        if (clazz == null) {
+            return null;
+        }
+        Object instance = instanceCache.get(clazz);
+
+        if (instance == null) {
+            return null;
+        }
         return clazz.cast(instance);
     }
 
@@ -39,7 +54,7 @@ public class SingletonCache {
 
         String className = clazz.getCanonicalName();
         Singleton singletonAnnotation = clazz.getAnnotation(Singleton.class);
-        if (singletonAnnotation == null) {
+        if (singletonAnnotation != null) {
             className = singletonAnnotation.value();
         }
         classCache.putIfAbsent(className, clazz);
@@ -60,7 +75,7 @@ public class SingletonCache {
     public void remove(Class<?> clazz) {
         String className = clazz.getCanonicalName();
         Singleton singletonAnnotation = clazz.getAnnotation(Singleton.class);
-        if (singletonAnnotation == null) {
+        if (singletonAnnotation != null) {
             className = singletonAnnotation.value();
         }
         classCache.remove(className);

@@ -7,5 +7,5 @@ package org.cgfork.grass.rpc;
 public interface Invoker<T> extends Peer {
     Class<T> getInterface();
 
-    InvokerFuture<T> invoke() throws RpcException;
+    InvokerFuture invoke(Parameter params) throws RpcException;
 }
