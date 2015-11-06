@@ -1,4 +1,4 @@
-package org.cgfork.grass.common.single;
+package org.cgfork.grass.common.cache.single;
 
 import org.cgfork.grass.common.check.Checker;
 

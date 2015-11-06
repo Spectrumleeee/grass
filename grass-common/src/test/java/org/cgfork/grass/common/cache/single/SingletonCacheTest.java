@@ -1,4 +1,4 @@
-package org.cgfork.grass.common.single;
+package org.cgfork.grass.common.cache.single;
 
 import org.junit.After;
 import org.junit.Before;
