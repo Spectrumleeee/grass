@@ -81,6 +81,75 @@ public abstract class Checker {
         return value;
     }
 
+    public int in(int value, int low, int high) {
+        if (low >= high) {
+            int old = low;
+            low = high;
+            high = old;
+        }
+        return in(value, low, high, "value not in (" + low + "," + high + ")");
+    }
+
+    public int in(int value, int low, int high, String warnMsg) {
+        if (low >= high) {
+            int old = low;
+            low = high;
+            high = old;
+        }
+
+        if (doCheck && value < low || value > high) {
+            onFailure(warnMsg);
+        }
+        return value;
+    }
+
+    public long in(long value, long low, long high) {
+        if (low >= high) {
+            long old = low;
+            low = high;
+            high = old;
+        }
+        return in(value, low, high, "value not in (" + low + "," + high + ")");
+    }
+
+    public long in(long value, long low, long high, String warnMsg) {
+        if (low >= high) {
+            long old = low;
+            low = high;
+            high = old;
+        }
+
+        if (doCheck && value < low || value > high) {
+            onFailure(warnMsg);
+        }
+        return value;
+    }
+
+
+    public double in(double value, double low, double high) {
+        if (low >= high) {
+            double old = low;
+            low = high;
+            high = old;
+        }
+        return in(value, low, high, "value not in (" + low + "," + high + ")");
+    }
+
+    public double in(double value, double low, double high, String warnMsg) {
+        if (low >= high) {
+            double old = low;
+            low = high;
+            high = old;
+        }
+
+        if (doCheck && value < low || value > high) {
+            onFailure(warnMsg);
+        }
+        return value;
+    }
+
+
+
     public int validPort(int port) {
         return validPort(port, "port is invalid");
     }

@@ -1,4 +1,4 @@
-package org.cgfork.grass.common.memory;
+package org.cgfork.grass.common.monitor.memory;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -84,5 +84,16 @@ public class MemoryState {
                     (this.max == state.max);
         }
         return false;
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Memory[");
+        builder.append("used=").append(getUsed()).append(", ");
+        builder.append("free=").append(getFree()).append(", ");
+        builder.append("total=").append(getTotal()).append(", ");
+        builder.append("max=").append(getMax()).append(", ");
+        builder.append("available=").append(getAvailable()).append(", ");
+        builder.append("availableRatio=").append(getAvailableRatio()).append("]");
+        return builder.toString();
     }
 }

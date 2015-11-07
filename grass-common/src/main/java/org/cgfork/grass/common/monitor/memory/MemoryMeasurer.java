@@ -1,4 +1,4 @@
-package org.cgfork.grass.common.memory;
+package org.cgfork.grass.common.monitor.memory;
 
 import java.lang.management.ManagementFactory;
 
@@ -10,12 +10,22 @@ public class MemoryMeasurer {
 
     private static final int maxRestoreJvmLoops = 100;
 
+    private static final long pauseTimeMillis = 1L;
+
     private final boolean restoreJvmEnabled;
 
     public MemoryMeasurer(boolean restoreJvmEnabled) {
         this.restoreJvmEnabled = restoreJvmEnabled;
     }
 
+    public MemoryState memoryState() {
+        if (restoreJvmEnabled) {
+            restoreJvm();
+        }
+
+        Runtime rt = Runtime.getRuntime();
+        return new MemoryState( rt.freeMemory(), rt.totalMemory(), rt.maxMemory() );
+    }
 
     /**
      * @return how much memory on the heap is currently being used.
@@ -66,5 +76,13 @@ public class MemoryMeasurer {
                 usedMemPrev = usedMemNow;
             }
         }
+    }
+
+    public static MemoryState perform() {
+        return perform(false);
+    }
+
+    public static MemoryState perform(boolean restoreJvmEnabled) {
+        return new MemoryMeasurer(restoreJvmEnabled).memoryState();
     }
 }
