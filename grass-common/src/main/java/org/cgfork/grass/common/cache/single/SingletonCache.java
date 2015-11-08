@@ -86,7 +86,8 @@ public class SingletonCache {
     }
 
     public void remove(Object o) {
-        remove(o.getClass());
+        Class<?> clazz = o.getClass();
+        remove(clazz);
     }
 
     public void clear() {

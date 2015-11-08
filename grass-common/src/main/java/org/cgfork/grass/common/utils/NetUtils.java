@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import org.cgfork.grass.common.cache.lru.LRUCache;
+import org.cgfork.grass.common.cache.lru.ConcurrentLRUCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -196,7 +196,7 @@ public class NetUtils {
         return localAddress;
     }
     
-    private static final Map<String, String> hostNameCache = new LRUCache<String, String>(1000);
+    private static final Map<String, String> hostNameCache = new ConcurrentLRUCache<String, String>(1000);
 
     public static String getHostName(String address) {
         try {

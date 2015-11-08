@@ -13,13 +13,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * @version 1.0
  */
 public class MemoryMonitor {
-    private static final boolean defaultRestoreJvmEnabled = false;
+    private static final boolean DEFAULT_RESTORE_JVM_ENABLED = false;
 
-    private static final long defaultIntervalMillis = 1000L;
+    private static final long DEFAULT_INTERVAL_MILLIS = 1000L;
 
-    private static final double defaultThresholdTriggerRatio = 0.30;
+    private static final double DEFAULT_THRESHOLD_TRIGGER_RATIO = 0.30;
 
-    private static final AtomicLong monitorIndex = new AtomicLong(0);
+    private static final AtomicLong MONITOR_INDEX = new AtomicLong(0);
 
     private final AtomicLong timerIndex = new AtomicLong(0);
 
@@ -39,24 +39,24 @@ public class MemoryMonitor {
 
     private final double thresholdTriggerRatio;
 
-    private final long monitorIndexNow = monitorIndex.incrementAndGet();
+    private final long monitorIndexNow = MONITOR_INDEX.incrementAndGet();
 
     private final Set<MemoryListener> listeners = new HashSet<>();
 
     public MemoryMonitor() {
-        this(defaultIntervalMillis, defaultThresholdTriggerRatio);
+        this(DEFAULT_INTERVAL_MILLIS, DEFAULT_THRESHOLD_TRIGGER_RATIO);
     }
 
     public MemoryMonitor(long interval) {
-        this(interval, defaultThresholdTriggerRatio);
+        this(interval, DEFAULT_THRESHOLD_TRIGGER_RATIO);
     }
 
     public MemoryMonitor(double thresholdTriggerRatio) {
-        this(defaultIntervalMillis, thresholdTriggerRatio);
+        this(DEFAULT_INTERVAL_MILLIS, thresholdTriggerRatio);
     }
 
     public MemoryMonitor(long interval, double thresholdTriggerRatio) {
-        this(interval, thresholdTriggerRatio, defaultRestoreJvmEnabled);
+        this(interval, thresholdTriggerRatio, DEFAULT_RESTORE_JVM_ENABLED);
     }
 
     public MemoryMonitor(long interval, double thresholdTriggerRatio, boolean restoreJvmEnabled) {

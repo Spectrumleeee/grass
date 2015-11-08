@@ -8,11 +8,13 @@ import java.lang.management.ManagementFactory;
  */
 public class MemoryMeasurer {
 
-    private static final int maxRestoreJvmLoops = 100;
-
-    private static final long pauseTimeMillis = 1L;
+    private static final int MAX_RESTORE_JVM_LOOPS = 100;
 
     private final boolean restoreJvmEnabled;
+
+    public MemoryMeasurer() {
+        this(false);
+    }
 
     public MemoryMeasurer(boolean restoreJvmEnabled) {
         this.restoreJvmEnabled = restoreJvmEnabled;
@@ -62,7 +64,7 @@ public class MemoryMeasurer {
      */
     public static void restoreJvm() {
         long usedMemPrev = usedMemory();
-        for (int i = 0; i < maxRestoreJvmLoops; i++) {
+        for (int i = 0; i < MAX_RESTORE_JVM_LOOPS; i++) {
             // free all unused memory
             System.runFinalization();
             System.gc();
