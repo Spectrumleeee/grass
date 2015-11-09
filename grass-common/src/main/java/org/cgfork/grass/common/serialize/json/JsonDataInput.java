@@ -29,55 +29,88 @@ public class JsonDataInput implements DataInput {
 
     @Override
     public boolean readBool() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Boolean.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public byte readByte() throws IOException {
-       throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Byte.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public short readShort() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Short.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public int readInt() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Integer.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public long readLong() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Long.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public float readFloat() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Float.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public double readDouble() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), Double.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public String readUTF() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), String.class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     @Override
     public byte[] readBytes() throws IOException {
-        throw new UnsupportedException();
+        try {
+            return mapper.readValue(readLine(), byte[].class);
+        } catch (EOFException e) {
+            throw  new IOException(e);
+        }
     }
 
     public Object readObject() throws IOException {
         try {
-            String jsonLine = reader.readLine();
-            if (jsonLine == null || jsonLine.trim().length() == 0) {
-                throw new EOFException();
-            }
+            String jsonLine = readLine();
             if (jsonLine.startsWith("{")) {
                 return mapper.readValue(jsonLine, Map.class);
             } else {
@@ -88,5 +121,13 @@ public class JsonDataInput implements DataInput {
         } catch (JsonParseException e) {
             throw new IOException(e);
         }
+    }
+
+    private String readLine() throws EOFException, IOException {
+        String jsonLine = reader.readLine();
+        if (jsonLine == null || jsonLine.trim().length() == 0) {
+            throw new EOFException();
+        }
+        return jsonLine;
     }
 }

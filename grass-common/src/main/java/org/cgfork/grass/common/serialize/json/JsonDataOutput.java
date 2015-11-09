@@ -27,52 +27,52 @@ public class JsonDataOutput implements DataOutput {
 
     @Override
     public void writeBool(boolean v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeByte(byte v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeShort(short v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeInt(int v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeLong(long v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeFloat(float v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeDouble(double v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeUTF(String v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeBytes(byte[] v) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
     public void writeBytes(byte[] v, int off, int len) throws IOException {
-        throw new UnsupportedException();
+        mapper.writeValue(writer, v);
     }
 
     @Override
