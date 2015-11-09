@@ -46,7 +46,7 @@ public abstract class ListenerFuture<T> extends AbstractFuture<T> {
         return this;
     }
 
-    public boolean trySuccess(T value) {
+    protected boolean trySuccess(T value) {
         if (setValue0(value)) {
             notifyListeners();
             return true;
@@ -54,7 +54,7 @@ public abstract class ListenerFuture<T> extends AbstractFuture<T> {
         return false;
     }
 
-    public boolean tryFailure(Throwable cause) {
+    protected boolean tryFailure(Throwable cause) {
         if (setFailure0(cause)) {
             notifyListeners();
             return true;

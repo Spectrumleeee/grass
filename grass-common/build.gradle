@@ -5,6 +5,8 @@ version = '1.0.0'
 
 dependencies {
     compile "io.netty:netty-all:4.0.30.Final"
+    compile "com.fasterxml.jackson.core:jackson-core:2.6.3"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.6.3"
 }
 
 uploadArchives {
@@ -15,5 +17,20 @@ uploadArchives {
             }
         }
     }
+}
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
 }

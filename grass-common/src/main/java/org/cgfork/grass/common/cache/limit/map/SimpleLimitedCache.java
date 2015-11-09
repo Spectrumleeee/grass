@@ -4,7 +4,9 @@ import org.cgfork.grass.common.cache.limit.LimitedCache;
 import org.cgfork.grass.common.cache.limit.RejectedException;
 import org.cgfork.grass.common.check.Checker;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Not thread safe.
@@ -26,6 +28,16 @@ public class SimpleLimitedCache<K, V> implements LimitedCache<K, V> {
 
     protected boolean isLimitReached() {
         return size() + 1 > limitedSize();
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+        return cache.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(V value) {
+        return cache.containsValue(value);
     }
 
     @Override
@@ -72,4 +84,15 @@ public class SimpleLimitedCache<K, V> implements LimitedCache<K, V> {
     public void clear() {
         cache.clear();
     }
+
+    @Override
+    public Set<K> keySet() {
+        return cache.keySet();
+    }
+
+    @Override
+    public Collection<V> values() {
+        return cache.values();
+    }
+
 }

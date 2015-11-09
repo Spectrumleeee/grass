@@ -4,7 +4,10 @@ import org.cgfork.grass.common.cache.limit.LimitedCache;
 import org.cgfork.grass.common.cache.limit.RejectedException;
 import org.cgfork.grass.common.check.Checker;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,6 +22,10 @@ public class ConcurrentLimitedCache<K, V> implements LimitedCache<K, V> {
 
     private final int limits;
 
+    public ConcurrentLimitedCache(int limits) {
+        this(new ConcurrentHashMap<K, V>(limits+1), limits);
+    }
+
     public ConcurrentLimitedCache(ConcurrentMap<K, V> cache, int limits) {
         Checker.Arg.notNull(cache, "cache is null");
         Checker.Arg.in(limits, 0, Integer.MAX_VALUE);
@@ -28,6 +35,16 @@ public class ConcurrentLimitedCache<K, V> implements LimitedCache<K, V> {
 
     protected boolean isLimitReached() {
         return size() + 1 > limitedSize();
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+        return cache.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(V value) {
+        return cache.containsValue(value);
     }
 
     @Override
@@ -69,5 +86,15 @@ public class ConcurrentLimitedCache<K, V> implements LimitedCache<K, V> {
     @Override
     public void clear() {
         cache.clear();
+    }
+
+    @Override
+    public Set<K> keySet() {
+        return cache.keySet();
+    }
+
+    @Override
+    public Collection<V> values() {
+        return cache.values();
     }
 }

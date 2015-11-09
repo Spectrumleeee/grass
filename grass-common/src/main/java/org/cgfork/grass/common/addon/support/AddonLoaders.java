@@ -1,5 +1,6 @@
 package org.cgfork.grass.common.addon.support;
 
+import org.cgfork.grass.common.UnsupportedException;
 import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.Loader;
 import org.cgfork.grass.common.addon.support.AbstractLoader.AnnotationNotFoundException;
@@ -86,9 +87,5 @@ public class AddonLoaders {
             }
         }
         return instance;
-    }
-
-    public static class UnsupportedException extends RuntimeException {
-
     }
 }

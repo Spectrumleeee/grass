@@ -7,4 +7,12 @@ import org.cgfork.grass.remote.Channel;
  * @version 1.0
  */
 public interface DirectChannel extends Channel {
+
+    ResponseFuture request(Object request) throws DirectException;
+
+    ResponseFuture request(Object request, int timeout) throws DirectException;
+
+    DirectHandler directHandler();
+
+    void close(int timeout);
 }
