@@ -41,7 +41,11 @@ public class SimpleLimitedCache<K, V> implements LimitedCache<K, V> {
         if (isLimitReached()) {
             throw new RejectedException();
         }
-        return cache.putIfAbsent(key, value);
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+        cache.put(key, value);
+        return value;
     }
 
     @Override

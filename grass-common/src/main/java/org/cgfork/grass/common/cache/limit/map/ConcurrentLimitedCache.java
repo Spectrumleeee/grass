@@ -1,8 +1,11 @@
 package org.cgfork.grass.common.cache.limit.map;
 
+import org.cgfork.grass.common.cache.limit.LimitedCache;
 import org.cgfork.grass.common.cache.limit.RejectedException;
+import org.cgfork.grass.common.check.Checker;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,81 +13,61 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-public class ConcurrentLimitedCache<K, V> extends SimpleLimitedCache<K, V> {
+public class ConcurrentLimitedCache<K, V> implements LimitedCache<K, V> {
 
-    private final Lock lock = new ReentrantLock();
+    private final ConcurrentMap<K, V> cache;
 
-    public ConcurrentLimitedCache(Map<K, V> cache, int limits) {
-        super(cache, limits);
+    private final int limits;
+
+    public ConcurrentLimitedCache(ConcurrentMap<K, V> cache, int limits) {
+        Checker.Arg.notNull(cache, "cache is null");
+        Checker.Arg.in(limits, 0, Integer.MAX_VALUE);
+        this.cache = cache;
+        this.limits = limits;
+    }
+
+    protected boolean isLimitReached() {
+        return size() + 1 > limitedSize();
     }
 
     @Override
     public V put(K key, V value) throws RejectedException {
-        try {
-            lock.lock();
-            return super.put(key, value);
-        } finally {
-            lock.unlock();
+        if (isLimitReached()) {
+            throw new RejectedException();
         }
+        return cache.put(key, value);
     }
 
     @Override
     public V putIfAbsent(K key, V value) throws RejectedException {
-        try {
-            lock.lock();
-            return super.putIfAbsent(key, value);
-        } finally {
-            lock.unlock();
+        if (isLimitReached()) {
+            throw new RejectedException();
         }
+        return cache.putIfAbsent(key, value);
     }
 
     @Override
     public V get(K key) {
-        try {
-            lock.lock();
-            return super.get(key);
-        } finally {
-            lock.unlock();
-        }
+        return cache.get(key);
     }
 
     @Override
     public int limitedSize() {
-        try {
-            lock.lock();
-            return super.limitedSize();
-        } finally {
-            lock.unlock();
-        }
+        return limits;
     }
 
     @Override
     public int size() {
-        try {
-            lock.lock();
-            return super.size();
-        } finally {
-            lock.unlock();
-        }
+        return cache.size();
     }
 
     @Override
     public V remove(K key) {
-        try {
-            lock.lock();
-            return super.remove(key);
-        } finally {
-            lock.unlock();
-        }
+        return cache.remove(key);
     }
 
     @Override
     public void clear() {
-        try {
-            lock.lock();
-            super.clear();
-        } finally {
-            lock.unlock();
-        }
+        cache.clear();
     }
 }

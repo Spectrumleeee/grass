@@ -50,6 +50,19 @@ public abstract class AbstractFuture<T> implements Future<T> {
         }
         throw new TimeoutException();
     }
+
+    @Override
+    public T get(long timeoutMillis) throws InterruptedException, FutureException, TimeoutException {
+        if (await(timeoutMillis)) {
+            Throwable cause = cause();
+            if (cause == null) {
+                return getNow();
+            }
+
+            throw new FutureException(cause);
+        }
+        throw new TimeoutException();
+    }
     
     @Override
     public boolean isDone() {

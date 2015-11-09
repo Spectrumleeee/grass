@@ -64,17 +64,11 @@ public abstract class ListenerFuture<T> extends AbstractFuture<T> {
     
     protected void notifyListeners() {
         for (Listener<? extends Future<? super T>> l : listeners) {
-            notifyListener(l, this);
+            notifyListener(l);
         }
     }
     
-    protected void notifyListener(
-            final Listener<? extends Future<? super T>> listener) {
-        notifyListener(listener, this);
-    }
-
     protected abstract void notifyListener(
-            final Listener<? extends Future<? super T>> listener,
-            final Future<T> future);
+            final Listener<? extends Future<? super T>> listener);
 
 }
