@@ -7,6 +7,10 @@ package org.cgfork.grass.common;
 public class UnsupportedException extends RuntimeException {
     private static final long serialVersionUID = -8424759228280288473L;
 
+    public UnsupportedException() {
+        super();
+    }
+
     public UnsupportedException(String info) {
         super(info);
     }

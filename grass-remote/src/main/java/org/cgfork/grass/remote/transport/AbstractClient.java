@@ -137,7 +137,7 @@ public abstract class AbstractClient extends AbstractChannel implements Client {
     }
 
     protected InetSocketAddress getSocketAddress() {
-        Location location = locator();
+        Location location = location();
         if (location == null) {
             return null;
         }

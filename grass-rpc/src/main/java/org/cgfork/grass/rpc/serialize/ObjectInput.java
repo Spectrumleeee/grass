@@ -10,4 +10,6 @@ import java.io.IOException;
  */
 public interface ObjectInput extends DataInput {
     Object readObject() throws IOException;
+
+    Object readObject(int length) throws IOException;
 }

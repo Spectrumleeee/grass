@@ -54,8 +54,8 @@ public class SingletonCacheTest {
     @Test
     public void testRemoveByName() throws Exception {
         Case ca = new Case();
-        cache.register("case");
-        cache.remove(ca);
+        cache.register(ca);
+        cache.remove("case");
         assertEquals(null, cache.get("case"));
         assertEquals(null, cache.get(ca.getClass()));
     }

@@ -31,5 +31,4 @@ public class NettyOutboundHandler extends ChannelOutboundHandlerAdapter {
             NettyContext.removeContextIfDisconnected(ctx.channel());
         }
     }
-
 }

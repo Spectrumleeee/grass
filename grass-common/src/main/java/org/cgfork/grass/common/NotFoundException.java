@@ -7,6 +7,10 @@ package org.cgfork.grass.common;
 public class NotFoundException extends RuntimeException {
     private static final long serialVersionUID = 2736206722077825618L;
 
+    public NotFoundException() {
+        super();
+    }
+
     public NotFoundException(String info) {
         super(info);
     }

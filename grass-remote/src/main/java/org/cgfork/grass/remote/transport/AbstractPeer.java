@@ -1,5 +1,6 @@
 package org.cgfork.grass.remote.transport;
 
+import org.cgfork.grass.common.NotFoundException;
 import org.cgfork.grass.common.addon.AddonLoader;
 import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.common.check.Checker;
@@ -31,7 +32,7 @@ public class AbstractPeer {
         return codec;
     }
 
-    public Location locator() {
+    public Location location() {
         return location;
     }
 
@@ -44,15 +45,14 @@ public class AbstractPeer {
             throw new IllegalArgumentException("locator is null");
         }
 
-        AddonLoader<Codec> loader = null;
+        AddonLoader<Codec> loader;
         try {
             loader = AddonLoaders.getOrNewAddonLoader(Codec.class);
         } catch (Exception e) {
-            // TODO:
+            throw new NotFoundException("Not found codec loader", e);
         }
         if (loader == null) {
-            // TODO: throw not found Exception
-            throw new NullPointerException();
+            throw new NotFoundException("Not found codec loader");
         }
 
         String codecClass = location.getParameter("codecClass");
@@ -61,13 +61,13 @@ public class AbstractPeer {
                 Class<?> clazz = Class.forName(codecClass);
                 return loader.getAddon(clazz);
             } catch (ClassNotFoundException e) {
-                // TODO: ignore
+                throw new NotFoundException("Not found codec class", e);
             }
         }
 
         String codec = location.getParameter("codec");
         if (codec == null) {
-            return null;
+            throw new NotFoundException("Not found codec");
         }
 
         return loader.getAddon(codec);

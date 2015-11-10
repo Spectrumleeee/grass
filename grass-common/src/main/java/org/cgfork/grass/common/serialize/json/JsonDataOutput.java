@@ -11,7 +11,7 @@ import java.io.*;
  */
 public class JsonDataOutput implements DataOutput {
 
-    private final PrintWriter writer;
+    private final Writer writer;
 
     private final ObjectMapper mapper;
 
@@ -20,58 +20,58 @@ public class JsonDataOutput implements DataOutput {
     }
 
     public JsonDataOutput(Writer writer) {
-        this.writer = new PrintWriter(writer);
+        this.writer = writer;
         this.mapper = new ObjectMapper();
     }
 
     @Override
     public void writeBool(boolean v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeByte(byte v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeShort(short v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeInt(int v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeLong(long v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeFloat(float v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeDouble(double v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeUTF(String v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeBytes(byte[] v) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
     public void writeBytes(byte[] v, int off, int len) throws IOException {
-        mapper.writeValue(writer, v);
+        writeValue(v);
     }
 
     @Override
@@ -79,9 +79,7 @@ public class JsonDataOutput implements DataOutput {
         writer.flush();
     }
 
-    public void writeObject(Object o) throws IOException {
+    protected void writeValue(Object o) throws IOException{
         mapper.writeValue(writer, o);
-        writer.println();
-        writer.flush();
     }
 }

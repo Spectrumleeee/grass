@@ -3,6 +3,7 @@ package org.cgfork.grass.rpc.serialize.json;
 import org.cgfork.grass.common.serialize.json.JsonDataOutput;
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 
@@ -17,5 +18,10 @@ public class JsonObjectOutput extends JsonDataOutput implements ObjectOutput {
 
     public JsonObjectOutput(Writer writer) {
         super(writer);
+    }
+
+    @Override
+    public void writeObject(Object v) throws IOException {
+        writeValue(v);
     }
 }

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -27,7 +28,7 @@ public class NettyClientTest {
 
     @Before
     public void setup() throws Exception {
-        location = new Location("grass://127.0.0.1:9999/test?codec=testCodec");
+        location = new Location("grass://127.0.0.1:9898/test?codec=testCodec");
         serverHandler = new Handler("server");
         server = new NettyServer(location, serverHandler);
     }
@@ -43,7 +44,7 @@ public class NettyClientTest {
         Handler handler = new Handler("client");
         NettyClient client = new NettyClient(location, handler);
         client.write(testMessage);
-        Thread.sleep(5);
+        Thread.sleep(1000);
         client.close();
         assertEquals(0, handler.onCaughtCount.get());
         assertEquals(0, serverHandler.onCaughtCount.get());
@@ -122,12 +123,14 @@ public class NettyClientTest {
 
         @Override
         public void onConnected(ChannelContext ctx) throws RemoteException {
-           onConnectedCount.incrementAndGet();
+            onConnectedCount.incrementAndGet();
+            System.out.println(name + ": connected");
         }
 
         @Override
         public void onDisconnected(ChannelContext ctx) throws RemoteException {
-           onDisconnectedCount.incrementAndGet();
+            onDisconnectedCount.incrementAndGet();
+            System.out.println(name + ": disconnected");
         }
 
         @Override
@@ -139,13 +142,17 @@ public class NettyClientTest {
         @Override
         public void onRead(ChannelContext ctx, Object message) throws RemoteException {
             onReadCount.incrementAndGet();
-            ctx.channel().write(message);
+            System.out.println(message);
+            if ("server".equals(name)) {
+                ctx.channel().write(message);
+            }
             assertEquals(testMessage, message);
         }
 
         @Override
         public void onCaught(ChannelContext ctx, Throwable cause) throws RemoteException {
             onCaughtCount.incrementAndGet();
+            cause.printStackTrace();
         }
     }
 }

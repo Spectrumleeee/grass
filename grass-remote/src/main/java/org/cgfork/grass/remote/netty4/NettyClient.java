@@ -43,11 +43,11 @@ public class NettyClient extends AbstractClient {
                     protected void initChannel(Channel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new NettyCodec(codec(),
-                                channelHandler(), locator()));
+                                channelHandler(), location()));
                         pipeline.addLast(new NettyInboundHandler(channelHandler(),
-                                locator()));
+                                location()));
                         pipeline.addLast(new NettyOutboundHandler(channelHandler(),
-                                locator()));
+                                location()));
                     }
                 });
     }
@@ -119,7 +119,7 @@ public class NettyClient extends AbstractClient {
             return null;
         }
             
-        return NettyContext.getContext(ch, channelHandler(), locator());
+        return NettyContext.getContext(ch, channelHandler(), location());
     }
 
     public static Future<?> shutdownGracefully() {

@@ -25,5 +25,5 @@ public interface Channel {
     
     boolean isClosed();
 
-
+    Location location();
 }

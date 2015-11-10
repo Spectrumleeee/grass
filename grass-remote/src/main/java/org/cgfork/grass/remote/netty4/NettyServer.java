@@ -24,8 +24,6 @@ public class NettyServer extends AbstractServer {
 
     private EventLoopGroup workerGroup;
 
-    private ServerBootstrap bootstrap;
-
     private io.netty.channel.Channel channel;
 
     public NettyServer(Location location, ChannelHandler handler) throws RemoteException {
@@ -39,7 +37,7 @@ public class NettyServer extends AbstractServer {
         if (workerGroup == null)
             workerGroup = new NioEventLoopGroup();
 
-        bootstrap = new ServerBootstrap();
+        ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -47,11 +45,11 @@ public class NettyServer extends AbstractServer {
                             throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new NettyCodec(codec(),
-                                channelHandler(), locator()));
+                                channelHandler(), location()));
                         pipeline.addLast(new NettyInboundHandler(channelHandler(),
-                                locator()));
+                                location()));
                         pipeline.addLast(new NettyOutboundHandler(channelHandler(),
-                                locator()));
+                                location()));
                     }
                 })
                 .childOption(ChannelOption.SO_KEEPALIVE, true);

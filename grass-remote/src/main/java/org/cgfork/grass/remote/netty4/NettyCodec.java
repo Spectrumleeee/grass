@@ -3,10 +3,9 @@ package org.cgfork.grass.remote.netty4;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
+import org.cgfork.grass.remote.*;
 
 import java.util.List;
-
-import org.cgfork.grass.remote.*;
 
 /**
  * @author C_G <cg.fork@gmail.com>

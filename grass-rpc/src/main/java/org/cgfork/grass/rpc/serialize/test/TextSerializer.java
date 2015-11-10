@@ -1,4 +1,4 @@
-package org.cgfork.grass.rpc.serialize.json;
+package org.cgfork.grass.rpc.serialize.test;
 
 import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.remote.Location;
@@ -15,20 +15,20 @@ import java.io.OutputStream;
  * @author C_G <cg.fork@gmail.com>
  * @version 1.0
  */
-@Addon("jsonSerializer")
-public class JsonSerializer implements Serializer {
+@Addon("textSerializer")
+public class TextSerializer implements Serializer {
     @Override
     public String getContentType() {
-        return "application/json";
+        return "application/text";
     }
 
     @Override
     public ObjectOutput serialize(Location location, OutputStream output, Flag flag) throws IOException {
-        return new JsonObjectOutput(output);
+        return new TextObjectOutput(output);
     }
 
     @Override
     public ObjectInput deserialize(Location location, InputStream input, Flag flag) throws IOException {
-        return new JsonObjectInput(input, flag);
+        return new TextObjectInput(input);
     }
 }

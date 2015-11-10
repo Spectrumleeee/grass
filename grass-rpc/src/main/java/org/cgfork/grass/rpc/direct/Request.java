@@ -15,6 +15,8 @@ public class Request implements Serializable {
 
     private final long id;
 
+    private Flag flag;
+
     private String version;
 
     private Object data;
@@ -25,6 +27,30 @@ public class Request implements Serializable {
 
     public long getId() {
         return id;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public Flag getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Flag flag) {
+        this.flag = flag;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     private static long id() {

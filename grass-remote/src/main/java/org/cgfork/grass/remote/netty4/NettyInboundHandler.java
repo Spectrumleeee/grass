@@ -1,10 +1,9 @@
 package org.cgfork.grass.remote.netty4;
 
-import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Location;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.Location;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -58,7 +57,6 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
-        
         try {
             context.onCaught(cause);
         } finally {

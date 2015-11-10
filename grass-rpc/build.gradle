@@ -9,7 +9,25 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: mavenLocalUrl)
+            repository(url: mavenNexusUrl) {
+                authentication(userName: "admin", password: "admin123")
+            }
         }
     }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
 }

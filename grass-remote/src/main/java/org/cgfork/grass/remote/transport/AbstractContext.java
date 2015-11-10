@@ -3,6 +3,7 @@ package org.cgfork.grass.remote.transport;
 import java.net.SocketAddress;
 
 import org.cgfork.grass.remote.ChannelContext;
+import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 
 /**
@@ -25,6 +26,12 @@ public abstract class AbstractContext implements ChannelContext {
     public SocketAddress remoteAddress() {
         return channel().remoteAddress();
     }
+
+    @Override
+    public Location location() {
+        return channel().location();
+    }
+
     
     @Override
     public void write(Object message) throws RemoteException {

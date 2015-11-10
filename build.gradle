@@ -20,6 +20,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'idea'
 
     dependencies {
         compile "log4j:log4j:1.2.17"
@@ -29,6 +30,11 @@ subprojects {
     }
 
     sourceCompatibility = 1.7
+    idea {
+        module {
+            downloadSources = true
+        }
+    }
 
     jar {
         manifest.attributes provider: 'gradle'
