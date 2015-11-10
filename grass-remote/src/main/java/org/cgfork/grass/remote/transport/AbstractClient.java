@@ -21,17 +21,17 @@ public abstract class AbstractClient extends AbstractChannel implements Client {
 
     private final Lock connectLock = new ReentrantLock();
 
-    public AbstractClient(Locator locator, ChannelHandler handler) throws RemoteException {
-        super(locator, handler);
+    public AbstractClient(Location location, ChannelHandler handler) throws RemoteException {
+        super(location, handler);
         Checker.Arg.notNull(handler, "handler is null");
-        timeoutMillis = ChannelOption.timeoutMillis(locator);
-        connectTimeoutMillis = ChannelOption.connectTimeoutMillis(locator);
+        timeoutMillis = ChannelOption.timeoutMillis(location);
+        connectTimeoutMillis = ChannelOption.connectTimeoutMillis(location);
         try {
             doOpen();
             connect();
         } catch (Throwable e) {
             close();
-            throw new RemoteException("Failed to connect " + locator.toInetSocketAddress(), e);
+            throw new RemoteException("Failed to connect " + location.toInetSocketAddress(), e);
         }
     }
 
@@ -137,12 +137,12 @@ public abstract class AbstractClient extends AbstractChannel implements Client {
     }
 
     protected InetSocketAddress getSocketAddress() {
-        Locator locator = locator();
-        if (locator == null) {
+        Location location = locator();
+        if (location == null) {
             return null;
         }
 
-        return locator.toInetSocketAddress();
+        return location.toInetSocketAddress();
     }
 
     protected abstract void doOpen() throws RemoteException;

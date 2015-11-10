@@ -1,7 +1,7 @@
 package org.cgfork.grass.remote.netty4;
 
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,16 +14,16 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     
     private final ChannelHandler handler;
     
-    private final Locator locator;
+    private final Location location;
     
-    public NettyInboundHandler(ChannelHandler handler, Locator locator) {
+    public NettyInboundHandler(ChannelHandler handler, Location location) {
         this.handler = handler;
-        this.locator = locator;
+        this.location = location;
     }
     
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
+        NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
         
         try {
             context.onConnected();
@@ -34,7 +34,7 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
+        NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
         
         try {
             context.onDisconnected();
@@ -45,7 +45,7 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
+        NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
 
         try {
             context.onRead(msg);
@@ -57,7 +57,7 @@ public class NettyInboundHandler extends ChannelInboundHandlerAdapter  {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
-        NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
+        NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
         
         try {
             context.onCaught(cause);

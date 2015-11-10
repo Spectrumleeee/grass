@@ -64,15 +64,15 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
     }
     
     @SuppressWarnings("unchecked")
-    public static <T> T getOption(ChannelOption<T> option, T defaultValue, Locator locator) {
+    public static <T> T getOption(ChannelOption<T> option, T defaultValue, Location location) {
         if (option == null) {
             throw new IllegalArgumentException("option is null");
         }
         
-        if (locator == null) {
+        if (location == null) {
             return defaultValue;
         }
-        String value = locator.getParameter(option.name);
+        String value = location.getParameter(option.name);
         
         if (value == null) {
             return defaultValue;
@@ -87,23 +87,23 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
         }
     }
     
-    public static long timeoutMillis(Locator locator) {
-        return getOption(TIMEOUT_MS, Constants.DEFAULT_TIMEOUT, locator);
+    public static long timeoutMillis(Location location) {
+        return getOption(TIMEOUT_MS, Constants.DEFAULT_TIMEOUT, location);
     }
     
-    public static long connectTimeoutMillis(Locator locator){
-        return getOption(CONNECT_TIMEOUT_MS, Constants.DEFAULT_CONNECT_TIMEOUT, locator);
+    public static long connectTimeoutMillis(Location location){
+        return getOption(CONNECT_TIMEOUT_MS, Constants.DEFAULT_CONNECT_TIMEOUT, location);
     }
     
-    public static boolean forceWritten(Locator locator) {
-        return getOption(FORCE_WRITTEN, false, locator);
+    public static boolean forceWritten(Location location) {
+        return getOption(FORCE_WRITTEN, false, location);
     }
 
-    public static int maxAcceptedConnections(Locator locator) {
-        return getOption(MAX_ACCEPTED_CONNECTIONS, Constants.DEFAULT_MAX_ACCEPTED_CONNECTIONS, locator);
+    public static int maxAcceptedConnections(Location location) {
+        return getOption(MAX_ACCEPTED_CONNECTIONS, Constants.DEFAULT_MAX_ACCEPTED_CONNECTIONS, location);
     }
 
-    public static int idleTimeout(Locator locator) {
-        return getOption(IDLE_TIMEOUT, Constants.DEFAULT_IDLE_TIMEOUT, locator);
+    public static int idleTimeout(Location location) {
+        return getOption(IDLE_TIMEOUT, Constants.DEFAULT_IDLE_TIMEOUT, location);
     }
 }

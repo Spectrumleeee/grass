@@ -17,12 +17,12 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
     private final Codec codec;
 
     private final ChannelHandler handler;
-    private final Locator locator;
+    private final Location location;
 
-    public NettyCodec(Codec codec, ChannelHandler handler, Locator locator) {
+    public NettyCodec(Codec codec, ChannelHandler handler, Location location) {
         this.codec = codec;
         this.handler = handler;
-        this.locator = locator;
+        this.location = location;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
             throws Exception {
         io.netty.channel.Channel nettyChannel = ctx.channel();
         try {
-            Channel channel = NettyContext.getContext(nettyChannel, handler, locator);
+            Channel channel = NettyContext.getContext(nettyChannel, handler, location);
             ChannelBuffer outBuf = new NettyChannelBuffer(out);
             codec.encode(channel, outBuf, msg);
         } finally {
@@ -43,7 +43,7 @@ public class NettyCodec extends ByteToMessageCodec<Object> {
             List<Object> out) throws Exception {
         io.netty.channel.Channel nettyChannel = ctx.channel();
         try {
-            Channel channel = NettyContext.getContext(nettyChannel, handler, locator);
+            Channel channel = NettyContext.getContext(nettyChannel, handler, location);
             ChannelBuffer inBuf = new NettyChannelBuffer(in);
             int readerIndex = in.readerIndex();
             if (!codec.decode(channel, inBuf, out)) {

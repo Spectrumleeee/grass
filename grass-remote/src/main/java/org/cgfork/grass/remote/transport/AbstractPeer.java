@@ -5,7 +5,7 @@ import org.cgfork.grass.common.addon.support.AddonLoaders;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.ChannelHandler;
 import org.cgfork.grass.remote.Codec;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -13,34 +13,34 @@ import org.cgfork.grass.remote.Locator;
  */
 public class AbstractPeer {
 
-    private final Locator locator;
+    private final Location location;
 
     private final ChannelHandler handler;
 
     private final Codec codec;
 
-    public AbstractPeer(Locator locator, ChannelHandler handler) {
-        Checker.Arg.notNull(locator, "locator is null");
+    public AbstractPeer(Location location, ChannelHandler handler) {
+        Checker.Arg.notNull(location, "locator is null");
         Checker.Arg.notNull(handler, "handler is null");
         this.handler = handler;
-        this.locator = locator;
-        this.codec = getCodec(locator);
+        this.location = location;
+        this.codec = getCodec(location);
     }
 
     public Codec codec() {
         return codec;
     }
 
-    public Locator locator() {
-        return locator;
+    public Location locator() {
+        return location;
     }
 
     public ChannelHandler channelHandler() {
         return handler;
     }
 
-    protected static Codec getCodec(Locator locator) {
-        if (locator == null) {
+    protected static Codec getCodec(Location location) {
+        if (location == null) {
             throw new IllegalArgumentException("locator is null");
         }
 
@@ -55,7 +55,7 @@ public class AbstractPeer {
             throw new NullPointerException();
         }
 
-        String codecClass = locator.getParameter("codecClass");
+        String codecClass = location.getParameter("codecClass");
         if (codecClass != null) {
             try {
                 Class<?> clazz = Class.forName(codecClass);
@@ -65,7 +65,7 @@ public class AbstractPeer {
             }
         }
 
-        String codec = locator.getParameter("codec");
+        String codec = location.getParameter("codec");
         if (codec == null) {
             return null;
         }

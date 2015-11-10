@@ -1,7 +1,6 @@
 package org.cgfork.grass.common.serialize.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cgfork.grass.common.UnsupportedException;
 import org.cgfork.grass.common.serialize.DataOutput;
 
 import java.io.*;

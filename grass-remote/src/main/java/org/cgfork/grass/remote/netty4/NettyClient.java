@@ -12,7 +12,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractClient;
 
@@ -28,8 +28,8 @@ public class NettyClient extends AbstractClient {
     
     private volatile Channel channel;
 
-    public NettyClient(Locator locator, ChannelHandler handler) throws RemoteException {
-        super(locator, handler);
+    public NettyClient(Location location, ChannelHandler handler) throws RemoteException {
+        super(location, handler);
     }
 
     @Override

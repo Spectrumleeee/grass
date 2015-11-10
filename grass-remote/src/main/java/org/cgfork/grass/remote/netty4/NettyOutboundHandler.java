@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -14,16 +14,16 @@ public class NettyOutboundHandler extends ChannelOutboundHandlerAdapter {
 
     private final ChannelHandler handler;
 
-    private final Locator locator;
+    private final Location location;
 
-    public NettyOutboundHandler(ChannelHandler handler, Locator locator) {
+    public NettyOutboundHandler(ChannelHandler handler, Location location) {
         this.handler = handler;
-        this.locator = locator;
+        this.location = location;
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        NettyContext context = NettyContext.getContext(ctx.channel(), handler, locator);
+        NettyContext context = NettyContext.getContext(ctx.channel(), handler, location);
         super.write(ctx, msg, promise);
         try {
             context.onWritten(msg);

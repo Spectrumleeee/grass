@@ -23,13 +23,13 @@ public class NettyClientTest {
 
     private Object testMessage = "hello grass";
 
-    private Locator locator = null;
+    private Location location = null;
 
     @Before
     public void setup() throws Exception {
-        locator = new Locator("grass://127.0.0.1:9999/test?codec=testCodec");
+        location = new Location("grass://127.0.0.1:9999/test?codec=testCodec");
         serverHandler = new Handler("server");
-        server = new NettyServer(locator, serverHandler);
+        server = new NettyServer(location, serverHandler);
     }
 
     @After
@@ -41,7 +41,7 @@ public class NettyClientTest {
     @Test
     public void testNettyClientWrite() throws Exception {
         Handler handler = new Handler("client");
-        NettyClient client = new NettyClient(locator, handler);
+        NettyClient client = new NettyClient(location, handler);
         client.write(testMessage);
         Thread.sleep(5);
         client.close();
@@ -54,7 +54,7 @@ public class NettyClientTest {
         List<Client> clients = new ArrayList<>(100);
         Handler handler = new Handler("client");
         for (int i = 0; i < 100; i++) {
-            clients.add(new NettyClient(locator, handler));
+            clients.add(new NettyClient(location, handler));
             Thread.sleep(10);
         }
 
@@ -81,7 +81,7 @@ public class NettyClientTest {
         List<Client> clients = new ArrayList<>(100);
         Handler handler = new Handler("client");
         for (int i = 0; i < 100; i++) {
-            clients.add(new NettyClient(locator, handler));
+            clients.add(new NettyClient(location, handler));
             Thread.sleep(10);
         }
 

@@ -7,7 +7,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractServer;
 
@@ -28,8 +28,8 @@ public class NettyServer extends AbstractServer {
 
     private io.netty.channel.Channel channel;
 
-    public NettyServer(Locator locator, ChannelHandler handler) throws RemoteException {
-        super(locator, handler);
+    public NettyServer(Location location, ChannelHandler handler) throws RemoteException {
+        super(location, handler);
     }
 
     @Override

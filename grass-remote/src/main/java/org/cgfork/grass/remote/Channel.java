@@ -24,4 +24,6 @@ public interface Channel {
     void close(long timeoutMillis);
     
     boolean isClosed();
+
+
 }

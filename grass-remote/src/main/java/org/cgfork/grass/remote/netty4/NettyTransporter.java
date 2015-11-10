@@ -10,15 +10,15 @@ import org.cgfork.grass.remote.Client;
 public class NettyTransporter implements Transporter {
 
     @Override
-    public Client connect(Locator locator, ChannelHandler handler)
+    public Client connect(Location location, ChannelHandler handler)
             throws RemoteException {
-        return new NettyClient(locator, handler);
+        return new NettyClient(location, handler);
     }
 
     @Override
-    public Server bind(Locator locator, ChannelHandler handler)
+    public Server bind(Location location, ChannelHandler handler)
             throws RemoteException {
-        return new NettyServer(locator, handler);
+        return new NettyServer(location, handler);
     }
 
 }

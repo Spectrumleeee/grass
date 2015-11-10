@@ -6,12 +6,9 @@ import java.net.SocketAddress;
 
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.ChannelHandler;
-import org.cgfork.grass.remote.Locator;
+import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractChannel;
-
-import static org.cgfork.grass.remote.ChannelOption.*;
-import static org.cgfork.grass.remote.Constants.*;
 
 /**
  * @author C_G <cg.fork@gmail.com>
@@ -23,9 +20,9 @@ public class NettyChannel extends AbstractChannel {
 
     private volatile long timeoutMillis;
 
-    public NettyChannel(io.netty.channel.Channel channel, Locator locator, ChannelHandler handler) {
-        super(locator, handler);
-        Checker.Arg.notNull(locator, "channel is null");
+    public NettyChannel(io.netty.channel.Channel channel, Location location, ChannelHandler handler) {
+        super(location, handler);
+        Checker.Arg.notNull(location, "channel is null");
         this.channel = channel;
     }
 

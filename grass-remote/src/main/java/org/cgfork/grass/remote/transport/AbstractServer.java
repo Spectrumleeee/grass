@@ -20,12 +20,12 @@ public abstract class AbstractServer extends AbstractPeer implements Server {
 
     private int idleTimeout;
 
-    public AbstractServer(Locator locator, ChannelHandler handler) throws RemoteException {
-        super(locator, handler);
-        localAddress = locator.toInetSocketAddress();
-        bindAddress = getBindAddress(locator);
-        maxAcceptedConnections = ChannelOption.maxAcceptedConnections(locator);
-        idleTimeout = ChannelOption.idleTimeout(locator);
+    public AbstractServer(Location location, ChannelHandler handler) throws RemoteException {
+        super(location, handler);
+        localAddress = location.toInetSocketAddress();
+        bindAddress = getBindAddress(location);
+        maxAcceptedConnections = ChannelOption.maxAcceptedConnections(location);
+        idleTimeout = ChannelOption.idleTimeout(location);
 
         try {
             doOpen();
@@ -52,8 +52,8 @@ public abstract class AbstractServer extends AbstractPeer implements Server {
         return idleTimeout;
     }
 
-    private static InetSocketAddress getBindAddress(Locator locator) {
-        URL url = locator.getUrl();
+    private static InetSocketAddress getBindAddress(Location location) {
+        URL url = location.getUrl();
 
         if (NetUtils.isValidLocalHost(url.getHost())) {
             return new InetSocketAddress(NetUtils.ANYHOST, url.getPort());
