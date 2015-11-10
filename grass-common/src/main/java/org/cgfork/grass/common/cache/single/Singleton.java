@@ -3,7 +3,7 @@ package org.cgfork.grass.common.cache.single;
 import java.lang.annotation.*;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 @Documented

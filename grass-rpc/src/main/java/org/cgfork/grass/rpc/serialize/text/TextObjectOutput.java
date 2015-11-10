@@ -1,4 +1,4 @@
-package org.cgfork.grass.rpc.serialize.test;
+package org.cgfork.grass.rpc.serialize.text;
 
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class TextObjectOutput implements ObjectOutput {

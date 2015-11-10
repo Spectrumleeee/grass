@@ -3,7 +3,7 @@ package org.cgfork.grass.common.monitor.memory;
 import java.io.Closeable;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public interface MemoryListener {

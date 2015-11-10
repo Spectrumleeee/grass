@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class Latch extends CountDownLatch {

@@ -10,7 +10,7 @@ import org.cgfork.grass.remote.RemoteException;
 import static org.cgfork.grass.remote.ChannelOption.*;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public abstract class AbstractChannel extends AbstractPeer implements Channel {

@@ -1,4 +1,4 @@
-package org.cgfork.grass.rpc.serialize.test;
+package org.cgfork.grass.rpc.serialize.text;
 
 import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.remote.Location;
@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 @Addon("textSerializer")

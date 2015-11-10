@@ -3,7 +3,7 @@ package org.cgfork.grass.rpc.direct;
 import java.io.Serializable;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class Response implements Serializable {

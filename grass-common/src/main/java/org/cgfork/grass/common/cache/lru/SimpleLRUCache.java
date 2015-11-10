@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 /**
  * SimpleLRUCache is a simple lru cache. Not thread safe.
  *
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class SimpleLRUCache<K, V> extends LinkedHashMap<K, V> implements LRUCache<K, V> {

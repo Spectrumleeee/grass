@@ -3,7 +3,7 @@ package org.cgfork.grass.rpc.direct.protocol;
 import java.io.Serializable;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class RemoteParameter implements Serializable {

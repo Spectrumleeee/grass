@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  *
  * This interface provides on abstract view for one or more primitive byte
@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
  *      |                   |     (CONTENT)    |                  |
  *      +-------------------+------------------+------------------+
  *      |                   |                  |                  |
- *      0      <=      readerIndex   <=   writerIndex    <=    capacity
+ *      0              readerIndex        writerIndex         capacity
  */
 public interface ChannelBuffer {
     int capacity();
@@ -48,7 +48,7 @@ public interface ChannelBuffer {
     boolean getBoolean(int index);
     
     /**
-     * Returns {@code true} if and only if this buffer is backed by an NIO
+     * @return {@code true} if and only if this buffer is backed by an NIO
      * direct buffer.
      */
     boolean isDirect();

@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import org.cgfork.grass.remote.ChannelBuffer;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyChannelBuffer implements ChannelBuffer {

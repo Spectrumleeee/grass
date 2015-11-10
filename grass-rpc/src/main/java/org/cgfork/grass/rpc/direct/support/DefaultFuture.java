@@ -14,7 +14,7 @@ import org.cgfork.grass.rpc.direct.ResponseFuture;
 import java.util.TimerTask;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class DefaultFuture extends ListenerFuture<Response> implements ResponseFuture {

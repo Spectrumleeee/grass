@@ -11,7 +11,7 @@ import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractChannel;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyChannel extends AbstractChannel {

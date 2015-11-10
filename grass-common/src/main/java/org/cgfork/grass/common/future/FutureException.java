@@ -1,7 +1,7 @@
 package org.cgfork.grass.common.future;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class FutureException extends Exception {

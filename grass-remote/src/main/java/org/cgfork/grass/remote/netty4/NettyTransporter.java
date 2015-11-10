@@ -4,7 +4,7 @@ import org.cgfork.grass.remote.*;
 import org.cgfork.grass.remote.Client;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyTransporter implements Transporter {

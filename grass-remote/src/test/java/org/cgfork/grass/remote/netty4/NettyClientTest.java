@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyClientTest {
@@ -28,7 +28,7 @@ public class NettyClientTest {
 
     @Before
     public void setup() throws Exception {
-        location = new Location("grass://127.0.0.1:9898/test?codec=testCodec");
+        location = new Location("grass://127.0.0.1:9898/text?codec=testCodec");
         serverHandler = new Handler("server");
         server = new NettyServer(location, serverHandler);
     }

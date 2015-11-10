@@ -35,7 +35,7 @@ import java.util.List;
  *      |  |  |  |  |      1/0   |   1/0       |   1/0   |  1/0  |
  *      +--------------------------------------------------------+
  *
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 @Addon("directCodec")
@@ -100,7 +100,7 @@ public class DirectCodec implements Codec {
             Serializer serializer = Serializers.loadSerializer(channel);
             ObjectOutput output = serializer.serialize(channel.location(), stream, flag);
             output.writeObject(request.getData());
-//            output.flush();
+            output.flush();
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException("Failed to serialize request data", e);
@@ -139,7 +139,7 @@ public class DirectCodec implements Codec {
             Serializer serializer = Serializers.loadSerializer(channel);
             ObjectOutput output = serializer.serialize(channel.location(), stream, flag);
             output.writeObject(response.getData());
-//            output.flush();
+            output.flush();
         } catch (Exception e) {
             throw new IOException("Failed to serialize response data", e);
         }

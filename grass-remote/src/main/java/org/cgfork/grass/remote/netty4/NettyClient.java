@@ -17,7 +17,7 @@ import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractClient;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyClient extends AbstractClient {

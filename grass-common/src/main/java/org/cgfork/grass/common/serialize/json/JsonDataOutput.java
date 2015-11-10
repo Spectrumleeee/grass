@@ -1,26 +1,24 @@
 package org.cgfork.grass.common.serialize.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.common.serialize.DataOutput;
 
 import java.io.*;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class JsonDataOutput implements DataOutput {
 
-    private final Writer writer;
+    private final OutputStream out;
 
     private final ObjectMapper mapper;
 
     public JsonDataOutput(OutputStream out) {
-        this(new OutputStreamWriter(out));
-    }
-
-    public JsonDataOutput(Writer writer) {
-        this.writer = writer;
+        Checker.Arg.notNull(out);
+        this.out = out;
         this.mapper = new ObjectMapper();
     }
 
@@ -76,10 +74,14 @@ public class JsonDataOutput implements DataOutput {
 
     @Override
     public void flush() throws IOException {
-        writer.flush();
+        out.flush();
+    }
+
+    protected OutputStream getOutputStream() {
+        return out;
     }
 
     protected void writeValue(Object o) throws IOException{
-        mapper.writeValue(writer, o);
+        mapper.writeValue(out, o);
     }
 }

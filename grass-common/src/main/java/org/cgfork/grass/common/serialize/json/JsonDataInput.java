@@ -3,27 +3,25 @@ package org.cgfork.grass.common.serialize.json;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cgfork.grass.common.UnsupportedException;
+import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.common.serialize.DataInput;
 
 import java.io.*;
 import java.util.Map;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class JsonDataInput implements DataInput {
 
-    private final BufferedReader reader;
+    private final InputStream in;
 
     private final ObjectMapper mapper;
 
     public JsonDataInput(InputStream in) {
-        this(new InputStreamReader(in));
-    }
-
-    public JsonDataInput(Reader reader) {
-        this.reader = new BufferedReader(reader);
+        Checker.Arg.notNull(in);
+        this.in = in;
         this.mapper = new ObjectMapper();
     }
 
@@ -72,8 +70,12 @@ public class JsonDataInput implements DataInput {
         return readValue(byte[].class);
     }
 
+    protected InputStream getInputStream() {
+        return in;
+    }
+
     protected <T> T readValue(Class<T> clazz) throws IOException {
-        return mapper.readValue(reader, clazz);
+        return mapper.readValue(in, clazz);
     }
 
     protected <T> T readValue(String json, Class<T> clazz) throws IOException {

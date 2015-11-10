@@ -1,5 +1,5 @@
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 package org.cgfork.grass.rpc.direct.protocol;

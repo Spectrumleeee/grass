@@ -1,2 +1,2 @@
 org.cgfork.grass.rpc.serialize.json.JsonSerializer
-org.cgfork.grass.rpc.serialize.test.TextSerializer
+org.cgfork.grass.rpc.serialize.text.TextSerializer

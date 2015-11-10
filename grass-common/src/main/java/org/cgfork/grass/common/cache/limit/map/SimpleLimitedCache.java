@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * Not thread safe.
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class SimpleLimitedCache<K, V> implements LimitedCache<K, V> {

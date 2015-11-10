@@ -4,7 +4,7 @@ import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.common.addon.Loader;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 @Addon(type = Addon.Type.Interface)

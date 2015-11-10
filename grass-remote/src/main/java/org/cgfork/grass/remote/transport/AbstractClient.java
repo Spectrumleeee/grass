@@ -10,7 +10,7 @@ import org.cgfork.grass.remote.*;
 import org.cgfork.grass.common.utils.NetUtils;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public abstract class AbstractClient extends AbstractChannel implements Client {

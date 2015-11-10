@@ -1,5 +1,5 @@
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 package org.cgfork.grass.rpc.direct.support;
@@ -29,7 +29,7 @@ public class DirectCodecTest {
 
     @Before
     public void setup() throws Exception {
-        location = new Location("grass://127.0.0.1:9999/test?codec=directCodec&serializer=jsonSerializer");
+        location = new Location("grass://127.0.0.1:9999/text?codec=directCodec&serializer=jsonSerializer");
         server = new NettyServer(location, new Handler("server"));
     }
 

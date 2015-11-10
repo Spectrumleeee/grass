@@ -8,7 +8,7 @@ import org.cgfork.grass.remote.*;
 import java.util.List;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class NettyCodec extends ByteToMessageCodec<Object> {

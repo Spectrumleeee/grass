@@ -14,18 +14,15 @@ import java.io.Reader;
 import java.util.Map;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class JsonObjectInput extends JsonDataInput implements ObjectInput {
-
-    private final InputStream in;
 
     private final Flag flag;
 
     public JsonObjectInput(InputStream in, Flag flag) {
         super(in);
-        this.in = in;
         this.flag = flag;
     }
 
@@ -43,7 +40,7 @@ public class JsonObjectInput extends JsonDataInput implements ObjectInput {
             return null;
         }
         byte[] jsonBytes = new byte[length];
-        if (in.read(jsonBytes) < length) {
+        if (getInputStream().read(jsonBytes) < length) {
             throw new IOException("readable bytes is not so long");
         }
         if (flag.isReq()) {

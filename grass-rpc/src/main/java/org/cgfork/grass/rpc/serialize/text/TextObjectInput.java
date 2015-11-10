@@ -1,12 +1,11 @@
-package org.cgfork.grass.rpc.serialize.test;
+package org.cgfork.grass.rpc.serialize.text;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cgfork.grass.rpc.serialize.ObjectInput;
 
 import java.io.*;
 
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 public class TextObjectInput implements ObjectInput {

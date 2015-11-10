@@ -1,5 +1,5 @@
 /**
- * @author C_G <cg.fork@gmail.com>
+ * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
 package org.cgfork.grass.rpc.serialize.json;
@@ -39,6 +39,7 @@ public class JsonSerializerTest {
         ObjectOutput output = serializer.serialize(null, out, flag);
 
         output.writeObject(method);
+        output.flush();
         RemoteMethod method1 = (RemoteMethod) input.readObject(in.available());
         assertEquals("invoke", method1.getMethod());
         assertEquals(1, method1.getParameters().size());
@@ -59,8 +60,8 @@ public class JsonSerializerTest {
 
         ObjectInput input = serializer.deserialize(null, in, flag);
         ObjectOutput output = serializer.serialize(null, out, flag);
-
         output.writeObject(method);
+        output.flush();
         RemoteMethod method1 = (RemoteMethod) input.readObject();
         assertEquals("invoke", method1.getMethod());
         assertEquals(1, method1.getParameters().size());
