@@ -3,13 +3,12 @@ package org.cgfork.grass.rpc.direct.support;
 import org.cgfork.grass.common.cache.limit.LimitedCache;
 import org.cgfork.grass.common.cache.limit.RejectedException;
 import org.cgfork.grass.common.cache.limit.map.ConcurrentLimitedCache;
-import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.common.future.*;
 import org.cgfork.grass.remote.Channel;
+import org.cgfork.grass.rpc.direct.GenericFuture;
 import org.cgfork.grass.rpc.direct.GenericListener;
 import org.cgfork.grass.rpc.direct.Request;
 import org.cgfork.grass.rpc.direct.Response;
-import org.cgfork.grass.rpc.direct.ResponseFuture;
 
 import java.util.TimerTask;
 
@@ -17,7 +16,7 @@ import java.util.TimerTask;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public class DefaultFuture extends ListenerFuture<Response> implements ResponseFuture {
+public class DefaultFuture extends ListenerFuture<Response> implements GenericFuture {
 
     private static final LimitedCache<Long, DefaultFuture> futureCache = new ConcurrentLimitedCache<>(10000);
 
@@ -29,9 +28,12 @@ public class DefaultFuture extends ListenerFuture<Response> implements ResponseF
 
     private final Request request;
 
-    public DefaultFuture(Channel channel, Request request) throws RejectedException {
+    private final int timeoutMillis;
+
+    public DefaultFuture(Channel channel, Request request, int timeoutMillis) throws RejectedException {
         this.channel = channel;
         this.request = request;
+        this.timeoutMillis = timeoutMillis;
         this.id = request.getId();
         futureCache.put(id, this);
         channelCache.put(id, channel);
@@ -49,14 +51,18 @@ public class DefaultFuture extends ListenerFuture<Response> implements ResponseF
         return request;
     }
 
+    public int getTimeoutMillis() {
+        return timeoutMillis;
+    }
+
     @Override
-    public ResponseFuture addListener(Listener<? extends Future<? super Response>> listener) {
+    public GenericFuture addListener(Listener<? extends Future<? super Response>> listener) {
         super.addListener(listener);
         return this;
     }
 
     @Override
-    public ResponseFuture removeListener(Listener<? extends Future<? super Response>> listener) {
+    public GenericFuture removeListener(Listener<? extends Future<? super Response>> listener) {
         super.removeListener(listener);
         return this;
     }
@@ -87,7 +93,7 @@ public class DefaultFuture extends ListenerFuture<Response> implements ResponseF
     }
 
     @Override
-    public ResponseFuture setFailure(Throwable cause) {
+    public GenericFuture setFailure(Throwable cause) {
         if (tryFailure(cause)) {
             removeFuture(id);
             return this;
@@ -96,7 +102,7 @@ public class DefaultFuture extends ListenerFuture<Response> implements ResponseF
     }
 
     @Override
-    public ResponseFuture setValue(Response value) {
+    public GenericFuture setValue(Response value) {
         if (trySuccess(value)) {
             removeFuture(id);
             return this;
@@ -115,25 +121,25 @@ public class DefaultFuture extends ListenerFuture<Response> implements ResponseF
     }
 
     @Override
-    public ResponseFuture sync() throws InterruptedException {
+    public GenericFuture sync() throws InterruptedException {
         super.sync();
         return this;
     }
 
     @Override
-    public ResponseFuture syncUninterruptibly() {
+    public GenericFuture syncUninterruptibly() {
         super.syncUninterruptibly();
         return this;
     }
 
     @Override
-    public ResponseFuture await() throws InterruptedException {
+    public GenericFuture await() throws InterruptedException {
         super.await();
         return this;
     }
 
     @Override
-    public ResponseFuture awaitUninterruptibly() {
+    public GenericFuture awaitUninterruptibly() {
         super.awaitUninterruptibly();
         return this;
     }

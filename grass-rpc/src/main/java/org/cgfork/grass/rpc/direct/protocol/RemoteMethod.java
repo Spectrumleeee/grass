@@ -8,6 +8,7 @@ import java.util.List;
  * @version 1.0
  */
 public class RemoteMethod implements Serializable {
+
     private static final long serialVersionUID = -7888030213964362149L;
 
     private String method;

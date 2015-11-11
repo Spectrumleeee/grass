@@ -103,7 +103,7 @@ public class DirectCodec implements Codec {
             output.flush();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new IOException("Failed to serialize request data", e);
+            throw new IOException("Failed to serialize invoke data", e);
         }
         stream.flush();
         stream.close();
@@ -173,7 +173,7 @@ public class DirectCodec implements Codec {
             out.add(request);
             return true;
         } catch (Exception e) {
-            throw new IOException("Failed to deserialize request data", e);
+            throw new IOException("Failed to deserialize invoke data", e);
         }
     }
 
@@ -197,7 +197,7 @@ public class DirectCodec implements Codec {
             out.add(response);
             return true;
         } catch (Exception e) {
-            throw new IOException("Failed to deserialize request data", e);
+            throw new IOException("Failed to deserialize invoke data", e);
         }
     }
 }

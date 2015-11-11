@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public interface ResponseFuture extends Future<Response> {
+public interface GenericFuture extends Future<Response> {
 
     @Override
-    ResponseFuture addListener(Listener<? extends Future<? super Response>> listener);
+    GenericFuture addListener(Listener<? extends Future<? super Response>> listener);
 
     @Override
-    ResponseFuture removeListener(
+    GenericFuture removeListener(
             Listener<? extends Future<? super Response>> listener);
 
     @Override
@@ -33,20 +33,20 @@ public interface ResponseFuture extends Future<Response> {
     Response get(long timeoutMillis) throws InterruptedException, FutureException, TimeoutException;
 
     @Override
-    ResponseFuture setFailure(Throwable cause);
+    GenericFuture setFailure(Throwable cause);
 
     @Override
-    ResponseFuture setValue(Response value);
+    GenericFuture setValue(Response value);
 
     @Override
-    ResponseFuture sync() throws InterruptedException;
+    GenericFuture sync() throws InterruptedException;
 
     @Override
-    ResponseFuture syncUninterruptibly();
+    GenericFuture syncUninterruptibly();
 
     @Override
-    ResponseFuture await() throws InterruptedException;
+    GenericFuture await() throws InterruptedException;
 
     @Override
-    ResponseFuture awaitUninterruptibly();
+    GenericFuture awaitUninterruptibly();
 }

@@ -22,7 +22,7 @@ public class RemoteMethodTest {
         RemoteMethod method = new RemoteMethod();
         method.setMethod("invoke");
         List<RemoteParameter> parameters = new ArrayList<>();
-        parameters.add(new RemoteParameter("request"));
+        parameters.add(new RemoteParameter("invoke"));
         method.setParameters(parameters);
 
         PipedInputStream in = new PipedInputStream();

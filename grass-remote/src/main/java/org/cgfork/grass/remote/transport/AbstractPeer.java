@@ -72,4 +72,25 @@ public class AbstractPeer {
 
         return loader.getAddon(codec);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractPeer that = (AbstractPeer) o;
+
+        return !(codec != null ? !codec.equals(that.codec) : that.codec != null) &&
+                !(handler != null ? !handler.equals(that.handler) : that.handler != null) &&
+                !(location != null ? !location.equals(that.location) : that.location != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = location != null ? location.hashCode() : 0;
+        result = 31 * result + (handler != null ? handler.hashCode() : 0);
+        result = 31 * result + (codec != null ? codec.hashCode() : 0);
+        return result;
+    }
 }

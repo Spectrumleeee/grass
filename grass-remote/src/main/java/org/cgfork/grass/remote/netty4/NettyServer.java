@@ -62,12 +62,12 @@ public class NettyServer extends AbstractServer {
     }
 
     @Override
-    public Collection<Channel> getChannels() {
+    public Collection<Channel> channels() {
         return null;
     }
 
     @Override
-    public Channel getChannel(InetSocketAddress remoteAddress) {
+    public Channel channel(InetSocketAddress remoteAddress) {
         return null;
     }
 
@@ -78,7 +78,7 @@ public class NettyServer extends AbstractServer {
                 channel.close().sync();
             }
 
-            Collection<Channel> channels = getChannels();
+            Collection<Channel> channels = channels();
 
             if (channels != null && channels.size() > 0) {
                 for (Channel ch : channels) {

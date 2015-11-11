@@ -72,19 +72,7 @@ public class ChannelOption<T extends Object> implements Comparable<ChannelOption
         if (location == null) {
             return defaultValue;
         }
-        String value = location.getParameter(option.name);
-        
-        if (value == null) {
-            return defaultValue;
-        }
-        
-        Class<?> clazz = defaultValue.getClass();
-        try {
-            Method method = clazz.getMethod("valueOf", String.class);
-            return (T) method.invoke(null, value);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return location.getParameter(option.name, defaultValue);
     }
     
     public static long timeoutMillis(Location location) {

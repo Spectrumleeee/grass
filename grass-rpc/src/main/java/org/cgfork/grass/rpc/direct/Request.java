@@ -21,6 +21,10 @@ public class Request implements Serializable {
 
     private Object data;
 
+    public Request() {
+        this(id());
+    }
+
     public Request(long id) {
         this.id = id;
     }

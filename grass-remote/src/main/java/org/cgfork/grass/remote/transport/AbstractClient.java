@@ -15,8 +15,6 @@ import org.cgfork.grass.common.utils.NetUtils;
  */
 public abstract class AbstractClient extends AbstractChannel implements Client {
 
-    private long timeoutMillis;
-
     private long connectTimeoutMillis;
 
     private final Lock connectLock = new ReentrantLock();
@@ -24,7 +22,6 @@ public abstract class AbstractClient extends AbstractChannel implements Client {
     public AbstractClient(Location location, ChannelHandler handler) throws RemoteException {
         super(location, handler);
         Checker.Arg.notNull(handler, "handler is null");
-        timeoutMillis = ChannelOption.timeoutMillis(location);
         connectTimeoutMillis = ChannelOption.connectTimeoutMillis(location);
         try {
             doOpen();
@@ -33,10 +30,6 @@ public abstract class AbstractClient extends AbstractChannel implements Client {
             close();
             throw new RemoteException("Failed to connect " + location.toInetSocketAddress(), e);
         }
-    }
-
-    public long timeoutMillis() {
-        return timeoutMillis;
     }
 
     public long connectTimeoutMillis() {

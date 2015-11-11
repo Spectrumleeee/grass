@@ -1,4 +1,4 @@
-package org.cgfork.grass.remote;
+package org.cgfork.grass.rpc.direct;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -7,15 +7,14 @@ import java.util.Collection;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public interface Server {
+public interface GenericServer{
+    Collection<GenericChannel> channels();
 
-    Collection<Channel> channels();
-    
-    Channel channel(InetSocketAddress remoteAddress);
-    
-    ChannelHandler channelHandler();
-    
+    GenericChannel channel(InetSocketAddress remoteAddress);
+
+    GenericChannel handler();
+
     InetSocketAddress localAddress();
-    
+
     void shutdown() throws InterruptedException;
 }

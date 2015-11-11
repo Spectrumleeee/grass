@@ -11,6 +11,8 @@ public class RemoteParameter implements Serializable {
 
     private Class<?> type;
 
+    private String name;
+
     private Object value;
 
     public RemoteParameter() {
@@ -28,6 +30,14 @@ public class RemoteParameter implements Serializable {
 
     public void setType(Class<?> type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Object getValue() {

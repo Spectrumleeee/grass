@@ -46,7 +46,7 @@ public class DirectCodecTest {
         RemoteMethod method = new RemoteMethod();
         method.setMethod("invoke");
         List<RemoteParameter> parameters = new ArrayList<>();
-        parameters.add(new RemoteParameter("request"));
+        parameters.add(new RemoteParameter("invoke"));
         method.setParameters(parameters);
         request.setData(method);
         System.out.println(client.codec());
@@ -82,9 +82,9 @@ public class DirectCodecTest {
         public void onRead(ChannelContext ctx, Object message) throws RemoteException {
             if (message instanceof Request) {
                 Request request = (Request) message;
-//                RemoteMethod method = (RemoteMethod) request.getData();
-//                System.out.println(name + ": read request: " + method.getMethod());
-                System.out.println(name + ": read request: " + request.getData());
+//                RemoteMethod method = (RemoteMethod) invoke.getData();
+//                System.out.println(name + ": read invoke: " + method.getMethod());
+                System.out.println(name + ": read invoke: " + request.getData());
 
                 Response response = new Response();
                 response.setId(request.getId());

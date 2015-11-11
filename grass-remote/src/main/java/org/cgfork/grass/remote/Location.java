@@ -1,5 +1,8 @@
 package org.cgfork.grass.remote;
 
+import org.cgfork.grass.common.check.Checker;
+
+import java.lang.reflect.Method;
 import java.net.*;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,6 +54,29 @@ public class Location {
     
     public String getParameter(String key) {
         return parameters.get(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getParameter(String key, T defaultValue) {
+        Checker.Arg.notNull(defaultValue);
+        Class<T> clazz = (Class<T>)defaultValue.getClass();
+        return getParameter(key, defaultValue, clazz);
+    }
+
+    public <T> T getParameter(String key, T defaultValue, Class<T> type) {
+        Checker.Arg.notNull(defaultValue);
+        String value = parameters.get(key);
+        if (value == null) {
+            return defaultValue;
+        }
+
+        Class<?> clazz = defaultValue.getClass();
+        try {
+            Method method = clazz.getMethod("valueOf", String.class);
+            return type.cast(method.invoke(null, value));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to cast string to" + clazz, e);
+        }
     }
 
     private static Map<String, String> readParameters(URL url) {

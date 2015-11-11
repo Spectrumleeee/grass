@@ -6,6 +6,7 @@ import java.net.SocketAddress;
 
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.ChannelHandler;
+import org.cgfork.grass.remote.ChannelOption;
 import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.transport.AbstractChannel;
@@ -24,6 +25,7 @@ public class NettyChannel extends AbstractChannel {
         super(location, handler);
         Checker.Arg.notNull(location, "channel is null");
         this.channel = channel;
+        this.timeoutMillis = ChannelOption.timeoutMillis(location);
     }
 
     @Override
@@ -89,5 +91,24 @@ public class NettyChannel extends AbstractChannel {
     @Override
     public void close(boolean immediately) {
         close();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        NettyChannel that = (NettyChannel) o;
+
+        return channel.equals(that.channel);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + channel.hashCode();
+        return result;
     }
 }

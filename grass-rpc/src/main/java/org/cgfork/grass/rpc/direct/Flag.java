@@ -27,8 +27,12 @@ public class Flag {
 
     private int flag;
 
+    public Flag(int flag) {
+        this.flag = 0x00ff & flag;
+    }
+
     public Flag(byte flag) {
-        this.flag = 0x0011 & flag;
+        this.flag = 0x00ff & flag;
     }
 
     public byte getFlag() {
