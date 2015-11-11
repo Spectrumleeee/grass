@@ -17,6 +17,7 @@ import java.io.OutputStream;
  */
 @Addon("jsonSerializer")
 public class JsonSerializer implements Serializer {
+
     @Override
     public String getContentType() {
         return "application/json";
@@ -29,6 +30,9 @@ public class JsonSerializer implements Serializer {
 
     @Override
     public ObjectInput deserialize(Location location, InputStream input, Flag flag) throws IOException {
-        return new JsonObjectInput(input, flag);
+        if (flag.isReq()) {
+            return new JsonReqObjectInput(input);
+        }
+        return new JsonRspObjectInput(input);
     }
 }
