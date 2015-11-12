@@ -1,10 +1,8 @@
 package org.cgfork.grass.rpc.direct.support;
 
-import org.cgfork.grass.common.cache.limit.RejectedException;
 import org.cgfork.grass.common.check.Checker;
 import org.cgfork.grass.remote.Channel;
 import org.cgfork.grass.remote.RemoteException;
-import org.cgfork.grass.rpc.Constants;
 import org.cgfork.grass.rpc.direct.*;
 
 import java.net.SocketAddress;
@@ -17,52 +15,16 @@ public class DirectGenericChannel implements GenericChannel {
 
     private final Channel channel;
 
-    private final GenericHandler handler;
+    private volatile boolean closed = false;
 
-    private final int timeoutMillis;
-
-    public DirectGenericChannel(Channel channel, GenericHandler handler) {
+    public DirectGenericChannel(Channel channel) {
         Checker.Arg.notNull(channel, "channel is null");
-        Checker.Arg.notNull(handler, "handler is null");
         this.channel = channel;
-        this.handler = handler;
-        this.timeoutMillis = channel.location().getParameter(Constants.REQ_TIMEOUT_KEY,
-                Constants.DEFAULT_REQ_TIMEOUT_MS);
     }
 
     @Override
-    public GenericFuture invoke(Object request) throws GenericException {
-        return invoke(request, timeoutMillis);
-    }
-
-    @Override
-    public GenericFuture invoke(Object request, int timeoutMillis) throws GenericException {
-        if (isClosed()) {
-            //TODO
-            throw new GenericException();
-        }
-        // init flag
-        Flag flag = new Flag(Flag.FLAG_REQ & Flag.FLAG_OK);
-        Request newReq = new Request();
-        newReq.setFlag(flag);
-        newReq.setData(request);
-        newReq.setVersion("1.0.0");
-        try {
-            DefaultFuture future = new DefaultFuture(channel, newReq, timeoutMillis);
-            channel.write(newReq);
-            return future;
-        } catch (RejectedException e) {
-            // TODO:
-            throw new GenericException();
-        } catch (RemoteException e) {
-            // TODO:
-            throw new GenericException();
-        }
-    }
-
-    @Override
-    public GenericHandler handler() {
-        return handler;
+    public void write(Object message) throws RemoteException {
+        channel.write(message);
     }
 
     @Override
@@ -82,12 +44,13 @@ public class DirectGenericChannel implements GenericChannel {
 
     @Override
     public CloseFuture close() {
+        closed = true;
         //TODO:
         return null;
     }
 
     @Override
     public boolean isClosed() {
-        return channel.isClosed();
+        return closed;
     }
 }

@@ -1,6 +1,5 @@
 package org.cgfork.grass.common.monitor.memory;
 
-import java.io.Closeable;
 
 /**
  * @author C_G (cg.fork@gmail.com)

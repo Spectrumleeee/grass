@@ -11,32 +11,32 @@ import java.util.concurrent.TimeUnit;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public interface GenericFuture extends Future<Response> {
+public interface GenericFuture extends Future<GenericResponse> {
 
     @Override
-    GenericFuture addListener(Listener<? extends Future<? super Response>> listener);
+    GenericFuture addListener(Listener<? extends Future<? super GenericResponse>> listener);
 
     @Override
     GenericFuture removeListener(
-            Listener<? extends Future<? super Response>> listener);
+            Listener<? extends Future<? super GenericResponse>> listener);
 
     @Override
-    Response get() throws InterruptedException, FutureException;
+    GenericResponse get() throws InterruptedException, FutureException;
 
     @Override
-    Response getNow();
+    GenericResponse getNow();
 
     @Override
-    Response get(long timeout, TimeUnit unit) throws InterruptedException, FutureException, TimeoutException;
+    GenericResponse get(long timeout, TimeUnit unit) throws InterruptedException, FutureException, TimeoutException;
 
     @Override
-    Response get(long timeoutMillis) throws InterruptedException, FutureException, TimeoutException;
+    GenericResponse get(long timeoutMillis) throws InterruptedException, FutureException, TimeoutException;
 
     @Override
     GenericFuture setFailure(Throwable cause);
 
     @Override
-    GenericFuture setValue(Response value);
+    GenericFuture setValue(GenericResponse value);
 
     @Override
     GenericFuture sync() throws InterruptedException;

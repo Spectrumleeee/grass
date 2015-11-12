@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public class Response implements Serializable {
+public class GenericResponse implements Serializable {
 
     private static final long serialVersionUID = 4495526581462730986L;
 
@@ -17,6 +17,12 @@ public class Response implements Serializable {
     private Flag flag;
 
     private Object data;
+
+    public GenericResponse() {}
+
+    public GenericResponse(long id) {
+        this.id = id;
+    }
 
     public long getId() {
         return id;

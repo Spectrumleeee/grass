@@ -6,11 +6,11 @@ package org.cgfork.grass.rpc.direct;
  */
 public interface GenericHandler{
 
-    void handleConnected() throws GenericException;
+    void handleConnected(GenericContext context) throws Exception;
 
-    void handleRequest() throws GenericException;
+    void handleRequest(GenericContext context, GenericRequest request) throws Exception;
 
-    void handleDisconnected() throws GenericException;
+    void handleDisconnected(GenericContext context) throws Exception;
 
-    void handleException() throws GenericException;
+    void handleException(GenericContext context, Throwable cause) throws Exception;
 }

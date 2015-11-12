@@ -5,6 +5,7 @@ package org.cgfork.grass.remote;
  * @version 1.0
  */
 public interface ChannelHandler {
+
     void onConnected(ChannelContext ctx) throws RemoteException;
     
     void onDisconnected(ChannelContext ctx) throws RemoteException;

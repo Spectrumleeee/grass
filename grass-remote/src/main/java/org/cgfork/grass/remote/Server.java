@@ -1,6 +1,7 @@
 package org.cgfork.grass.remote;
 
 import java.net.InetSocketAddress;
+import java.rmi.Remote;
 import java.util.Collection;
 
 /**
@@ -16,6 +17,10 @@ public interface Server {
     ChannelHandler channelHandler();
     
     InetSocketAddress localAddress();
+
+    void accept(Channel channel) throws RemoteException;
+
+    void remove(Channel channel) throws RemoteException;
     
     void shutdown() throws InterruptedException;
 }

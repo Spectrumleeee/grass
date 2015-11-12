@@ -18,20 +18,23 @@ import java.util.Map;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public abstract class JsonObjectInput extends JsonDataInput implements ObjectInput {
+public class JsonObjectInput extends JsonDataInput implements ObjectInput {
 
-    public JsonObjectInput(InputStream in) {
+    private final Class<?> targetClass;
+
+    public JsonObjectInput(InputStream in, Class<?> targetClass) {
         super(in);
+        this.targetClass = targetClass;
     }
 
     @Override
     public Object readObject() throws IOException {
-        return readValue(getTargetClass());
+        return readValue(targetClass);
     }
 
     @Override
     public Object readObject(int length) throws IOException {
-        return readObject(length, getTargetClass());
+        return readObject(length, targetClass);
     }
 
     public <T> T readObject(int length, Class<T> clazz) throws IOException {
@@ -46,6 +49,4 @@ public abstract class JsonObjectInput extends JsonDataInput implements ObjectInp
 
         return readValue(jsonBytes, clazz);
     }
-
-    protected abstract Class<?> getTargetClass();
 }

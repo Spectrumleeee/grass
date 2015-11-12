@@ -1,5 +1,6 @@
 package org.cgfork.grass.rpc.direct;
 
+import org.cgfork.grass.common.cache.limit.RejectedException;
 import org.cgfork.grass.remote.RemoteException;
 
 /**
@@ -8,4 +9,8 @@ import org.cgfork.grass.remote.RemoteException;
  */
 public interface GenericClient extends GenericChannel {
     void reconnect() throws RemoteException;
+
+    GenericFuture invoke(Object request) throws RemoteException, RejectedException;
+
+    GenericFuture invoke(Object request, int timeout) throws RemoteException, RejectedException;
 }

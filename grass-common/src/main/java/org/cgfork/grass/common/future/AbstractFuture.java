@@ -67,7 +67,7 @@ public abstract class AbstractFuture<T> implements Future<T> {
     @Override
     public boolean isDone() {
         Object o = value;
-        return o == null;
+        return o != null;
     }
     
     /**

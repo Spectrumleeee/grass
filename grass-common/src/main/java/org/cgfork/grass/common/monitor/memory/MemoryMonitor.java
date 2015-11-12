@@ -254,7 +254,12 @@ public class MemoryMonitor {
                         MemoryMonitor.this.triggered = true;
                         fireMonitorThresholdTrigger(state);
                     }
+                } else {
+                    if (isTriggered()) {
+                        MemoryMonitor.this.triggered = false;
+                    }
                 }
+
             } catch (Throwable cause) {
                 // TODO: logger or rethrow
                 fireMonitorCaught(cause);

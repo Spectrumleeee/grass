@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-public class Request implements Serializable {
+public class GenericRequest implements Serializable {
 
     private static final long serialVersionUID = -5606578599981996049L;
 
@@ -21,11 +21,11 @@ public class Request implements Serializable {
 
     private Object data;
 
-    public Request() {
+    public GenericRequest() {
         this(id());
     }
 
-    public Request(long id) {
+    public GenericRequest(long id) {
         this.id = id;
     }
 

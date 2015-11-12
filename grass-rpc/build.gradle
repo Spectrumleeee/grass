@@ -4,6 +4,7 @@ version = '1.0.0'
 
 dependencies {
     compile project(":grass-remote")
+    compile "com.caucho:hessian:4.0.33"
 }
 
 uploadArchives {

@@ -10,16 +10,19 @@ import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.remote.RemoteException;
 import org.cgfork.grass.remote.netty4.NettyClient;
 import org.cgfork.grass.remote.netty4.NettyServer;
-import org.cgfork.grass.rpc.direct.Request;
-import org.cgfork.grass.rpc.direct.Response;
+import org.cgfork.grass.rpc.direct.GenericRequest;
+import org.cgfork.grass.rpc.direct.GenericResponse;
 import org.cgfork.grass.rpc.direct.protocol.RemoteMethod;
 import org.cgfork.grass.rpc.direct.protocol.RemoteParameter;
+import org.cgfork.grass.rpc.direct.protocol.RemoteReturn;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DirectCodecTest {
 
@@ -29,7 +32,7 @@ public class DirectCodecTest {
 
     @Before
     public void setup() throws Exception {
-        location = new Location("grass://127.0.0.1:9999/text?codec=directCodec&serializer=jsonSerializer");
+        location = new Location("grass://127.0.0.1:9090/text?codec=directCodec&serializer=jsonSerializer");
         server = new NettyServer(location, new Handler("server"));
     }
 
@@ -42,7 +45,7 @@ public class DirectCodecTest {
     @Test
     public void testNettyClientWrite() throws Exception {
         NettyClient client = new NettyClient(location, new Handler("client"));
-        Request request = new Request(1);
+        GenericRequest request = new GenericRequest(1);
         RemoteMethod method = new RemoteMethod();
         method.setMethod("invoke");
         List<RemoteParameter> parameters = new ArrayList<>();
@@ -80,20 +83,25 @@ public class DirectCodecTest {
 
         @Override
         public void onRead(ChannelContext ctx, Object message) throws RemoteException {
-            if (message instanceof Request) {
-                Request request = (Request) message;
+            if (message instanceof GenericRequest) {
+                GenericRequest request = (GenericRequest) message;
 //                RemoteMethod method = (RemoteMethod) invoke.getData();
 //                System.out.println(name + ": read invoke: " + method.getMethod());
                 System.out.println(name + ": read invoke: " + request.getData());
 
-                Response response = new Response();
+                GenericResponse response = new GenericResponse();
                 response.setId(request.getId());
-                response.setData(request.getData());
+                Map<String, Object> map =new HashMap<>();
+                map.put("id", 0);
+                map.put("error_code", 0);
+                RemoteReturn rr = new RemoteReturn();
+                rr.setValue(map);
+                response.setData(rr);
                 ctx.write(response);
             }
 
-            if (message instanceof Response) {
-                Response response = (Response) message;
+            if (message instanceof GenericResponse) {
+                GenericResponse response = (GenericResponse) message;
                 System.out.println(name + ": read response: " + response.getData());
             }
         }

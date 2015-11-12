@@ -1,4 +1,4 @@
-package org.cgfork.grass.rpc.direct.support;
+package org.cgfork.grass.rpc.direct.codec;
 
 import org.cgfork.grass.common.UnsupportedException;
 import org.cgfork.grass.common.addon.Addon;
@@ -9,8 +9,8 @@ import org.cgfork.grass.remote.Codec;
 import org.cgfork.grass.remote.support.ChannelBufferInputStream;
 import org.cgfork.grass.remote.support.ChannelBufferOutputStream;
 import org.cgfork.grass.rpc.direct.Flag;
-import org.cgfork.grass.rpc.direct.Request;
-import org.cgfork.grass.rpc.direct.Response;
+import org.cgfork.grass.rpc.direct.GenericRequest;
+import org.cgfork.grass.rpc.direct.GenericResponse;
 import org.cgfork.grass.rpc.serialize.ObjectInput;
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 import org.cgfork.grass.rpc.serialize.Serializer;
@@ -31,7 +31,7 @@ import java.util.List;
  *      +--------------------------------------------------------+
  *      |                         FLAG                           |
  *      +--------------------------------------------------------+
- *      |NO|NO|NO|NO|EVENT/NORMAL|BUSY/NOT_BUSY|OK/NOT_OK|REQ/RSP|
+ *      |NO|NO|NO|NO|EVENT/NORMAL|BUSY/NOT_BUSY|NOT_OK/OK|REQ/RSP|
  *      |  |  |  |  |      1/0   |   1/0       |   1/0   |  1/0  |
  *      +--------------------------------------------------------+
  *
@@ -49,11 +49,11 @@ public class DirectCodec implements Codec {
 
     @Override
     public void encode(Channel channel, ChannelBuffer out, Object message) throws IOException {
-        if (message instanceof Request) {
-            encodeRequest(channel, out, (Request)message);
+        if (message instanceof GenericRequest) {
+            encodeRequest(channel, out, (GenericRequest)message);
             return;
-        } else if (message instanceof Response) {
-            encodeResponse(channel, out, (Response)message);
+        } else if (message instanceof GenericResponse) {
+            encodeResponse(channel, out, (GenericResponse)message);
             return;
         }
         throw new UnsupportedException("Unsupported message type");
@@ -76,7 +76,7 @@ public class DirectCodec implements Codec {
         return decodeResponse(channel, in, out, flag, header);
     }
 
-    protected void encodeRequest(Channel channel, ChannelBuffer out, Request request) throws IOException {
+    protected void encodeRequest(Channel channel, ChannelBuffer out, GenericRequest request) throws IOException {
         byte[] header = new byte[HEADER_LENGTH];
         //set magic
         header[0] = MAGIC;
@@ -116,7 +116,7 @@ public class DirectCodec implements Codec {
         out.writerIndex(markWriteIndex + HEADER_LENGTH + bodyLength);
     }
 
-    protected void encodeResponse(Channel channel, ChannelBuffer out, Response response) throws IOException {
+    protected void encodeResponse(Channel channel, ChannelBuffer out, GenericResponse response) throws IOException {
         byte[] header = new byte[HEADER_LENGTH];
         //set magic
         header[0] = MAGIC;
@@ -167,13 +167,13 @@ public class DirectCodec implements Codec {
         try {
             Serializer serializer = Serializers.loadSerializer(channel);
             ObjectInput input = serializer.deserialize(channel.location(), stream, flag);
-            Request request = new Request(id);
+            GenericRequest request = new GenericRequest(id);
             request.setFlag(flag);
             request.setData(input.readObject(length));
             out.add(request);
             return true;
         } catch (Exception e) {
-            throw new IOException("Failed to deserialize invoke data", e);
+            throw new IOException("Failed to deserialize request data", e);
         }
     }
 
@@ -190,14 +190,14 @@ public class DirectCodec implements Codec {
         try {
             Serializer serializer = Serializers.loadSerializer(channel);
             ObjectInput input = serializer.deserialize(channel.location(), stream, flag);
-            Response response = new Response();
+            GenericResponse response = new GenericResponse();
             response.setId(id);
             response.setFlag(flag);
             response.setData(input.readObject(length));
             out.add(response);
             return true;
         } catch (Exception e) {
-            throw new IOException("Failed to deserialize invoke data", e);
+            throw new IOException("Failed to deserialize response data", e);
         }
     }
 }

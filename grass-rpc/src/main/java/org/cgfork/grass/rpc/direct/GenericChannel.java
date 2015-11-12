@@ -1,5 +1,7 @@
 package org.cgfork.grass.rpc.direct;
 
+import org.cgfork.grass.remote.RemoteException;
+
 import java.net.SocketAddress;
 
 /**
@@ -8,11 +10,7 @@ import java.net.SocketAddress;
  */
 public interface GenericChannel {
 
-    GenericFuture invoke(Object request) throws GenericException;
-
-    GenericFuture invoke(Object request, int timeout) throws GenericException;
-
-    GenericHandler handler();
+    void write(Object message) throws RemoteException;
 
     boolean isConnected();
 

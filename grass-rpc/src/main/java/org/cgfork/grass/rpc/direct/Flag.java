@@ -5,17 +5,18 @@ package org.cgfork.grass.rpc.direct;
  * @version 1.0
  */
 public class Flag {
+
     public static final byte FLAG_EVENT = (byte)0x08;
 
     public static final byte FLAG_BUSY = (byte)0x04;
 
-    public static final byte FLAG_OK = (byte)0x02;
+    public static final byte FLAG_NOT_OK = (byte)0x02;
 
     public static final byte FLAG_REQ = (byte)0x01;
 
     public static final byte FLAG_RSP = (byte)0x00;
 
-    private static final int OK = FLAG_OK;
+    private static final int NOT_OK = FLAG_NOT_OK;
 
     private static final int BUSY = FLAG_BUSY;
 
@@ -55,12 +56,16 @@ public class Flag {
         flag |= FLAG_EVENT;
     }
 
-    public void setOkFlag() {
-        flag |= FLAG_OK;
+    public void setNotOkFlag() {
+        flag |= FLAG_NOT_OK;
+    }
+
+    public boolean isNotOk() {
+        return (flag & NOT_OK) == NOT_OK;
     }
 
     public boolean isOk() {
-        return (flag & OK) == OK;
+        return !isNotOk();
     }
 
     public boolean isEvent() {
@@ -79,8 +84,12 @@ public class Flag {
         return (flag & BUSY) == BUSY;
     }
 
+    public static boolean isNotOk(byte flag) {
+        return (FLAG_NOT_OK & flag) == NOT_OK;
+    }
+
     public static boolean isOk(byte flag) {
-        return (FLAG_OK & flag) == OK;
+        return !isNotOk(flag);
     }
 
     public static boolean isEvent(byte flag) {

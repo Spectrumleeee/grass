@@ -1,10 +1,8 @@
-package org.cgfork.grass.rpc.serialize.json;
+package org.cgfork.grass.rpc.serialize.hessian;
 
 import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.remote.Location;
 import org.cgfork.grass.rpc.direct.Flag;
-import org.cgfork.grass.rpc.direct.protocol.RemoteMethod;
-import org.cgfork.grass.rpc.direct.protocol.RemoteReturn;
 import org.cgfork.grass.rpc.serialize.ObjectInput;
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 import org.cgfork.grass.rpc.serialize.Serializer;
@@ -17,24 +15,20 @@ import java.io.OutputStream;
  * @author C_G (cg.fork@gmail.com)
  * @version 1.0
  */
-@Addon("jsonSerializer")
-public class JsonSerializer implements Serializer {
-
+@Addon("hessianSerializer")
+public class HessianSerializer implements Serializer {
     @Override
     public String getContentType() {
-        return "application/json";
+        return "application/hessian";
     }
 
     @Override
     public ObjectOutput serialize(Location location, OutputStream output, Flag flag) throws IOException {
-        return new JsonObjectOutput(output);
+        return new HessianObjectOutput(output);
     }
 
     @Override
     public ObjectInput deserialize(Location location, InputStream input, Flag flag) throws IOException {
-        if (flag.isReq()) {
-            return new JsonObjectInput(input, RemoteMethod.class);
-        }
-        return new JsonObjectInput(input, RemoteReturn.class);
+        return new HessianObjectInput(input);
     }
 }

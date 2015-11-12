@@ -12,7 +12,7 @@ public interface GenericServer{
 
     GenericChannel channel(InetSocketAddress remoteAddress);
 
-    GenericChannel handler();
+    GenericHandler handler();
 
     InetSocketAddress localAddress();
 
