@@ -56,6 +56,12 @@ public class Location {
         return parameters.get(key);
     }
 
+    public <T> T setParameter(String key, T value) {
+        T old = getParameter(key, value);
+        parameters.put(key, String.valueOf(value));
+        return old;
+    }
+
     @SuppressWarnings("unchecked")
     public <T> T getParameter(String key, T defaultValue) {
         Checker.Arg.notNull(defaultValue);

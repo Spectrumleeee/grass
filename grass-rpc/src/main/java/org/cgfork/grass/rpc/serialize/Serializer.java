@@ -3,7 +3,7 @@ package org.cgfork.grass.rpc.serialize;
 import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.common.addon.Loader;
 import org.cgfork.grass.remote.Location;
-import org.cgfork.grass.rpc.direct.Flag;
+import org.cgfork.grass.rpc.generic.Flag;
 
 import java.io.IOException;
 import java.io.InputStream;

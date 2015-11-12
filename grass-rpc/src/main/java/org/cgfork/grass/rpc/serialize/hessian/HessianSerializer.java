@@ -2,7 +2,7 @@ package org.cgfork.grass.rpc.serialize.hessian;
 
 import org.cgfork.grass.common.addon.Addon;
 import org.cgfork.grass.remote.Location;
-import org.cgfork.grass.rpc.direct.Flag;
+import org.cgfork.grass.rpc.generic.Flag;
 import org.cgfork.grass.rpc.serialize.ObjectInput;
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 import org.cgfork.grass.rpc.serialize.Serializer;

@@ -4,9 +4,9 @@
  */
 package org.cgfork.grass.rpc.serialize.json;
 
-import org.cgfork.grass.rpc.direct.Flag;
-import org.cgfork.grass.rpc.direct.protocol.RemoteMethod;
-import org.cgfork.grass.rpc.direct.protocol.RemoteParameter;
+import org.cgfork.grass.rpc.generic.Flag;
+import org.cgfork.grass.rpc.generic.protocol.RemoteMethod;
+import org.cgfork.grass.rpc.generic.protocol.RemoteParameter;
 import org.cgfork.grass.rpc.serialize.ObjectInput;
 import org.cgfork.grass.rpc.serialize.ObjectOutput;
 import org.cgfork.grass.rpc.serialize.Serializer;
